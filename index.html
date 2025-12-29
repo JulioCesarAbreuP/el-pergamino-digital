@@ -4,62 +4,124 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Controles CIS v8 — El Pergamino Digital</title>
+    <title>Control 01 — Inventario y Control de Activos Empresariales</title>
 
-    <meta name="description" content="Índice de Controles CIS v8 del Pergamino Digital.">
+    <meta name="description" content="Control 01 del Pergamino Digital — Inventario y Control de Activos Empresariales según CIS Controls v8.">
 
     <link rel="stylesheet" href="/assets/css/style.css">
-
 </head>
 
 <body>
 
 <header class="site-header">
-    <h1>Controles CIS v8</h1>
-    <p class="subtitle">Inventario, defensa y arquitectura doctrinal</p>
+    <h1>Control 01 — Inventario y Control de Activos Empresariales</h1>
+    <p class="subtitle">(CIS Control 1 — Inventory and Control of Enterprise Assets)</p>
 
     <nav aria-label="Navegación principal" class="main-nav">
-        <a href="/el-pergamino-digital/">Inicio</a>
-        <a href="/el-pergamino-digital/controles/">Controles CIS</a>
-        <a href="/el-pergamino-digital/glosario/">Glosario</a>
-        <a href="/el-pergamino-digital/labs/">Laboratorios</a>
-        <a href="/el-pergamino-digital/sobre/">Sobre el proyecto</a>
+        <a href="/">Inicio</a>
+        <a href="/controles/">Controles CIS</a>
+        <a href="/glosario/">Glosario</a>
+        <a href="/labs/">Laboratorios</a>
+        <a href="/sobre/">Sobre el proyecto</a>
     </nav>
 </header>
 
 <main class="site-main">
+<article class="control-content">
 
-    <section class="intro">
-        <h2>Índice de Controles CIS v8</h2>
-        <p>
-            Selecciona un control para acceder a su ficha doctrinal, medidas IG1/IG2/IG3,
-            notas técnicas y navegación entre controles.
-        </p>
-    </section>
+    <h2>Descripción general</h2>
+    <p>
+        El Control 01 establece la necesidad de identificar, registrar y gestionar todos los activos
+        empresariales que puedan almacenar, procesar o transmitir información. Esto incluye dispositivos
+        físicos, virtuales, móviles, servidores, estaciones de trabajo y cualquier equipo conectado a la red.
+    </p>
 
-    <section class="controls-index">
-        <div class="controls-grid">
-            <a href="/el-pergamino-digital/controles/01/">Control 01 — Inventario de Activos</a>
-            <a href="/el-pergamino-digital/controles/02/">Control 02 — Inventario de Software</a>
-            <a href="/el-pergamino-digital/controles/03/">Control 03 — Gestión de Datos</a>
-            <a href="/el-pergamino-digital/controles/04/">Control 04 — Configuración Segura</a>
-            <a href="/el-pergamino-digital/controles/05/">Control 05 — Gestión de Cuentas</a>
-            <a href="/el-pergamino-digital/controles/06/">Control 06 — Control de Acceso</a>
-            <a href="/el-pergamino-digital/controles/07/">Control 07 — Protección de Email</a>
-            <a href="/el-pergamino-digital/controles/08/">Control 08 — Gestión de Malware</a>
-            <a href="/el-pergamino-digital/controles/09/">Control 09 — Navegadores y Email</a>
-            <a href="/el-pergamino-digital/controles/10/">Control 10 — Recuperación de Datos</a>
-            <a href="/el-pergamino-digital/controles/11/">Control 11 — Configuración de Red</a>
-            <a href="/el-pergamino-digital/controles/12/">Control 12 — Infraestructura de Red</a>
-            <a href="/el-pergamino-digital/controles/13/">Control 13 — Monitoreo de Red</a>
-            <a href="/el-pergamino-digital/controles/14/">Control 14 — Capacitación</a>
-            <a href="/el-pergamino-digital/controles/15/">Control 15 — Proveedores</a>
-            <a href="/el-pergamino-digital/controles/16/">Control 16 — Seguridad de Software</a>
-            <a href="/el-pergamino-digital/controles/17/">Control 17 — Respuesta a Incidentes</a>
-            <a href="/el-pergamino-digital/controles/18/">Control 18 — Pruebas de Penetración</a>
-        </div>
-    </section>
+    <!-- Iconos doctrinales -->
+    <p class="bloque-icono">
+        <a href="#explicacion" title="Explicación ampliada">🧠</a>
+        <a href="#contramedida" title="Contramedida">🛡️</a>
+        <a href="https://www.cisecurity.org/controls" target="_blank" rel="noopener" title="Referencia normativa">📚</a>
+        <a href="https://www.isc2.org/Certifications/CC" target="_blank" rel="noopener" title="Certificación asociada">🎓</a>
+    </p>
 
+    <h2>Objetivo del control</h2>
+    <p>
+        Garantizar que solo los activos autorizados tengan acceso a la red y que todos los activos estén
+        correctamente inventariados, gestionados y supervisados.
+    </p>
+
+    <!-- Iconos doctrinales -->
+    <p class="bloque-icono">
+        <a href="#explicacion" title="Explicación ampliada">🧠</a>
+        <a href="#contramedida" title="Contramedida">🛡️</a>
+        <a href="https://www.cisecurity.org/controls" target="_blank" rel="noopener" title="Referencia normativa">📚</a>
+        <a href="https://www.isc2.org/Certifications/CC" target="_blank" rel="noopener" title="Certificación asociada">🎓</a>
+    </p>
+
+    <h2>IG1 — Salvaguardas esenciales</h2>
+    <ul>
+        <li>Establecer un inventario actualizado de todos los activos empresariales.</li>
+        <li>Registrar propietario, ubicación, función y estado del activo.</li>
+        <li>Identificar activos no autorizados y tomar acciones correctivas.</li>
+    </ul>
+
+    <!-- Iconos doctrinales -->
+    <p class="bloque-icono">
+        <a href="#explicacion" title="Explicación ampliada">🧠</a>
+        <a href="#contramedida" title="Contramedida">🛡️</a>
+        <a href="https://www.cisecurity.org/controls" target="_blank" rel="noopener" title="Referencia normativa">📚</a>
+        <a href="https://www.isc2.org/Certifications/CC" target="_blank" rel="noopener" title="Certificación asociada">🎓</a>
+    </p>
+
+    <h2>IG2 — Salvaguardas avanzadas</h2>
+    <ul>
+        <li>Automatizar la detección de activos conectados a la red.</li>
+        <li>Integrar el inventario con herramientas de gestión de vulnerabilidades.</li>
+        <li>Clasificar activos según criticidad y exposición.</li>
+    </ul>
+
+    <!-- Iconos doctrinales -->
+    <p class="bloque-icono">
+        <a href="#explicacion" title="Explicación ampliada">🧠</a>
+        <a href="#contramedida" title="Contramedida">🛡️</a>
+        <a href="https://www.cisecurity.org/controls" target="_blank" rel="noopener" title="Referencia normativa">📚</a>
+        <a href="https://www.isc2.org/Certifications/CC" target="_blank" rel="noopener" title="Certificación asociada">🎓</a>
+    </p>
+
+    <h2>IG3 — Salvaguardas de madurez alta</h2>
+    <ul>
+        <li>Correlacionar inventarios con sistemas de identidad y acceso.</li>
+        <li>Aplicar controles de acceso basados en atributos del activo.</li>
+        <li>Integrar inventarios con SIEM para detección avanzada.</li>
+    </ul>
+
+    <!-- Iconos doctrinales -->
+    <p class="bloque-icono">
+        <a href="#explicacion" title="Explicación ampliada">🧠</a>
+        <a href="#contramedida" title="Contramedida">🛡️</a>
+        <a href="https://www.cisecurity.org/controls" target="_blank" rel="noopener" title="Referencia normativa">📚</a>
+        <a href="https://www.isc2.org/Certifications/CC" target="_blank" rel="noopener" title="Certificación asociada">🎓</a>
+    </p>
+
+    <h2>Notas doctrinales</h2>
+    <blockquote>
+        “Lo que no se inventaría, no existe. Y lo que no existe, no se protege.”
+    </blockquote>
+
+    <!-- Iconos doctrinales -->
+    <p class="bloque-icono">
+        <a href="#explicacion" title="Explicación ampliada">🧠</a>
+        <a href="#contramedida" title="Contramedida">🛡️</a>
+        <a href="https://www.cisecurity.org/controls" target="_blank" rel="noopener" title="Referencia normativa">📚</a>
+        <a href="https://www.isc2.org/Certifications/CC" target="_blank" rel="noopener" title="Certificación asociada">🎓</a>
+    </p>
+
+    <nav class="control-nav">
+        <a href="/controles/00/">← Control anterior</a>
+        <a href="/controles/02/">Siguiente control →</a>
+    </nav>
+
+</article>
 </main>
 
 <footer class="site-footer">
@@ -68,16 +130,16 @@
     </p>
 
     <nav aria-label="Navegación inferior" class="footer-nav">
-        <a href="/el-pergamino-digital/accesibilidad/">Accesibilidad</a>
-        <a href="/el-pergamino-digital/privacidad/">Privacidad</a>
-        <a href="/el-pergamino-digital/licencia/">Licencia</a>
+        <a href="/accesibilidad/">Accesibilidad</a>
+        <a href="/privacidad/">Privacidad</a>
+        <a href="/licencia/">Licencia</a>
         <a href="https://github.com/JulioCesarAbreuP/el-pergamino-digital" target="_blank">Repositorio</a>
     </nav>
 
     <button id="back-to-top" aria-label="Volver arriba">↑</button>
 </footer>
-    
-   <script src="/assets/js/main.js" defer></script>
+
+<script src="/assets/js/main.js" defer></script>
 
 </body>
 </html>
