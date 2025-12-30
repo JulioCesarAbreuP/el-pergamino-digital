@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Lab 04 – Captura de credenciales inseguras | El Pergamino Digital</title>
+  <link rel="stylesheet" href="/el-pergamino-digital/estilos.css">
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #ffffff;
+      color: #1a1a1a;
+      margin: 2rem auto;
+      max-width: 960px;
+      line-height: 1.7;
+      font-size: 1.05rem;
+    }
+    .titulo-principal {
+      font-size: 2.4rem;
+      color: #003366;
+      border-bottom: 3px solid #0078d4;
+      padding-bottom: 0.4rem;
+      margin-bottom: 2.5rem;
+    }
+    .bloque {
+      background-color: #f4faff;
+      border-left: 6px solid #0078d4;
+      border-radius: 6px;
+      padding: 1.2rem 1.5rem;
+      margin-bottom: 2.2rem;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+    }
+    .etiqueta {
+      font-weight: 600;
+      color: #0078d4;
+      font-size: 1.15rem;
+      display: block;
+      margin-bottom: 0.6rem;
+    }
+    .respuesta ul, .respuesta ol {
+      margin-top: 0.5rem;
+      padding-left: 1.4rem;
+    }
+    .respuesta pre {
+      background-color: #eef6ff;
+      padding: 0.8rem;
+      border-left: 4px solid #0078d4;
+      overflow-x: auto;
+    }
+    .evidencia {
+      text-align: center;
+      margin-top: 1rem;
+    }
+    .evidencia img {
+      max-width: 100%;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      margin-bottom: 1rem;
+    }
+    .enlace-normativo {
+      color: #005a9e;
+      text-decoration: none;
+      border-bottom: 1px dotted #005a9e;
+    }
+    .enlace-normativo:hover {
+      text-decoration: underline;
+    }
+    footer {
+      margin-top: 4rem;
+      padding-top: 1rem;
+      border-top: 1px solid #ccc;
+      font-size: 0.9rem;
+      color: #666;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+  <h1 class="titulo-principal">🧪 Lab 04 – Captura de credenciales en protocolos inseguros (FTP, Telnet, HTTP)</h1>
+
+  <div class="bloque">
+    <span class="etiqueta">🎯 Propósito doctrinal:</span>
+    <div class="respuesta">
+      Simular la captura de credenciales transmitidas en texto claro mediante protocolos inseguros como FTP, Telnet y HTTP. Este laboratorio permite comprender los riesgos de confidencialidad en redes sin cifrado y refuerza la necesidad de controles de autenticación segura.
+    </div>
+  </div>
+
+  <div class="bloque">
+    <span class="etiqueta">🧰 Herramientas necesarias:</span>
+    <div class="respuesta">
+      <ul>
+        <li>Wireshark o tcpdump</li>
+        <li>Servicios activos: FTP, Telnet, HTTP</li>
+        <li>Cliente FTP/Telnet (CLI o GUI)</li>
+        <li>Entorno virtualizado con red interna</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="bloque">
+    <span class="etiqueta">🧱 Arquitectura del entorno:</span>
+    <div class="respuesta">
+      <ul>
+        <li><strong>VM1 (Sniffer):</strong> Kali Linux con Wireshark/tcpdump</li>
+        <li><strong>VM2 (Servidor):</strong> Ubuntu con vsftpd, telnetd y Apache</li>
+        <li><strong>VM3 (Cliente):</strong> Ubuntu o Windows para generar tráfico</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="bloque">
+    <span class="etiqueta">🧪 Medidas técnicas (procedimientos):</span>
+    <div class="respuesta">
+      <ol>
+        <li>Activar servicios inseguros en VM2:
+          <ul>
+            <li>Instalar y habilitar <code>vsftpd</code>, <code>telnetd</code>, <code>apache2</code></li>
+          </ul>
+        </li>
+        <li>Capturar tráfico con Wireshark o tcpdump:
+          <pre><code>sudo tcpdump -i eth0 -w captura_lab04.pcap</code></pre>
+        </li>
+        <li>Generar tráfico desde VM3:
+          <pre><code>ftp 192.168.1.10
+telnet 192.168.1.10
+curl http://192.168.1.10/login</code></pre>
+        </li>
+        <li>Filtrar tráfico en Wireshark:
+          <ul>
+            <li><code>ftp.request.command == \"PASS\"</code></li>
+            <li><code>telnet</code></li>
+            <li><code>http contains \"password\"</code></li>
+          </ul>
+        </li>
+        <li>Identificar credenciales en texto claro</li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="bloque">
+    <span class="etiqueta">🖼️ Evidencia visual (CLI y GUI):</span>
+    <div class="respuesta evidencia">
+      <img src="/el-pergamino-digital/labs/labs04/ftp-credenciales.png" alt="Captura de Wireshark mostrando credenciales FTP">
+      <img src="/el-pergamino-digital/labs/labs04/telnet-session.png" alt="Captura de sesión Telnet con usuario y contraseña">
+      <img src="/el-pergamino-digital/labs/labs04/http-formulario.png" alt="Captura de formulario HTTP interceptado">
+    </div>
+  </div>
+
+  <div class="bloque">
+    <span class="etiqueta">🛡️ Contramedidas:</span>
+    <div class="respuesta">
+      <ul>
+        <li>Deshabilitar servicios inseguros (FTP, Telnet)</li>
+        <li>Usar SFTP, SSH y HTTPS</li>
+        <li>Aplicar TLS 1.3 y autenticación multifactor</li>
+        <li>Monitorizar tráfico con IDS/IPS</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="bloque">
+    <span class="etiqueta">🧪 Validación cruzada:</span>
+    <div class="respuesta">
+      <ul>
+        <li><a href="https://www.cisecurity.org/controls/decrypt-network-traffic-at-proxy" class="enlace-normativo" target="_blank">CIS Control 13.6 – Decrypt Network Traffic at Proxy</a></li>
+        <li><a href="https://attack.mitre.org/techniques/T1040/" class="enlace-normativo" target="_blank">MITRE ATT&CK T1040 – Network Sniffing</a></li>
+        <li><a href="https://csrc.nist.gov/publications/detail/sp/800-95/final" class="enlace-normativo" target="_blank">NIST SP 800-95 – Web Services Security</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="bloque">
+    <span class="etiqueta">🎓 Certificaciones asociadas:</span>
+    <div class="respuesta">
+      <ul>
+        <li>CompTIA Security+</li>
+        <li>ISC2 CC / CISSP</li>
+        <li>CEH</li>
+        <li>OSCP (reconocimiento y explotación de servicios inseguros)</li>
+      </ul>
+    </div>
+  </div>
+
+  <footer>
+    Esta ficha forma parte de <strong>El Pergamino Digital</strong> · Laboratorios técnicos con trazabilidad normativa y propósito pedagógico.
+  </footer>
+
+</body>
+</html>
