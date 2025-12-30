@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OWASP WSTG-INPV-01 | El Pergamino Digital</title>
+  <meta name="description" content="Ficha doctrinal de la prueba OWASP WSTG-INPV-01: Validación de entrada en protocolos inseguros.">
+  <style>
+    :root {
+      --bg: #ffffff;
+      --text: #1a1a1a;
+      --accent: #004466;
+      --highlight: #e0f7fa;
+      --border: #cccccc;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #121212;
+        --text: #e0e0e0;
+        --accent: #80d8ff;
+        --highlight: #1e1e1e;
+        --border: #333333;
+      }
+    }
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: system-ui, sans-serif;
+      line-height: 1.6;
+      margin: 2rem;
+      max-width: 960px;
+    }
+    h1, h2, h3 {
+      color: var(--accent);
+    }
+    a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    nav {
+      margin-bottom: 2rem;
+    }
+    section {
+      margin-top: 2rem;
+    }
+    article {
+      margin-bottom: 2.5rem;
+      padding: 1rem;
+      background-color: var(--highlight);
+      border-left: 4px solid var(--accent);
+    }
+    footer {
+      margin-top: 4rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--border);
+      font-style: italic;
+      color: var(--accent);
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>🔎 OWASP WSTG-INPV-01 – Validación de entrada en protocolos inseguros</h1>
+    <p>Esta prueba forma parte del <strong>OWASP Web Security Testing Guide (WSTG)</strong> y evalúa si las aplicaciones aceptan entradas a través de canales no cifrados o inseguros, como HTTP o FTP sin TLS.</p>
+  </header>
+
+  <nav>
+    <p>
+      <a href="/el-pergamino-digital/">← Volver al índice general</a> ·
+      <a href="/el-pergamino-digital/owasp/">Pruebas OWASP WSTG</a> ·
+      <a href="/el-pergamino-digital/labs/">Laboratorios</a>
+    </p>
+  </nav>
+
+  <section>
+    <article>
+      <h3>🎯 Propósito de la prueba</h3>
+      <p>Verificar si la aplicación acepta datos sensibles (como credenciales o tokens) a través de protocolos no cifrados, lo que expone la información a ataques de sniffing, interceptación o manipulación.</p>
+
+      <h3>🧪 Técnicas asociadas</h3>
+      <ul>
+        <li>Captura de tráfico con <code>tcpdump</code> o <code>Wireshark</code></li>
+        <li>Intercepción de formularios en HTTP</li>
+        <li>Inspección de cabeceras y cookies sin atributos de seguridad</li>
+      </ul>
+
+      <h3>🔗 Laboratorios relacionados</h3>
+      <ul>
+        <li><a href="/el-pergamino-digital/labs/">🧪 Sniffing con Wireshark y tcpdump</a></li>
+      </ul>
+
+      <h3>📚 Controles relacionados</h3>
+      <ul>
+        <li><a href="/el-pergamino-digital/controles/cis/13/">CIS Control 13.1 – Monitorización del tráfico de red</a></li>
+        <li><a href="/el-pergamino-digital/mitre/t1040/">MITRE ATT&CK: T1040 – Network Sniffing</a></li>
+        <li>NIST SP 800-53: <code>SC-12</code> – Cryptographic Key Establishment</li>
+      </ul>
+
+      <h3>🎓 Certificaciones asociadas</h3>
+      <ul>
+        <li>OWASP Web Security Testing</li>
+        <li>CEH – Certified Ethical Hacker</li>
+        <li>CompTIA Security+</li>
+      </ul>
+
+      <h3>🧬 Analogía técnica</h3>
+      <p style="font-family: 'Comic Sans MS', cursive; font-size: 1.1em;">
+        “Enviar credenciales por HTTP es como gritar tu contraseña en una sala llena de desconocidos: cualquiera puede escuchar.”
+      </p>
+    </article>
+  </section>
+
+  <footer>
+    <hr>
+    <p><strong>🧭 Esta ficha forma parte del legado doctrinal del Pergamino Digital.</strong></p>
+    <p>Última actualización: diciembre 2025 · <a href="/el-pergamino-digital/sobre/">Sobre este proyecto</a></p>
+  </footer>
+
+</body>
+</html>
