@@ -45,6 +45,25 @@
       padding-left: 1.4rem;
     }
 
+    .respuesta pre {
+      background-color: #eef6ff;
+      padding: 0.8rem;
+      border-left: 4px solid #0078d4;
+      overflow-x: auto;
+    }
+
+    .evidencia {
+      text-align: center;
+      margin-top: 1rem;
+    }
+
+    .evidencia img {
+      max-width: 100%;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      margin-bottom: 1rem;
+    }
+
     .enlace-normativo {
       color: #005a9e;
       text-decoration: none;
@@ -100,21 +119,46 @@
   </div>
 
   <div class="bloque">
-    <span class="etiqueta">🧪 Procedimiento técnico:</span>
+    <span class="etiqueta">🧪 Procedimiento técnico con tcpdump:</span>
     <div class="respuesta">
       <ol>
-        <li>Identificar la interfaz de red con <code>ip link show</code></li>
-        <li>Capturar tráfico con tcpdump:
-          <pre><code>sudo tcpdump -i eth0 -w captura.pcap</code></pre>
-          Filtros útiles:
-          <pre><code>sudo tcpdump -i eth0 port 80
-sudo tcpdump -i eth0 'tcp[tcpflags] & tcp-syn != 0'
-sudo tcpdump -i eth0 -n -v -c 100</code></pre>
+        <li>Identificar la interfaz de red:
+          <pre><code>ip link show</code></pre>
         </li>
-        <li>Capturar con Wireshark:
+        <li>Capturar todo el tráfico:
+          <pre><code>sudo tcpdump -i eth0 -w captura.pcap</code></pre>
+        </li>
+        <li>Filtrar por puerto HTTP:
+          <pre><code>sudo tcpdump -i eth0 port 80</code></pre>
+        </li>
+        <li>Capturar solo SYN (inicio de conexión):
+          <pre><code>sudo tcpdump -i eth0 'tcp[tcpflags] & tcp-syn != 0'</code></pre>
+        </li>
+        <li>Captura limitada y detallada:
+          <pre><code>sudo tcpdump -i eth0 -n -v -c 100</code></pre>
+        </li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="bloque">
+    <span class="etiqueta">🖼️ Evidencia visual (tcpdump):</span>
+    <div class="respuesta evidencia">
+      <img src="/el-pergamino-digital/labs/labs01/tcpdump-captura.png" alt="Captura de terminal con tcpdump mostrando tráfico HTTP">
+    </div>
+  </div>
+
+  <div class="bloque">
+    <span class="etiqueta">🧪 Procedimiento técnico con Wireshark:</span>
+    <div class="respuesta">
+      <ol>
+        <li>Ejecutar Wireshark con permisos elevados</li>
+        <li>Seleccionar interfaz activa</li>
+        <li>Aplicar filtros:
           <ul>
-            <li>Seleccionar interfaz activa</li>
-            <li>Aplicar filtros: <code>http</code>, <code>ip.addr == 192.168.1.10</code>, <code>frame contains \"password\"</code></li>
+            <li><code>http</code></li>
+            <li><code>ip.addr == 192.168.1.10</code></li>
+            <li><code>frame contains \"password\"</code></li>
           </ul>
         </li>
         <li>Generar tráfico desde VM2:
@@ -124,6 +168,13 @@ ping 192.168.1.10</code></pre>
         </li>
         <li>Analizar paquetes capturados: credenciales, cabeceras, patrones de escaneo</li>
       </ol>
+    </div>
+  </div>
+
+  <div class="bloque">
+    <span class="etiqueta">🖼️ Evidencia visual (Wireshark):</span>
+    <div class="respuesta evidencia">
+      <img src="/el-pergamino-digital/labs/labs01/wireshark-captura.png" alt="Captura de Wireshark mostrando credenciales en texto claro">
     </div>
   </div>
 
@@ -151,12 +202,15 @@ ping 192.168.1.10</code></pre>
   </div>
 
   <div class="bloque">
+     
     <span class="etiqueta">🎓 Certificaciones asociadas:</span>
     <div class="respuesta">
       <ul>
         <li>CompTIA Security+</li>
-        <li>ISC2 CC / CISSP</li>
-        <li>OSCP / CEH</li>
+        <li>ISC2 Certified in Cybersecurity (CC)</li>
+        <li>ISC2 CISSP – Certified Information Systems Security Professional</li>
+        <li>EC-Council CEH – Certified Ethical Hacker</li>
+        <li>Offensive Security OSCP – Offensive Security Certified Professional</li>
       </ul>
     </div>
   </div>
@@ -165,16 +219,17 @@ ping 192.168.1.10</code></pre>
     <span class="etiqueta">📌 Buenas prácticas:</span>
     <div class="respuesta">
       <ul>
-        <li>Captura mínima necesaria</li>
-        <li>Documentación de filtros, fechas y propósito</li>
-        <li>Aislamiento del entorno de pruebas</li>
-        <li>Correlación con logs, SIEM y NetFlow</li>
+        <li>Captura mínima necesaria para evitar exposición de datos sensibles</li>
+        <li>Documentar fecha, hora, interfaz, filtros y propósito de la captura</li>
+        <li>Ejecutar en entornos aislados o virtualizados</li>
+        <li>Correlacionar capturas con logs, alertas SIEM y eventos de red</li>
+        <li>Eliminar archivos `.pcap` tras el análisis si contienen datos sensibles</li>
       </ul>
     </div>
   </div>
 
   <footer>
-    Esta ficha forma parte de <strong>El Pergamino Digital</strong> · Laboratorios técnicos con trazabilidad normativa y propósito pedagógico
+    Esta ficha forma parte de <strong>El Pergamino Digital</strong> · Laboratorios técnicos con trazabilidad normativa y propósito pedagógico.
   </footer>
 
 </body>
