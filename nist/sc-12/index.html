@@ -1,61 +1,87 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
   "http://www.w3.org/TR/html4/strict.dtd">
-<html>
+<html lang="es">
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  <title>NIST SC-12: Cryptographic Key Establishment and Management</title>
+  <title>NIST SC-12: Gestión de Claves Criptográficas</title>
   <style type="text/css">
-    body { font-family: Arial, sans-serif; margin: 2em; background-color: #fdfdfd; }
-    h1 { color: #003366; }
-    h2 { color: #005599; }
-    .bloque { margin-bottom: 1.5em; }
-    .etiqueta { font-weight: bold; font-family: "Comic Sans MS", cursive; }
-    .respuesta { background-color: #eef; padding: 0.5em; border-left: 4px solid #99c; }
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #111;
+      color: #eee;
+      margin: 2em;
+      line-height: 1.6;
+    }
+    h1, h2 {
+      color: #66ccff;
+    }
+    .bloque {
+      margin-bottom: 1.8em;
+      padding: 1em;
+      border-left: 5px solid #444;
+      background-color: #1a1a1a;
+    }
+    .etiqueta {
+      display: block;
+      font-weight: bold;
+      font-family: "Comic Sans MS", cursive;
+      color: #ffcc66;
+      margin-bottom: 0.4em;
+    }
+    .respuesta {
+      background-color: #222;
+      padding: 0.8em;
+      border-left: 4px solid #3399cc;
+    }
+    .respuesta small {
+      font-size: 90%;
+      color: #aaa;
+    }
   </style>
 </head>
 <body>
 
-  <h1>SC-12 – Cryptographic Key Establishment and Management</h1>
+  <h1>SC-12 – Gestión de Claves Criptográficas</h1>
 
   <div class="bloque">
     <span class="etiqueta">🧩 Respuesta técnica:</span>
     <div class="respuesta">
-      El control SC-12 establece que las organizaciones deben implementar mecanismos para la generación, distribución y almacenamiento seguros de claves criptográficas, alineados con estándares reconocidos como NIST SP 800-57.
+      Las organizaciones deben implementar mecanismos seguros para la generación, distribución y almacenamiento de claves criptográficas, conforme a estándares como NIST SP 800-57.
     </div>
   </div>
 
   <div class="bloque">
     <span class="etiqueta">🧠 Explicación ampliada:</span>
     <div class="respuesta">
-      La gestión de claves criptográficas es esencial para mantener la confidencialidad e integridad de la información. Este control exige procesos documentados y auditables para el ciclo de vida completo de las claves, incluyendo su renovación y destrucción segura.
+      La gestión de claves es crítica para la seguridad de la información. Este control exige procesos documentados para todo el ciclo de vida de las claves: creación, distribución, rotación y destrucción segura.
     </div>
   </div>
 
   <div class="bloque">
     <span class="etiqueta">🎯 Ejemplo claro:</span>
     <div class="respuesta">
-      Una organización utiliza HSMs (Hardware Security Modules) para generar y almacenar claves maestras, y emplea protocolos como Diffie-Hellman para el intercambio seguro de claves de sesión.
+      Una entidad usa HSMs para generar claves maestras y emplea TLS con intercambio Diffie-Hellman para sesiones seguras.
     </div>
   </div>
 
   <div class="bloque">
     <span class="etiqueta">🛡️ Contramedida:</span>
     <div class="respuesta">
-      Implementar una política de rotación automática de claves cada 90 días y registrar todos los eventos de gestión de claves en un sistema SIEM.
+      Aplicar rotación automática de claves cada 90 días y registrar eventos en el SIEM para auditoría.
     </div>
   </div>
 
   <div class="bloque">
     <span class="etiqueta">📚 Referencia normativa o CVE:</span>
     <div class="respuesta">
-      NIST SP 800-57 Part 1 Rev. 5 – Recommendation for Key Management; ISO/IEC 11770; FIPS 140-3.
+      NIST SP 800-57 Rev. 5, ISO/IEC 11770, FIPS 140-3.
     </div>
   </div>
 
   <div class="bloque">
     <span class="etiqueta">🎓 Certificación asociada:</span>
     <div class="respuesta">
-      ISC2 CC (Domain 2), CISSP (Domain 3), CISM (Domain 2), ISO/IEC 27001 Control A.10.1.
+      ISC2 CC (Dominio 2), CISSP (Dominio 3), CISM (Dominio 2), ISO/IEC 27001 A.10.1.
     </div>
   </div>
 
@@ -71,7 +97,7 @@
   <div class="bloque">
     <span class="etiqueta">🧬 Analogía técnica:</span>
     <div class="respuesta" style="font-family: 'Comic Sans MS'; font-size: 12pt;">
-      Gestionar claves criptográficas es como custodiar llaves maestras de una bóveda: no basta con tenerlas, hay que protegerlas, rotarlas y destruirlas cuando ya no se usan.
+      Gestionar claves es como custodiar llaves maestras de una bóveda: no basta con tenerlas, hay que protegerlas, rotarlas y destruirlas cuando ya no se usan.
     </div>
   </div>
 
