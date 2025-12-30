@@ -119,6 +119,56 @@
   </div>
 
   <div class="bloque">
+  <span class="etiqueta">🧪 Medidas técnicas (procedimientos):</span>
+  <div class="respuesta">
+    <ol>
+      <li><strong>Identificar la interfaz de red activa:</strong>
+        <pre><code>ip link show</code></pre>
+      </li>
+      <li><strong>Capturar tráfico completo con tcpdump:</strong>
+        <pre><code>sudo tcpdump -i eth0 -w captura.pcap</code></pre>
+      </li>
+      <li><strong>Filtrar tráfico HTTP:</strong>
+        <pre><code>sudo tcpdump -i eth0 port 80</code></pre>
+      </li>
+      <li><strong>Capturar solo paquetes SYN (inicio de conexión):</strong>
+        <pre><code>sudo tcpdump -i eth0 'tcp[tcpflags] & tcp-syn != 0'</code></pre>
+      </li>
+      <li><strong>Captura limitada y detallada:</strong>
+        <pre><code>sudo tcpdump -i eth0 -n -v -c 100</code></pre>
+      </li>
+      <li><strong>Captura con Wireshark:</strong>
+        <ul>
+          <li>Ejecutar Wireshark con permisos elevados</li>
+          <li>Seleccionar interfaz activa</li>
+          <li>Aplicar filtros como:
+            <ul>
+              <li><code>http</code></li>
+              <li><code>ip.addr == 192.168.1.10</code></li>
+              <li><code>frame contains "password"</code></li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li><strong>Generar tráfico desde VM2:</strong>
+        <pre><code>curl http://192.168.1.10
+ftp 192.168.1.10
+ping 192.168.1.10</code></pre>
+      </li>
+      <li><strong>Analizar paquetes capturados:</strong> buscar credenciales, cabeceras HTTP, patrones de escaneo o beaconing.</li>
+    </ol>
+  </div>
+</div>
+
+<div class="bloque">
+  <span class="etiqueta">🖼️ Evidencia visual (CLI y GUI):</span>
+  <div class="respuesta evidencia">
+    <img src="/el-pergamino-digital/labs/labs01/tcpdump-captura.png" alt="Captura de terminal con tcpdump mostrando tráfico HTTP">
+    <img src="/el-pergamino-digital/labs/labs01/wireshark-captura.png" alt="Captura de Wireshark mostrando credenciales en texto claro">
+  </div>
+</div>
+
+  <div class="bloque">
     <span class="etiqueta">🧪 Procedimiento técnico con tcpdump:</span>
     <div class="respuesta">
       <ol>
