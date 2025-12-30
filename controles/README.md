@@ -25,7 +25,7 @@ Esta carpeta contiene las 18 fichas doctrinales correspondientes a los **Control
 10. [Control 10 – Defensas contra Malware](control-10-defensas-malware.md)  
 11. [Control 11 – Recuperación de Datos](control-11-recuperacion-datos.md)  
 12. [Control 12 – Gestión de la Infraestructura de Red](control-12-gestion-infraestructura-red.md)  
-13. [Control 13 – Formación y Concienciación en Seguridad](control-13-formacion-concienciacion-seguridad.md)  
+13. [Control 13 – Monitoreo de Red](control-13-Monitoreo-de-Red.md)  
 14. [Control 14 – Gestión de Proveedores de Servicios](control-14-gestion-proveedores-servicios.md)  
 15. [Control 15 – Gestión de Respuesta a Incidentes](control-15-respuesta-incidentes.md)  
 16. [Control 16 – Seguridad en el Software de Aplicación](control-16-seguridad-software-aplicacion.md)  
