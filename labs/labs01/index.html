@@ -1,108 +1,71 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Lab 01 – Monitorización de tráfico</title>
-  <link rel="icon" href="/el-pergamino-digital/assets/favicon.png" type="image/png" />
-  <style>
-    :root {
-      color-scheme: dark;
-    }
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      background-color: #121212;
-      color: #e0e0e0;
-      margin: 0;
-      padding: 0;
-    }
-    nav {
-      background-color: #1f1f1f;
-      padding: 1em;
-      text-align: center;
-    }
-    nav a {
-      color: #e0e0e0;
-      margin: 0 1em;
-      text-decoration: none;
-    }
-    nav a.activo {
-      font-weight: bold;
-      text-decoration: underline;
-    }
-    h1 {
-      text-align: center;
-      margin-top: 1.5em;
-      color: #ffffff;
-    }
-    .subtitulo {
-      text-align: center;
-      color: #bbbbbb;
-      margin-bottom: 2em;
-    }
-    main {
-      max-width: 900px;
-      margin: auto;
-      padding: 2em;
-    }
-    section {
-      margin-bottom: 2em;
-    }
-    h2 {
-      color: #90caf9;
-    }
-    footer {
-      text-align: center;
-      padding: 2em;
-      background-color: #1e1e1e;
-      font-size: 0.9em;
-      color: #aaaaaa;
-    }
-    @media (max-width: 600px) {
-      body { font-size: 1.1em; }
-      h1 { font-size: 1.8em; }
-      .subtitulo { font-size: 1.1em; }
-      nav a { display: block; margin: 0.5em 0; }
-    }
-  </style>
-</head>
-<body>
-  <nav>
-    <a href="/el-pergamino-digital/index.html">Inicio</a>
-    <a href="/el-pergamino-digital/labs/" class="activo">Laboratorios</a>
-    <a href="/el-pergamino-digital/glosario/">Glosario</a>
-    <a href="/el-pergamino-digital/simulador/">Simulador</a>
-    <a href="/el-pergamino-digital/modulos/">Módulos</a>
-  </nav>
-  <h1>Lab 01 – Monitorización de tráfico con Wireshark y tcpdump</h1>
-  <p class="subtitulo">Captura y análisis de paquetes para detección de amenazas en red</p>
-  <main>
-    <section><h2>1. Objetivo técnico</h2><p>Capturar y analizar tráfico de red para identificar patrones sospechosos y validar configuraciones de seguridad.</p></section>
-    <section><h2>2. Herramientas utilizadas</h2><ul><li>Wireshark</li><li>tcpdump</li></ul></section>
-    <section><h2>3. Entorno de laboratorio</h2><p>Distribución Kali Linux, interfaz eth0, red simulada con tráfico HTTP y DNS.</p></section>
-    <section><h2>4. Configuración inicial</h2><p>Verificar interfaces con <code>ip a</code> y permisos con <code>sudo</code>.</p></section>
-    <section><h2>5. Captura con tcpdump</h2><p><code>sudo tcpdump -i eth0 -w captura.pcap</code></p></section>
-    <section><h2>6. Captura con Wireshark</h2><p>Seleccionar interfaz, aplicar filtro <code>http || dns</code>, guardar como <code>wireshark_lab01.pcapng</code>.</p></section>
-    <section><h2>7. Análisis de paquetes</h2><p>Identificar patrones de tráfico, puertos, protocolos y posibles anomalías.</p></section>
-    <section><h2>8. Evidencias visuales</h2><p>Capturas de pantalla de Wireshark y tcpdump en ejecución.</p></section>
-    <section><h2>9. Validación cruzada</h2><p>Comparar resultados entre Wireshark y tcpdump para confirmar consistencia.</p></section>
-    <section><h2>10. Criterios de dominio</h2><ul><li>Identificación de protocolos</li><li>Uso correcto de filtros</li><li>Interpretación de cabeceras</li></ul></section>
-    <section><h2>11. Resultados esperados</h2><p>Archivos <code>.pcap</code> con tráfico capturado y análisis documentado.</p></section>
-    <section><h2>12. Resultados obtenidos</h2><p>Se capturaron paquetes HTTP, DNS y ARP. Se identificaron patrones de navegación y resolución de nombres.</p></section>
-    <section><h2>13. Análisis de resultados</h2><p>El tráfico revela conexiones a puertos 80 y 53, sin presencia de cifrado. Se detectan posibles vulnerabilidades por uso de HTTP.</p></section>
-    <section><h2>14. Conclusiones</h2><p>La monitorización de red permite detectar tráfico no cifrado y establecer políticas de seguridad más estrictas.</p></section>
-    <section><h2>15. 🛡️ Contramedida</h2><p>Implementar HTTPS y DNSSEC. Bloquear tráfico no cifrado en el firewall.</p></section>
-    <section><h2>16. 🧪 Validación cruzada</h2><p style="font-family: 'Comic Sans MS'; font-size: 10pt;">CIS Control 13.1 (Monitorear tráfico de red) y NIST SP 800-115 (Technical Guide to Information Security Testing).</p></section>
-    <section><h2>17. 🧬 Analogía técnica</h2><p style="font-family: 'Comic Sans MS'; font-size: 12pt;">Wireshark es como una lupa forense que permite ver el ADN de las comunicaciones digitales.</p></section>
-    <section><h2>18. 🎯 Ejemplo claro</h2><p>Captura de un paquete HTTP revela credenciales en texto plano: <code>Authorization: Basic YWRtaW46cGFzc3dvcmQ=</code></p></section>
-    <section><h2>19. 📚 Referencia normativa o CVE</h2><p>CVE-2019-6111 (scp vulnerable a exposición de archivos). Relevancia en tráfico no cifrado.</p></section>
-    <section><h2>20. 🎓 Certificación asociada</h2><p>CompTIA Security+ (Objetivo 2.2), ISC2 CC (Network Security), CEH (Reconocimiento y Sniffing).</p></section>
-    <section><h2>21. Mapa de integración con el simulador certificador</h2><p>Bloque 2: Seguridad de red → Subbloque 2.1: Análisis de tráfico → Etiquetas: 🧪 Validación cruzada, 🛡️ Contramedida</p></section>
-    <section><h2>22. Glosario técnico-aforístico</h2><p><strong>Aforismo:</strong> “El tráfico no miente: cada paquete es una confesión en tránsito.”</p></section>
+    <section>
+      <h2>Referencias normativas y técnicas</h2>
+      <ul>
+        <li><a href="https://www.wireshark.org/docs/" target="_blank">Wireshark Documentation</a></li>
+        <li><a href="https://www.tcpdump.org/manpages/tcpdump.1.html" target="_blank">tcpdump man page</a></li>
+        <li><a href="https://datatracker.ietf.org/doc/html/rfc2616" target="_blank">RFC 2616 – HTTP/1.1</a></li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Certificaciones asociadas</h2>
+      <ul>
+        <li>ISC2 Certified in Cybersecurity (CC) – Network Security</li>
+        <li>CompTIA Security+ – Domain 2.2</li>
+        <li>CEH – Reconocimiento y Sniffing</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Analogía técnica</h2>
+      <p style="font-family: 'Comic Sans MS'; font-size: 12pt;">
+        Wireshark es al tráfico de red lo que un heraldo es al castillo: escucha cada mensaje que entra y sale, y puede alertar si algo suena sospechoso.
+      </p>
+    </section>
+
+    <section>
+      <h2>Nivel de dificultad</h2>
+      <p>Intermedio</p>
+    </section>
+
+    <section>
+      <h2>Checklist final</h2>
+      <ul>
+        <li>[ ] Interfaces identificadas</li>
+        <li>[ ] Captura con tcpdump realizada</li>
+        <li>[ ] Captura con Wireshark realizada</li>
+        <li>[ ] Tráfico generado y analizado</li>
+        <li>[ ] Evidencias guardadas</li>
+        <li>[ ] Validación cruzada documentada</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Navegación transversal</h2>
+      <ul>
+        <li><a href="/el-pergamino-digital/index.html">Portada</a></li>
+        <li><a href="/el-pergamino-digital/glosario/">Glosario</a></li>
+        <li><a href="/el-pergamino-digital/simulador/">Simulador</a></li>
+        <li><a href="/el-pergamino-digital/modulos/">Módulos</a></li>
+        <li><a href="/el-pergamino-digital/labs/">Laboratorios</a></li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Reflexión estratégica</h2>
+      <p>Este laboratorio permite comprender cómo el tráfico de red puede ser una fuente de inteligencia crítica. La capacidad de observar, interpretar y validar lo que circula por la red es esencial para cualquier analista de ciberseguridad. La combinación de herramientas CLI y GUI refuerza la versatilidad del profesional técnico.</p>
+    </section>
+
+    <section>
+      <h2>Disclaimer de advertencia</h2>
+      <p><strong>Advertencia:</strong> Este laboratorio está diseñado exclusivamente para fines educativos y debe ejecutarse en entornos controlados, como laboratorios virtuales o redes de pruebas. La captura de tráfico en redes reales sin consentimiento explícito puede constituir una violación legal y ética. El uso de herramientas como Wireshark y tcpdump debe realizarse con responsabilidad, respetando las políticas de privacidad y seguridad de la organización. El Pergamino Digital no se responsabiliza por el uso indebido de las técnicas aquí descritas.</p>
+    </section>
   </main>
+
   <footer>
-    <p>Este proyecto forma parte de <a href="https://pergamino-digital-ciberseguridad.blogspot.com/?m=1" target="_blank">El Pergamino Digital</a></p>
+    <p>Este laboratorio forma parte del proyecto <a href="https://pergamino-digital-ciberseguridad.blogspot.com/?m=1" target="_blank">El Pergamino Digital</a>, alineado con estándares internacionales y diseñado para fortalecer competencias técnicas en ciberseguridad.</p>
   </footer>
+
   <script>
     document.addEventListener("DOMContentLoaded", () => {
       const links = document.querySelectorAll("nav a");
