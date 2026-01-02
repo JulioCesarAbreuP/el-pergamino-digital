@@ -3,8 +3,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Lab 26 – Integración de CMDB con GLPI, Snipe-IT y OCS Inventory</title>
+  <title>Lab 26 – Evaluación de Hardenización de Sistemas Linux y Buenas Prácticas</title>
   <link rel="icon" href="/el-pergamino-digital/assets/favicon.png" type="image/png" />
+
+  <!-- Estilos integrados -->
   <style>
     :root { color-scheme: dark; }
     body {
@@ -15,7 +17,34 @@
       padding: 2em;
       line-height: 1.6;
     }
-    h1, h2 {
+    nav {
+      background-color: #1f1f1f;
+      padding: 1em;
+      text-align: center;
+    }
+    nav a {
+      color: #e0e0e0;
+      margin: 0 1em;
+      text-decoration: none;
+    }
+    nav a.activo {
+      font-weight: bold;
+      text-decoration: underline;
+    }
+    h1 {
+      text-align: center;
+      margin-top: 1.5em;
+      color: #ffffff;
+    }
+    .subtitulo {
+      text-align: center;
+      color: #bbbbbb;
+      margin-bottom: 2em;
+    }
+    section {
+      margin-bottom: 2em;
+    }
+    h2 {
       color: #90caf9;
     }
     code {
@@ -30,186 +59,174 @@
       border-radius: 6px;
       overflow-x: auto;
     }
-    a {
-      color: #90caf9;
+    footer {
+      text-align: center;
+      padding: 2em;
+      background-color: #1e1e1e;
+      font-size: 0.9em;
+      color: #aaaaaa;
+    }
+    @media (max-width: 600px) {
+      body { font-size: 1.1em; }
+      h1 { font-size: 1.8em; }
+      .subtitulo { font-size: 1.1em; }
+      nav a { display: block; margin: 0.5em 0; }
     }
   </style>
+
 </head>
 <body>
 
-  <h1>Lab 26 – Integración de CMDB con GLPI, Snipe-IT y OCS Inventory</h1>
-  <h2>Automatización del inventario de activos mediante plataformas de gestión y descubrimiento</h2>
+  <!-- Navegación principal -->
+  <nav>
+    <a href="../../index.html">Inicio</a>
+    <a href="../index.html">Laboratorios</a>
+    <a href="../../glosario.html">Glosario</a>
+    <a href="../../simulador.html">Simulador</a>
+    <a href="../../modulos.html">Módulos</a>
+  </nav>
 
+  <!-- Título + subtítulo -->
+  <h1>Lab 26 – Evaluación de Hardenización de Sistemas Linux y Buenas Prácticas</h1>
+  <p class="subtitulo">Aplicación de técnicas de hardening para reforzar seguridad en entornos Linux</p>
+
+  <!-- Contenido -->
   <section>
-    <h2>1. Objetivo</h2>
-    <p>Este laboratorio permite al analista técnico implementar una CMDB funcional mediante herramientas de código abierto (GLPI, Snipe-IT, OCS Inventory), integrando descubrimiento automático, clasificación de activos y sincronización con bases de datos. El objetivo es establecer una trazabilidad técnica y operativa de los activos de una organización.</p>
+    <h2>Objetivo</h2>
+    <p>Este laboratorio se centra en aplicar y verificar mejores prácticas de hardening en sistemas Linux, reduciendo la superficie de ataque y reforzando configuraciones de seguridad.</p>
   </section>
 
   <section>
-    <h2>2. Nivel de dificultad</h2>
-    <p>Intermedio</p>
+    <h2>Alcance y limitaciones</h2>
+    <p>Solo en entornos controlados. No realizar pruebas de hardening en sistemas productivos sin respaldo y autorización.</p>
   </section>
 
   <section>
-    <h2>3. Herramientas utilizadas</h2>
+    <h2>Requisitos previos</h2>
     <ul>
-      <li><code>GLPI</code> – Gestión de activos y CMDB</li>
-      <li><code>Snipe-IT</code> – Inventario de hardware/software</li>
-      <li><code>OCS Inventory NG</code> – Descubrimiento automático de activos</li>
-      <li><code>Apache / MySQL / PHP</code> – Infraestructura base</li>
+      <li>Conocimientos de administración de Linux</li>
+      <li>Acceso a consola de sistema</li>
+      <li>Herramientas como Lynis, auditd, ufw</li>
     </ul>
   </section>
 
   <section>
-    <h2>4. Entorno de laboratorio</h2>
-    <p>Máquina virtual con Ubuntu Server, instalación de LAMP stack, acceso a red local simulada con dispositivos virtuales, navegador web para acceder a interfaces de administración.</p>
+    <h2>Entorno de laboratorio</h2>
+    <p>Sistema Linux base (Ubuntu/Debian/CentOS) con usuario root o sudo para aplicar hardening.</p>
   </section>
 
   <section>
-    <h2>5. Escenario</h2>
-    <p>Una organización necesita implementar una CMDB que permita registrar, clasificar y monitorear sus activos tecnológicos. El analista debe instalar y configurar GLPI, integrarlo con OCS Inventory para descubrimiento automático y evaluar la interoperabilidad con Snipe-IT como sistema alternativo o complementario.</p>
+    <h2>Desarrollo</h2>
+    <p>Aplicar recomendaciones de CIS Benchmark, activar firewall, revisión de servicios y auditoría.</p>
   </section>
 
   <section>
-    <h2>6. Pasos previos</h2>
+    <h2>Resultados esperados</h2>
     <ul>
-      <li>Instalar Apache, MySQL y PHP en Ubuntu Server</li>
-      <li>Descargar e instalar GLPI y Snipe-IT desde sus repositorios oficiales</li>
-      <li>Instalar OCS Inventory Server y su agente en al menos una máquina cliente</li>
-      <li>Configurar acceso web a cada plataforma</li>
+      <li>Servicios innecesarios deshabilitados</li>
+      <li>Firewall activo y seguro</li>
+      <li>Permisos de archivos ajustados</li>
     </ul>
   </section>
 
   <section>
-    <h2>7. Desarrollo</h2>
-    <ol>
-      <li>Configurar GLPI y crear perfiles de usuario, entidades y categorías de activos</li>
-      <li>Integrar GLPI con OCS Inventory para importar activos descubiertos automáticamente</li>
-      <li>Verificar sincronización de hardware, software y usuarios</li>
-      <li>Configurar Snipe-IT y registrar activos manualmente para comparar enfoques</li>
-      <li>Evaluar ventajas de cada plataforma en términos de trazabilidad, API y usabilidad</li>
-    </ol>
+    <h2>Análisis de resultados</h2>
+    <p>Comparar antes y después del hardening. Detectar brechas persistentes y riesgos mitigados.</p>
   </section>
 
-    <section>
-    <h2>8. Resultados esperados</h2>
+  <section>
+    <h2>Medidas</h2>
     <ul>
-      <li>GLPI funcionando como CMDB centralizada</li>
-      <li>OCS Inventory detectando activos y enviando datos automáticamente</li>
-      <li>Activos importados correctamente en GLPI con atributos técnicos</li>
-      <li>Snipe-IT operativo como alternativa o complemento visual</li>
+      <li>Auditoría con Lynis</li>
+      <li>Aplicar RBAC</li>
+      <li>Restricción de usuarios con sudo</li>
     </ul>
   </section>
 
   <section>
-    <h2>9. Análisis de resultados</h2>
-    <p>La integración entre OCS y GLPI permite automatizar el descubrimiento de activos, reduciendo errores manuales y mejorando la trazabilidad. Snipe-IT ofrece una interfaz más ligera y orientada a la gestión visual. Comparar ambas soluciones permite elegir la más adecuada según el contexto organizacional.</p>
-  </section>
-
-  <section>
-    <h2>10. Conclusiones</h2>
-    <p>Una CMDB bien implementada es clave para la gestión de activos, auditorías y respuesta ante incidentes. La combinación de herramientas libres como GLPI, OCS y Snipe-IT permite construir una solución robusta, escalable y alineada con buenas prácticas internacionales.</p>
-  </section>
-
-  <section>
-    <h2>11. Medidas</h2>
+    <h2>Contramedidas</h2>
     <ul>
-      <li>Documentar la instalación y configuración de cada herramienta</li>
-      <li>Registrar capturas de activos detectados y sincronizados</li>
-      <li>Comparar campos importados vs campos manuales</li>
+      <li>Deshabilitar servicios innecesarios</li>
+      <li>Configurar firewall de manera restrictiva</li>
     </ul>
   </section>
 
   <section>
-    <h2>12. Contramedidas</h2>
+    <h2>Riesgos y advertencias</h2>
+    <p>Hardening inadecuado puede bloquear servicios legítimos. Siempre respaldar antes de aplicar cambios.</p>
+  </section>
+
+  <section>
+    <h2>Evidencias</h2>
+    <p>Espacio reservado para capturas de comandos, logs y reportes.</p>
+  </section>
+
+  <section>
+    <h2>Validación cruzada</h2>
     <ul>
-      <li>Restringir acceso administrativo a las plataformas</li>
-      <li>Habilitar autenticación fuerte en GLPI y Snipe-IT</li>
-      <li>Auditar los logs de acceso y cambios en la CMDB</li>
-      <li>Respaldar periódicamente las bases de datos</li>
+      <li>MITRE ATT&CK – Hardening Checklist</li>
+      <li>CIS Controls – Secure Configuration</li>
+      <li>NIST SP 800-123 – Guide to General Server Security</li>
     </ul>
   </section>
 
   <section>
-    <h2>13. Riesgos y advertencias</h2>
-    <p>Una CMDB mal configurada puede exponer información sensible sobre la infraestructura. Las integraciones deben realizarse en entornos controlados y con credenciales seguras. No exponer interfaces de administración a internet sin protección.</p>
+    <h2>Certificaciones asociadas</h2>
+    <p>Security+, GSEC, eJPTv2</p>
   </section>
 
   <section>
-    <h2>14. Evidencias</h2>
-    <p><em>Espacio reservado para capturas de pantalla de GLPI, OCS Inventory, Snipe-IT, registros de activos importados y configuración de sincronización.</em></p>
+    <h2>Glosario asociado</h2>
+    <p>Hardening, CIS Benchmark, firewall, auditoría</p>
   </section>
 
   <section>
-    <h2>15. Validación cruzada</h2>
+    <h2>Preguntas de refuerzo</h2>
+    <p>¿Qué pasos reduce la superficie de ataque? ¿Cómo auditar servicios activos?</p>
+  </section>
+
+  <section>
+    <h2>Rúbrica de evaluación</h2>
+  <ul>
+    <li>✔ Hardening aplicado</li>
+    <li>✔ Auditorías realizadas</li>
+  </ul>
+  </section>
+
+  <section>
+    <h2>Recursos complementarios</h2>
     <ul>
-      <li><a href="https://www.cisecurity.org/controls/inventory-and-control-of-enterprise-assets" target="_blank">CIS Control 1 – Inventory and Control of Enterprise Assets</a></li>
-      <li><a href="https://www.iso.org/standard/54534.html" target="_blank">ISO/IEC 27001 A.8 – Asset Management</a></li>
-      <li><a href="https://csrc.nist.gov/publications/detail/sp/800-128/final" target="_blank">NIST SP 800-128 – Guide for Security-Focused Configuration Management</a></li>
-      <li><a href="https://www.itil.org/en/itil-4-practices/it-asset-management" target="_blank">ITIL 4 – IT Asset Management Practice</a></li>
+      <li><a href="https://cisecurity.org/benchmark/linux">CIS Linux Benchmark</a></li>
+      <li><a href="https://github.com/CISOfy/lynis">Lynis – Audit tool</a></li>
     </ul>
   </section>
 
   <section>
-    <h2>16. Glosario asociado</h2>
-    <ul>
-      <li><strong>CMDB:</strong> Base de datos de gestión de configuración que almacena información sobre activos y sus relaciones</li>
-      <li><strong>GLPI:</strong> Herramienta de código abierto para gestión de activos, incidencias y CMDB</li>
-      <li><strong>OCS Inventory:</strong> Plataforma para descubrimiento automático de hardware y software</li>
-      <li><strong>Snipe-IT:</strong> Sistema de inventario de activos con enfoque visual y gestión de asignaciones</li>
-      <li><strong>Sincronización:</strong> Proceso de importar automáticamente datos desde una fuente externa</li>
-    </ul>
+    <h2>Créditos y licencia</h2>
+    <p>Este laboratorio forma parte de El Pergamino Digital – licencia educativa.</p>
   </section>
 
   <section>
-    <h2>17. Preguntas de refuerzo</h2>
-    <ol>
-      <li>¿Qué ventajas ofrece una CMDB frente a un inventario manual?</li>
-      <li>¿Qué tipo de activos puede descubrir OCS Inventory?</li>
-      <li>¿Qué diferencias hay entre GLPI y Snipe-IT?</li>
-      <li>¿Qué riesgos implica una CMDB expuesta sin control de acceso?</li>
-      <li>¿Cómo se valida que la sincronización entre OCS y GLPI fue exitosa?</li>
-    </ol>
-  </section>
-
-    <section>
-    <h2>18. Rúbrica de evaluación</h2>
-    <ul>
-      <li>✔️ Instala y configura correctamente GLPI, Snipe-IT y OCS Inventory</li>
-      <li>✔️ Integra OCS con GLPI y verifica la importación de activos</li>
-      <li>✔️ Compara funcionalidades entre plataformas y documenta hallazgos</li>
-      <li>✔️ Aplica medidas de seguridad y control de acceso</li>
-    </ul>
+    <h2>Nivel de certificación</h2>
+    <p>Intermedio – GSEC / Security+</p>
   </section>
 
   <section>
-    <h2>19. Recursos complementarios</h2>
-    <ul>
-      <li><a href="https://glpi-project.org/" target="_blank">GLPI – Gestión de activos y CMDB</a></li>
-      <li><a href="https://snipeitapp.com/" target="_blank">Snipe-IT – Asset Management System</a></li>
-      <li><a href="https://ocsinventory-ng.org/" target="_blank">OCS Inventory NG – Discovery and Inventory</a></li>
-      <li><a href="https://www.itil.org/en/itil-4-practices/it-asset-management" target="_blank">ITIL 4 – IT Asset Management</a></li>
-    </ul>
+    <h2>Mapa de integración</h2>
+    <p>Relaciona hardening con defensas generales y configuración segura persistentemente.</p>
   </section>
 
-  <section>
-    <h2>20. Créditos y licencia</h2>
-    <p>Este laboratorio forma parte del proyecto <a href="https://pergamino-digital-ciberseguridad.blogspot.com/?m=1" target="_blank">El Pergamino Digital</a>. Su uso está autorizado únicamente con fines educativos, respetando la trazabilidad editorial y la licencia CC BY-NC-SA 4.0.</p>
-  </section>
+  <!-- Navegación transversal -->
+  <nav style="text-align:center; margin-top:2em;">
+    <a href="../labs25/">Lab anterior</a> |
+    <a href="../index.html">Listado de laboratorios</a> |
+    <a href="../labs27/">Lab siguiente</a>
+  </nav>
 
-  <section>
-    <h2>21. Nivel de certificación</h2>
-    <p>Intermedio – Alineado con ITIL Foundation, ISO/IEC 27001 y CIS Controls v8.</p>
-  </section>
-
-  <section>
-    <h2>22. Mapa de integración</h2>
-    <ul>
-      <li>🔗 Inicia el módulo de <strong>Gobierno de Activos y Control Operativo</strong></li>
-      <li>🧪 Refuerza el dominio de CMDB, descubrimiento automático y trazabilidad de activos</li>
-      <li>🎓 Integra conceptos clave del simulador certificador: <em>Asset Inventory</em>, <em>CMDB Integration</em>, <em>IT Asset Lifecycle</em></li>
-    </ul>
-  </section>
+  <!-- Footer -->
+  <footer>
+    © El Pergamino Digital – Proyecto formativo y estructural de ciberseguridad
+  </footer>
 
 </body>
 </html>
