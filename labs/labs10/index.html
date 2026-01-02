@@ -1,1 +1,277 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lab 10 – Análisis de persistencia y puertas traseras</title>
+  <link rel="icon" href="/el-pergamino-digital/assets/favicon.png" type="image/png" />
+  <style>
+    :root { color-scheme: dark; }
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #121212;
+      color: #e0e0e0;
+      margin: 0;
+      padding: 0;
+    }
+    nav {
+      background-color: #1f1f1f;
+      padding: 1em;
+      text-align: center;
+    }
+    nav a {
+      color: #e0e0e0;
+      margin: 0 1em;
+      text-decoration: none;
+    }
+    nav a.activo {
+      font-weight: bold;
+      text-decoration: underline;
+    }
+    h1 {
+      text-align: center;
+      margin-top: 1.5em;
+      color: #ffffff;
+    }
+    .subtitulo {
+      text-align: center;
+      color: #bbbbbb;
+      margin-bottom: 2em;
+    }
+    main {
+      max-width: 900px;
+      margin: auto;
+      padding: 2em;
+    }
+    section {
+      margin-bottom: 2em;
+    }
+    h2 {
+      color: #90caf9;
+    }
+    code {
+      background-color: #1e1e1e;
+      padding: 0.2em 0.4em;
+      border-radius: 4px;
+      font-family: monospace;
+    }
+    footer {
+      text-align: center;
+      padding: 2em;
+      background-color: #1e1e1e;
+      font-size: 0.9em;
+      color: #aaaaaa;
+    }
+    @media (max-width: 600px) {
+      body { font-size: 1.1em; }
+      h1 { font-size: 1.8em; }
+      .subtitulo { font-size: 1.1em; }
+      nav a { display: block; margin: 0.5em 0; }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="/el-pergamino-digital/index.html">Inicio</a>
+    <a href="/el-pergamino-digital/labs/" class="activo">Laboratorios</a>
+    <a href="/el-pergamino-digital/glosario/">Glosario</a>
+    <a href="/el-pergamino-digital/simulador/">Simulador</a>
+    <a href="/el-pergamino-digital/modulos/">Módulos</a>
+  </nav>
 
+  <h1>Lab 10 – Análisis de persistencia y puertas traseras</h1>
+  <p class="subtitulo">Identificación de mecanismos de persistencia y backdoors en sistemas comprometidos</p>
+
+  <main>
+    <section>
+      <h2>Objetivo</h2>
+      <p>Detectar y analizar mecanismos de persistencia utilizados por atacantes para mantener el acceso a sistemas comprometidos, incluyendo backdoors, servicios maliciosos y tareas programadas.</p>
+    </section>
+
+    <section>
+      <h2>Alcance y limitaciones</h2>
+      <p><strong>Alcance:</strong> Análisis de persistencia en sistemas Linux y Windows, identificación de técnicas comunes, revisión de procesos, servicios, tareas y claves de registro.</p>
+      <p><strong>Limitaciones:</strong> No se desarrollan ni ejecutan backdoors reales. El enfoque es analítico y forense.</p>
+      <p><strong>Escenario sugerido:</strong> Máquina comprometida con acceso root o SYSTEM, revisión post-explotación.</p>
+    </section>
+
+    <section>
+      <h2>Requisitos previos</h2>
+      <ul>
+        <li>Conocimientos de procesos, servicios y arranque en Linux y Windows</li>
+        <li>Familiaridad con herramientas de análisis forense y post-explotación</li>
+        <li>Entorno: Kali Linux, Metasploitable2, Windows 10 vulnerable</li>
+        <li>Herramientas instaladas: <code>autoruns</code>, <code>ps</code>, <code>netstat</code>, <code>chkconfig</code>, <code>reg</code>, <code>persistence</code> (Metasploit)</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Arquitectura del entorno</h2>
+      <pre>[ Kali (192.168.1.10) ] ←→ [ Windows 10 / Metasploitable2 (192.168.1.20) ]</pre>
+      <p>Se accede a la máquina objetivo con privilegios elevados para analizar mecanismos de persistencia activos o potenciales.</p>
+    </section>
+
+    <section>
+      <h2>Herramientas y entorno técnico</h2>
+      <ul>
+        <li><strong>Autoruns</strong>: detección de persistencia en Windows</li>
+        <li><strong>Metasploit (post/windows/manage/persistence)</strong>: simulación de persistencia</li>
+        <li><strong>netstat / ss</strong>: detección de conexiones sospechosas</li>
+        <li><strong>ps / tasklist</strong>: revisión de procesos activos</li>
+        <li><strong>chkconfig / systemctl</strong>: servicios en Linux</li>
+        <li><strong>reg query</strong>: claves de inicio en Windows</li>
+      </ul>
+    </section>
+
+        <section>
+      <h2>Procedimiento técnico paso a paso</h2>
+      <ol>
+        <li>En Windows, ejecutar <code>Autoruns</code> y revisar entradas sospechosas en Run, Services, Drivers y Scheduled Tasks</li>
+        <li>Desde consola, listar procesos y conexiones:
+          <pre><code>tasklist &amp;&amp; netstat -ano</code></pre>
+        </li>
+        <li>Buscar claves de persistencia:
+          <pre><code>reg query HKLM\\Software\\Microsoft\\Windows\\CurrentVersion\\Run</code></pre>
+        </li>
+        <li>En Linux, revisar servicios activos:
+          <pre><code>systemctl list-units --type=service</code></pre>
+        </li>
+        <li>Listar tareas programadas:
+          <pre><code>crontab -l</code></pre>
+        </li>
+        <li>Buscar binarios sospechosos en <code>/etc/init.d/</code> o <code>~/.config/autostart/</code></li>
+        <li>Opcional: usar módulo de persistencia en Metasploit para simular backdoor</li>
+      </ol>
+    </section>
+
+    <section>
+      <h2>Resultados esperados</h2>
+      <ul>
+        <li>Identificación de mecanismos de persistencia activos o sospechosos</li>
+        <li>Detección de procesos o servicios maliciosos</li>
+        <li>Documentación de claves de registro o tareas programadas anómalas</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Análisis de resultados</h2>
+      <p>Los mecanismos de persistencia permiten a un atacante mantener el acceso incluso después de reinicios. Detectar entradas en el arranque, tareas programadas o servicios ocultos es clave para eliminar completamente una intrusión. La correlación con procesos y conexiones refuerza el análisis.</p>
+    </section>
+
+    <section>
+      <h2>Medidas</h2>
+      <ul>
+        <li>Documentar cada mecanismo de persistencia detectado</li>
+        <li>Clasificar por tipo (registro, servicio, tarea, binario)</li>
+        <li>Evaluar impacto y nivel de privilegio requerido</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Contramedidas</h2>
+      <ul>
+        <li>Eliminar entradas de persistencia maliciosas</li>
+        <li>Revisar integridad de binarios y servicios</li>
+        <li>Aplicar listas blancas de arranque y tareas</li>
+        <li>Monitorear cambios en claves de registro y cronjobs</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Riesgos y advertencias</h2>
+      <p>Algunos mecanismos de persistencia pueden estar profundamente integrados en el sistema. Su eliminación incorrecta puede causar inestabilidad. Toda acción debe realizarse en entornos controlados o con respaldo forense. Este laboratorio es exclusivamente educativo.</p>
+    </section>
+
+    <section>
+      <h2>Evidencias</h2>
+      <p><em>Espacio reservado para capturas de pantalla de Autoruns, claves de registro, tareas programadas, procesos y conexiones activas.</em></p>
+    </section>
+
+    <section>
+      <h2>Validación cruzada</h2>
+      <ul>
+        <li><a href="https://attack.mitre.org/techniques/T1547/" target="_blank">MITRE ATT&CK T1547 – Boot or Logon Autostart Execution</a></li>
+        <li><a href="https://attack.mitre.org/techniques/T1053/" target="_blank">MITRE ATT&CK T1053 – Scheduled Task/Job</a></li>
+        <li><a href="https://www.cisecurity.org/controls/10" target="_blank">CIS Control 10 – Malware Defenses</a></li>
+      </ul>
+    </section>
+
+        <section>
+      <h2>Referencias normativas y técnicas</h2>
+      <ul>
+        <li><a href="https://docs.microsoft.com/en-us/sysinternals/downloads/autoruns" target="_blank">Autoruns – Sysinternals</a></li>
+        <li><a href="https://attack.mitre.org/techniques/T1547/" target="_blank">MITRE ATT&CK T1547 – Boot or Logon Autostart Execution</a></li>
+        <li><a href="https://www.cisecurity.org/controls/10" target="_blank">CIS Control 10 – Malware Defenses</a></li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Certificaciones asociadas</h2>
+      <ul>
+        <li>ISC2 Certified in Cybersecurity (CC) – Endpoint Security</li>
+        <li>CompTIA Security+ – Domain 3.2</li>
+        <li>CHFI – Malware Artifacts and Persistence</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Analogía técnica</h2>
+      <p style="font-family: 'Comic Sans MS'; font-size: 12pt;">
+        Una puerta trasera es como una llave escondida bajo el felpudo: el atacante puede volver cuando quiera, si nadie la descubre.
+      </p>
+    </section>
+
+    <section>
+      <h2>Nivel de dificultad</h2>
+      <p>Intermedio</p>
+    </section>
+
+    <section>
+      <h2>Checklist final</h2>
+      <ul>
+        <li>[ ] Persistencia detectada en Windows y/o Linux</li>
+        <li>[ ] Claves de registro, tareas o servicios documentados</li>
+        <li>[ ] Procesos y conexiones analizados</li>
+        <li>[ ] Evidencias capturadas</li>
+        <li>[ ] Validación cruzada registrada</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Navegación transversal</h2>
+      <ul>
+        <li><a href="/el-pergamino-digital/index.html">Portada</a></li>
+        <li><a href="/el-pergamino-digital/glosario/">Glosario</a></li>
+        <li><a href="/el-pergamino-digital/simulador/">Simulador</a></li>
+        <li><a href="/el-pergamino-digital/modulos/">Módulos</a></li>
+        <li><a href="/el-pergamino-digital/labs/">Laboratorios</a></li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Reflexión estratégica</h2>
+      <p>Detectar mecanismos de persistencia es una habilidad crítica en análisis post-explotación y respuesta a incidentes. No basta con eliminar el malware visible: hay que cerrar todas las puertas por donde podría volver. Este tipo de análisis revela la sofisticación del atacante y la madurez defensiva del sistema.</p>
+    </section>
+
+    <section>
+      <h2>Disclaimer de advertencia</h2>
+      <p><strong>Advertencia:</strong> Este laboratorio está diseñado exclusivamente para fines educativos y debe ejecutarse en entornos controlados. La manipulación de claves de registro, servicios o tareas programadas en sistemas reales sin autorización puede causar daños o violaciones legales. El Pergamino Digital no se responsabiliza por el uso indebido de las técnicas aquí descritas.</p>
+    </section>
+  </main>
+
+  <footer>
+    <p>Este laboratorio forma parte del proyecto <a href="https://pergamino-digital-ciberseguridad.blogspot.com/?m=1" target="_blank">El Pergamino Digital</a>, alineado con estándares internacionales y diseñado para fortalecer competencias técnicas en ciberseguridad.</p>
+  </footer>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const links = document.querySelectorAll("nav a");
+      links.forEach(link => {
+        if (link.href === window.location.href) {
+          link.classList.add("activo");
+        }
+      });
+    });
+  </script>
+</body>
+</html>
