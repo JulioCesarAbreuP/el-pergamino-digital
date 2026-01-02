@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lab 18 – Enumeración de servicios y puertos con Nmap</title>
+  <link rel="icon" href="/el-pergamino-digital/assets/favicon.png" type="image/png" />
+  <style>
+    :root { color-scheme: dark; }
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #121212;
+      color: #e0e0e0;
+      margin: 0;
+      padding: 0;
+    }
+    nav {
+      background-color: #1f1f1f;
+      padding: 1em;
+      text-align: center;
+    }
+    nav a {
+      color: #e0e0e0;
+      margin: 0 1em;
+      text-decoration: none;
+    }
+    nav a.activo {
+      font-weight: bold;
+      text-decoration: underline;
+    }
+    h1 {
+      text-align: center;
+      margin-top: 1.5em;
+      color: #ffffff;
+    }
+    .subtitulo {
+      text-align: center;
+      color: #bbbbbb;
+      margin-bottom: 2em;
+    }
+    main {
+      max-width: 900px;
+      margin: auto;
+      padding: 2em;
+    }
+    section {
+      margin-bottom: 2em;
+    }
+    h2 {
+      color: #90caf9;
+    }
+    code {
+      background-color: #1e1e1e;
+      padding: 0.2em 0.4em;
+      border-radius: 4px;
+      font-family: monospace;
+    }
+    footer {
+      text-align: center;
+      padding: 2em;
+      background-color: #1e1e1e;
+      font-size: 0.9em;
+      color: #aaaaaa;
+    }
+    @media (max-width: 600px) {
+      body { font-size: 1.1em; }
+      h1 { font-size: 1.8em; }
+      .subtitulo { font-size: 1.1em; }
+      nav a { display: block; margin: 0.5em 0; }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="/el-pergamino-digital/index.html">Inicio</a>
+    <a href="/el-pergamino-digital/labs/" class="activo">Laboratorios</a>
+    <a href="/el-pergamino-digital/glosario/">Glosario</a>
+    <a href="/el-pergamino-digital/simulador/">Simulador</a>
+    <a href="/el-pergamino-digital/modulos/">Módulos</a>
+  </nav>
+
+  <h1>Lab 18 – Enumeración de servicios y puertos con Nmap</h1>
+  <p class="subtitulo">Exploración activa de hosts y servicios mediante escaneo de puertos y detección de versiones</p>
+
+  <main>
+    <section>
+      <h2>Objetivo</h2>
+      <p>Utilizar Nmap para identificar puertos abiertos, servicios activos y versiones de software en un sistema objetivo, como parte de la fase de reconocimiento activo en un proceso de pentesting.</p>
+    </section>
+
+    <section>
+      <h2>Alcance y limitaciones</h2>
+      <p><strong>Alcance:</strong> Escaneo de puertos TCP y UDP, detección de servicios, versiones, sistemas operativos y scripts NSE básicos.</p>
+      <p><strong>Limitaciones:</strong> No se realiza explotación ni intrusión. El laboratorio se limita a técnicas de reconocimiento activo en entornos controlados.</p>
+      <p><strong>Escenario sugerido:</strong> Máquina Kali Linux escaneando un host vulnerable en red interna (p. ej. Metasploitable2 o Windows XP SP2).</p>
+    </section>
+
+    <section>
+      <h2>Requisitos previos</h2>
+      <ul>
+        <li>Conocimientos básicos de redes TCP/IP y puertos comunes</li>
+        <li>Familiaridad con terminal de Linux y comandos de Nmap</li>
+        <li>Entorno: Kali Linux, host objetivo vulnerable, red virtual</li>
+        <li>Herramientas: <code>nmap</code>, <code>netdiscover</code>, <code>wireshark</code> (opcional)</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Arquitectura del entorno</h2>
+      <pre>
+[ Kali Linux (192.168.1.10) ]
+        ↓
+[ Host objetivo (192.168.1.20) – Metasploitable2 ]
+      </pre>
+      <p>El atacante simula una fase de reconocimiento activo sobre un objetivo accesible en red local.</p>
+    </section>
+
+    <section>
+      <h2>Herramientas y entorno técnico</h2>
+      <ul>
+        <li><strong>Nmap</strong>: escaneo de puertos, servicios y versiones</li>
+        <li><strong>Netdiscover</strong>: detección de hosts activos en la red</li>
+        <li><strong>Wireshark</strong>: análisis de tráfico generado durante el escaneo (opcional)</li>
+      </ul>
+    </section>
+
+        <section>
+      <h2>Procedimiento técnico paso a paso</h2>
+      <ol>
+        <li>Detectar hosts activos en la red:
+          <pre><code>netdiscover -r 192.168.1.0/24</code></pre>
+        </li>
+        <li>Escaneo rápido de puertos TCP:
+          <pre><code>nmap -T4 -F 192.168.1.20</code></pre>
+        </li>
+        <li>Escaneo completo de puertos TCP:
+          <pre><code>nmap -p- 192.168.1.20</code></pre>
+        </li>
+        <li>Detección de servicios y versiones:
+          <pre><code>nmap -sV -sC -p 21,22,80,139,445 192.168.1.20</code></pre>
+        </li>
+        <li>Detección de sistema operativo:
+          <pre><code>nmap -O 192.168.1.20</code></pre>
+        </li>
+        <li>Escaneo UDP básico:
+          <pre><code>nmap -sU -p 53,161,123 192.168.1.20</code></pre>
+        </li>
+        <li>Guardar resultados:
+          <pre><code>nmap -sV -oN resultados.txt 192.168.1.20</code></pre>
+        </li>
+      </ol>
+    </section>
+
+    <section>
+      <h2>Resultados esperados</h2>
+      <ul>
+        <li>Listado de puertos abiertos TCP y UDP</li>
+        <li>Identificación de servicios y versiones (Apache, OpenSSH, Samba, etc.)</li>
+        <li>Detección tentativa del sistema operativo</li>
+        <li>Scripts NSE ejecutados con resultados útiles (por ejemplo, <code>default</code>, <code>vuln</code>)</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Análisis de resultados</h2>
+      <p>La enumeración de puertos y servicios permite construir un mapa de superficie de ataque. La información obtenida con Nmap es clave para priorizar vectores de ataque, identificar versiones vulnerables y planificar fases posteriores como la explotación o el fingerprinting profundo.</p>
+    </section>
+
+    <section>
+      <h2>Medidas</h2>
+      <ul>
+        <li>Registrar puertos abiertos, servicios y versiones</li>
+        <li>Comparar resultados entre escaneos rápidos y completos</li>
+        <li>Correlacionar servicios detectados con posibles vulnerabilidades conocidas</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Contramedidas</h2>
+      <ul>
+        <li>Restringir puertos innecesarios mediante firewall</li>
+        <li>Actualizar servicios expuestos con versiones seguras</li>
+        <li>Implementar detección de escaneos en IDS/IPS</li>
+        <li>Aplicar segmentación de red y listas blancas de acceso</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Riesgos y advertencias</h2>
+      <p>El escaneo activo puede generar alertas en sistemas de detección y ser interpretado como actividad hostil. Este laboratorio debe realizarse en entornos controlados. No escanear redes sin autorización explícita.</p>
+    </section>
+
+    <section>
+      <h2>Evidencias</h2>
+      <p><em>Espacio reservado para capturas de pantalla de Nmap, resultados de escaneo y archivos de salida.</em></p>
+    </section>
+
+    <section>
+      <h2>Validación cruzada</h2>
+      <ul>
+        <li><a href="https://attack.mitre.org/techniques/T1046/" target="_blank">MITRE ATT&CK T1046 – Network Service Discovery</a></li>
+        <li><a href="https://attack.mitre.org/techniques/T1018/" target="_blank">MITRE ATT&CK T1018 – Remote System Discovery</a></li>
+        <li><a href="https://cas.docs.cisecurity.org/en/latest/source/Controls12/" target="_blank">CIS Control 12 – Network Infrastructure Management</a></li>
+      </ul>
+    </section>
+
+        <section>
+      <h2>Referencias normativas y técnicas</h2>
+      <ul>
+        <li><a href="https://attack.mitre.org/techniques/T1046/" target="_blank">MITRE ATT&CK T1046 – Network Service Discovery</a></li>
+        <li><a href="https://attack.mitre.org/techniques/T1018/" target="_blank">MITRE ATT&CK T1018 – Remote System Discovery</a></li>
+        <li><a href="https://cas.docs.cisecurity.org/en/latest/source/Controls12/" target="_blank">CIS Control 12 – Network Infrastructure Management</a></li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Certificaciones asociadas</h2>
+      <ul>
+        <li>CompTIA PenTest+ – Domain 1.0: Planning and Scoping</li>
+        <li>eJPT – Discovery and Enumeration</li>
+        <li>OSCP – Active Information Gathering</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Analogía técnica</h2>
+      <p style="font-family: 'Comic Sans MS'; font-size: 12pt;">
+        Enumerar puertos es como tocar puertas en una calle silenciosa: cada respuesta revela una oportunidad o una trampa.
+      </p>
+    </section>
+
+    <section>
+      <h2>Nivel de dificultad</h2>
+      <p>Básico</p>
+    </section>
+
+    <section>
+      <h2>Checklist final</h2>
+      <ul>
+        <li>[ ] Host identificado con <code>netdiscover</code></li>
+        <li>[ ] Escaneo TCP completo realizado</li>
+        <li>[ ] Servicios y versiones detectados</li>
+        <li>[ ] Sistema operativo estimado</li>
+        <li>[ ] Validación cruzada registrada</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Navegación transversal</h2>
+      <ul>
+        <li><a href="/el-pergamino-digital/index.html">Portada</a></li>
+        <li><a href="/el-pergamino-digital/glosario/">Glosario</a></li>
+        <li><a href="/el-pergamino-digital/simulador/">Simulador</a></li>
+        <li><a href="/el-pergamino-digital/modulos/">Módulos</a></li>
+        <li><a href="/el-pergamino-digital/labs/">Laboratorios</a></li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Reflexión estratégica</h2>
+      <p>El reconocimiento es la antesala de toda ofensiva. Enumerar servicios no es solo una técnica, es una forma de leer el lenguaje de los sistemas. Este laboratorio inaugura la fase de reconocimiento con precisión, ética y trazabilidad, sentando las bases para una exploración controlada y profesional.</p>
+    </section>
+
+    <section>
+      <h2>Disclaimer de advertencia</h2>
+      <p><strong>Advertencia:</strong> Este laboratorio está diseñado exclusivamente para fines educativos y debe ejecutarse en entornos controlados. El escaneo de redes sin autorización puede constituir una actividad ilegal. El Pergamino Digital no se responsabiliza por el uso indebido de las técnicas aquí descritas.</p>
+    </section>
+  </main>
+
+  <footer>
+    <p>Este laboratorio forma parte del proyecto <a href="https://pergamino-digital-ciberseguridad.blogspot.com/?m=1" target="_blank">El Pergamino Digital</a>, alineado con estándares internacionales y diseñado para fortalecer competencias técnicas en ciberseguridad.</p>
+  </footer>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const links = document.querySelectorAll("nav a");
+      links.forEach(link => {
+        if (link.href === window.location.href) {
+          link.classList.add("activo");
+        }
+      });
+    });
+  </script>
+</body>
+</html>
