@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lab 22 – Detección de sistemas de prevención de intrusos (IPS) y evasión básica</title>
+  <link rel="icon" href="/el-pergamino-digital/assets/favicon.png" type="image/png" />
+  <style>
+    :root { color-scheme: dark; }
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #121212;
+      color: #e0e0e0;
+      margin: 0;
+      padding: 2em;
+      line-height: 1.6;
+    }
+    h1, h2 {
+      color: #90caf9;
+    }
+    h3 {
+      color: #64b5f6;
+      margin-top: 2em;
+    }
+    code {
+      background-color: #1e1e1e;
+      padding: 0.2em 0.4em;
+      border-radius: 4px;
+      font-family: Consolas, monospace;
+    }
+    pre {
+      background-color: #1e1e1e;
+      padding: 1em;
+      border-radius: 6px;
+      overflow-x: auto;
+    }
+    a {
+      color: #90caf9;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Lab 22 – Detección de sistemas de prevención de intrusos (IPS) y evasión básica</h1>
+  <h2>Identificación de IPS en red, análisis de respuestas y aplicación de técnicas de evasión para evitar detección</h2>
+
+  <section>
+    <h2>Procedimiento técnico paso a paso</h2>
+    <ol>
+      <li>Escaneo lento para evitar detección por firmas:
+        <pre><code>nmap -T1 -p 22,80,443 192.168.1.30</code></pre>
+        <p>Reducir velocidad para evitar alertas por comportamiento agresivo.</p>
+      </li>
+      <li>Fragmentación de paquetes para evadir inspección:
+        <pre><code>nmap -f -p 80,443 192.168.1.30</code></pre>
+      </li>
+      <li>Manipulación de TTL para evitar sensores intermedios:
+        <pre><code>nmap --ttl 5 -p 80,443 192.168.1.30</code></pre>
+      </li>
+      <li>Inserción de datos aleatorios en los paquetes:
+        <pre><code>nmap --data-length 50 -p 80,443 192.168.1.30</code></pre>
+      </li>
+      <li>Uso de <code>hping3</code> para enviar paquetes personalizados:
+        <pre><code>hping3 -S -p 80 --flood 192.168.1.30</code></pre>
+        <p>Observar si el IPS bloquea o responde con RST/ICMP.</p>
+      </li>
+      <li>Captura de tráfico con Wireshark para analizar respuestas del IPS</li>
+    </ol>
+  </section>
+
+  <section>
+    <h2>Resultados esperados</h2>
+    <ul>
+      <li>Detección de respuestas anómalas o silencios ante técnicas evasivas</li>
+      <li>Identificación de firmas activas del IPS</li>
+      <li>Confirmación de técnicas que logran evadir la detección</li>
+      <li>Comparación entre escaneos normales y modificados</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Análisis de resultados</h2>
+    <p>Los sistemas IPS analizan patrones de tráfico para detectar comportamientos sospechosos. Técnicas como la fragmentación, manipulación de TTL o inserción de datos aleatorios pueden evitar que el IPS detecte el escaneo. Comparar respuestas permite inferir qué mecanismos de defensa están activos y cómo adaptarse a ellos.</p>
+  </section>
+
+    <section>
+    <h2>Conclusiones</h2>
+    <p>Detectar la presencia de un IPS y comprender su comportamiento es esencial para planificar técnicas de evasión efectivas. Las respuestas (o su ausencia) ante escaneos modificados permiten inferir qué mecanismos de defensa están activos y cómo adaptarse a ellos sin ser detectado.</p>
+  </section>
+
+  <section>
+    <h2>Medidas</h2>
+    <ul>
+      <li>Registrar qué técnicas activan alertas y cuáles logran evadir el IPS</li>
+      <li>Comparar respuestas entre escaneos normales y evasivos</li>
+      <li>Documentar firmas detectadas y comportamiento del sistema de defensa</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Contramedidas</h2>
+    <ul>
+      <li>Actualizar las firmas del IPS para detectar técnicas de evasión conocidas</li>
+      <li>Configurar umbrales de tráfico y alertas por comportamiento anómalo</li>
+      <li>Implementar inspección profunda de paquetes (DPI) para detectar fragmentación y manipulación</li>
+      <li>Correlacionar eventos en SIEM para identificar patrones evasivos</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Riesgos y advertencias</h2>
+    <p>El uso de técnicas de evasión puede activar contramedidas automáticas como bloqueos, alertas o cuarentenas. Este laboratorio debe ejecutarse únicamente en entornos controlados y con fines educativos. No aplicar en redes reales sin autorización expresa.</p>
+  </section>
+
+  <section>
+    <h2>Evidencias</h2>
+    <p><em>Espacio reservado para capturas de pantalla de Nmap, hping3, Wireshark, logs del IPS y comparativas de escaneos.</em></p>
+  </section>
+
+  <section>
+    <h2>Validación cruzada</h2>
+    <ul>
+      <li><a href="https://attack.mitre.org/techniques/T1595/002/" target="_blank">MITRE ATT&CK T1595.002 – Active Scanning</a></li>
+      <li><a href="https://attack.mitre.org/techniques/T1562/004/" target="_blank">MITRE ATT&CK T1562.004 – Disable or Modify System Firewall/IPS</a></li>
+      <li><a href="https://www.cisecurity.org/controls/network-monitoring-and-defense" target="_blank">CIS Control 13 – Network Monitoring and Defense</a></li>
+      <li><a href="https://csrc.nist.gov/publications/detail/sp/800-94/final" target="_blank">NIST SP 800-94 – Guide to Intrusion Detection and Prevention Systems</a></li>
+    </ul>
+  </section>
+
+    <section>
+    <h2>Glosario asociado</h2>
+    <ul>
+      <li><strong>IPS (Intrusion Prevention System):</strong> Sistema que detecta y bloquea tráfico malicioso en tiempo real.</li>
+      <li><strong>TTL (Time To Live):</strong> Valor que limita la vida útil de un paquete en la red.</li>
+      <li><strong>Fragmentación:</strong> Técnica de evasión que divide un paquete en partes más pequeñas para evitar detección.</li>
+      <li><strong>Firma:</strong> Patrón conocido que un IPS utiliza para identificar amenazas.</li>
+      <li><strong>Escaneo evasivo:</strong> Técnica de reconocimiento diseñada para evitar ser detectada por sistemas de defensa.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Preguntas de refuerzo</h2>
+    <ol>
+      <li>¿Qué diferencia hay entre un IDS y un IPS?</li>
+      <li>¿Qué tipo de tráfico puede activar una firma en un IPS?</li>
+      <li>¿Qué efecto tiene la fragmentación de paquetes sobre la detección?</li>
+      <li>¿Cómo puede manipularse el TTL para evadir sensores?</li>
+      <li>¿Qué riesgos implica el uso de técnicas evasivas en redes reales?</li>
+    </ol>
+  </section>
+
+  <section>
+    <h2>Rúbrica de evaluación</h2>
+    <ul>
+      <li>✔️ Ejecuta correctamente técnicas evasivas y captura evidencias</li>
+      <li>✔️ Interpreta el comportamiento del IPS ante cada técnica</li>
+      <li>✔️ Relaciona técnicas con estándares y certificaciones</li>
+      <li>✔️ Aplica medidas y contramedidas con criterio técnico</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Recursos complementarios</h2>
+    <ul>
+      <li><a href="https://nmap.org/book/man-bypass-firewalls-ids.html" target="_blank">Nmap Firewall/IDS Evasion Techniques</a></li>
+      <li><a href="https://linux.die.net/man/8/fragroute" target="_blank">fragroute man page</a></li>
+      <li><a href="https://www.snort.org/" target="_blank">Snort – Open Source IPS</a></li>
+      <li><a href="https://suricata.io/" target="_blank">Suricata – Network Threat Detection Engine</a></li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Créditos y licencia</h2>
+    <p>Este laboratorio forma parte del proyecto <a href="https://pergamino-digital-ciberseguridad.blogspot.com/?m=1" target="_blank">El Pergamino Digital</a>. Su uso está autorizado únicamente con fines educativos, respetando la trazabilidad editorial y la licencia CC BY-NC-SA 4.0.</p>
+  </section>
+
+</body>
+</html>
