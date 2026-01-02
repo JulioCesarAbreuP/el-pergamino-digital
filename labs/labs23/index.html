@@ -54,24 +54,12 @@
       border-radius: 4px;
       font-family: monospace;
     }
-    pre {
-      background-color: #1e1e1e;
-      padding: 1em;
-      border-radius: 6px;
-      overflow-x: auto;
-    }
     footer {
       text-align: center;
       padding: 2em;
       background-color: #1e1e1e;
       font-size: 0.9em;
       color: #aaaaaa;
-    }
-    @media (max-width: 600px) {
-      body { font-size: 1.1em; }
-      h1 { font-size: 1.8em; }
-      .subtitulo { font-size: 1.1em; }
-      nav a { display: block; margin: 0.5em 0; }
     }
   </style>
 </head>
@@ -80,7 +68,7 @@
 
 <nav>
   <a href="../../index.html">Inicio</a>
-  <a href="../index.html" class="activo">Laboratorios</a>
+  <a href="../index.html">Laboratorios</a>
   <a href="../../glosario.html">Glosario</a>
   <a href="../../simulador.html">Simulador</a>
 </nav>
@@ -93,119 +81,147 @@
 <main>
 
 <section>
-  <h2>1. Objetivo</h2>
-  <p>
-    Identificar y evadir mecanismos de protección implementados por un WAF (Web Application Firewall)
-    mediante técnicas de codificación, fragmentación y manipulación de payloads, comprendiendo
-    cómo inspeccionan las solicitudes HTTP.
-  </p>
+  <h2>Objetivo</h2>
+  <p>Identificar y evadir mecanismos de protección implementados por un WAF mediante técnicas de manipulación de payloads.</p>
 </section>
 
 <section>
-  <h2>2. Nivel de dificultad</h2>
+  <h2>Nivel de dificultad</h2>
   <p>Avanzado</p>
 </section>
 
 <section>
-  <h2>3. Herramientas utilizadas</h2>
+  <h2>Herramientas utilizadas</h2>
   <ul>
     <li>Burp Suite</li>
     <li>curl</li>
     <li>Wfuzz</li>
-    <li>ModSecurity (WAF)</li>
+    <li>ModSecurity</li>
   </ul>
 </section>
 
 <section>
-  <h2>4. Entorno de laboratorio</h2>
-  <p>
-    Kali Linux como máquina atacante, servidor web con ModSecurity activo,
-    aplicación vulnerable (DVWA o similar) y red virtual controlada.
-  </p>
+  <h2>Entorno de laboratorio</h2>
+  <p>Kali Linux como atacante, servidor web con ModSecurity activo y aplicación vulnerable en red controlada.</p>
 </section>
 
 <section>
-  <h2>5. Escenario</h2>
-  <p>
-    Evaluar la eficacia de un WAF frente a ataques de inyección y analizar
-    qué técnicas permiten evadir las reglas activas sin ser detectado.
-  </p>
+  <h2>Escenario</h2>
+  <p>Evaluación ofensiva de un WAF frente a ataques de inyección y técnicas de evasión.</p>
 </section>
 
 <section>
-  <h2>6. Desarrollo</h2>
+  <h2>Pasos previos</h2>
+  <ul>
+    <li>Configurar ModSecurity</li>
+    <li>Activar OWASP CRS</li>
+    <li>Verificar conectividad</li>
+    <li>Configurar proxy en Burp Suite</li>
+  </ul>
+</section>
 
-  <p>Payload clásico SQLi:</p>
+<section>
+  <h2>Desarrollo</h2>
   <pre><code>curl -X GET "http://192.168.1.50/vulnerable.php?id=1' OR '1'='1"</code></pre>
-
-  <p>Payload codificado:</p>
-  <pre><code>%27%20OR%20%271%27%3D%271</code></pre>
-
-  <p>Payload fragmentado:</p>
   <pre><code>id=1%27/**/OR/**/%271%27=%271</code></pre>
-
-  <p>Fuzzing con Wfuzz:</p>
   <pre><code>wfuzz -u "http://192.168.1.50/vulnerable.php?id=FUZZ" -w payloads.txt</code></pre>
 </section>
 
 <section>
-  <h2>7. Resultados esperados</h2>
-  <ul>
-    <li>Bloqueo de payloads clásicos</li>
-    <li>Aceptación de variantes evasivas</li>
-    <li>Diferencias en códigos HTTP (403, 200)</li>
-  </ul>
+  <h2>Resultados esperados</h2>
+  <p>Bloqueo de payloads clásicos y aceptación de variantes evasivas.</p>
 </section>
 
 <section>
-  <h2>8. Análisis de resultados</h2>
-  <p>
-    Los WAF detectan patrones estáticos. Variaciones sintácticas pueden evadir
-    reglas sin alterar la lógica del ataque.
-  </p>
+  <h2>Análisis de resultados</h2>
+  <p>Las reglas del WAF se basan en patrones; modificar la sintaxis permite evadir la detección.</p>
 </section>
 
 <section>
-  <h2>9. Contramedidas</h2>
+  <h2>Conclusiones</h2>
+  <p>Un WAF mejora la seguridad, pero no reemplaza validaciones robustas del lado servidor.</p>
+</section>
+
+<section>
+  <h2>Medidas</h2>
+  <p>Documentar payloads, respuestas HTTP y comportamiento del WAF.</p>
+</section>
+
+<section>
+  <h2>Contramedidas</h2>
   <ul>
     <li>Actualizar OWASP CRS</li>
-    <li>Validación estricta del lado servidor</li>
-    <li>Correlación de eventos en SIEM</li>
+    <li>Validación estricta de entradas</li>
+    <li>Correlación en SIEM</li>
   </ul>
 </section>
 
 <section>
-  <h2>10. Riesgos y advertencias</h2>
-  <p>
-    Este laboratorio debe ejecutarse únicamente en entornos controlados.
-    No aplicar técnicas de evasión en sistemas reales sin autorización.
-  </p>
+  <h2>Riesgos y advertencias</h2>
+  <p>Este laboratorio es exclusivamente educativo y debe ejecutarse en entornos controlados.</p>
 </section>
 
 <section>
-  <h2>11. Evidencias</h2>
-  <p><em>Espacio reservado para capturas de Burp, curl, Wfuzz y logs del WAF.</em></p>
+  <h2>Evidencias</h2>
+  <p>Espacio reservado para capturas, logs y respuestas HTTP.</p>
 </section>
 
 <section>
-  <h2>12. Validación cruzada</h2>
+  <h2>Validación cruzada</h2>
   <ul>
     <li>MITRE ATT&CK T1562.006</li>
-    <li>OWASP ModSecurity CRS</li>
+    <li>OWASP CRS</li>
     <li>CIS Control 16</li>
     <li>NIST SP 800-95</li>
   </ul>
 </section>
 
 <section>
-  <h2>13. Nivel de certificación</h2>
-  <p>Avanzado – Alineado con OSWE, eWPTXv2 y Red Team Operator</p>
+  <h2>Glosario asociado</h2>
+  <p>WAF, Payload, Codificación, Fragmentación, Bypass.</p>
+</section>
+
+<section>
+  <h2>Preguntas de refuerzo</h2>
+  <ul>
+    <li>Diferencias entre firewall y WAF</li>
+    <li>Riesgos de evasión exitosa</li>
+  </ul>
+</section>
+
+<section>
+  <h2>Rúbrica de evaluación</h2>
+  <p>Ejecución correcta, análisis técnico y trazabilidad normativa.</p>
+</section>
+
+<section>
+  <h2>Recursos complementarios</h2>
+  <ul>
+    <li>PortSwigger – WAF Bypass</li>
+    <li>OWASP – Bypassing WAFs</li>
+    <li>ModSecurity</li>
+  </ul>
+</section>
+
+<section>
+  <h2>Créditos y licencia</h2>
+  <p>El Pergamino Digital – CC BY-NC-SA 4.0</p>
+</section>
+
+<section>
+  <h2>Nivel de certificación</h2>
+  <p>Alineado con OSWE, eWPTXv2 y Red Team Operator.</p>
+</section>
+
+<section>
+  <h2>Mapa de integración</h2>
+  <p>Continuación directa del Lab 22 y preparación para evasión avanzada en capa 7.</p>
 </section>
 
 </main>
 
 <footer>
-  El Pergamino Digital · Laboratorio 23 · Licencia CC BY-NC-SA 4.0
+  © El Pergamino Digital – Laboratorio 23
 </footer>
 
 </body>
