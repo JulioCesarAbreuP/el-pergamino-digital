@@ -1,185 +1,210 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Lab 23 – Análisis de evasión avanzada en sistemas defensivos</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<title>Lab 23 – Análisis de evasión avanzada frente a IPS</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <!-- Hoja de estilos global -->
-  <link rel="stylesheet" href="{{ '/assets/css/styles.css' | relative_url }}">
+<!-- ===================== -->
+<!-- CSS INTEGRADO -->
+<!-- ===================== -->
+<style>
+:root {
+  --bg: #0b0f14;
+  --panel: #121821;
+  --text: #e6e6e6;
+  --accent: #c9a44c;
+  --border: #2f3540;
+  --font: "Segoe UI", Tahoma, sans-serif;
+}
 
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font);
+  line-height: 1.6;
+}
+
+/* Navegación */
+.nav {
+  background: var(--panel);
+  border-bottom: 1px solid var(--border);
+  padding: 12px 20px;
+}
+
+.nav a {
+  color: var(--accent);
+  margin-right: 15px;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.nav a:hover {
+  text-decoration: underline;
+}
+
+/* Contenedor */
+.container {
+  max-width: 1100px;
+  margin: 40px auto;
+  padding: 0 20px;
+}
+
+/* Títulos */
+h1 {
+  color: var(--accent);
+  margin-bottom: 5px;
+  font-size: 2rem;
+}
+
+.subtitulo {
+  color: #b9b9b9;
+  font-style: italic;
+  margin-bottom: 30px;
+}
+
+/* Secciones */
+h2 {
+  margin-top: 40px;
+  margin-bottom: 10px;
+  border-left: 4px solid var(--accent);
+  padding-left: 10px;
+  font-size: 1.4rem;
+}
+
+p, ul {
+  margin-bottom: 15px;
+}
+
+ul {
+  margin-left: 20px;
+}
+
+li {
+  margin-bottom: 6px;
+}
+
+/* Código */
+pre {
+  background: #000;
+  border: 1px solid var(--border);
+  padding: 12px;
+  overflow-x: auto;
+  margin-bottom: 20px;
+}
+
+code {
+  color: #7cdcff;
+}
+
+/* Footer */
+footer {
+  margin-top: 60px;
+  padding: 20px;
+  background: var(--panel);
+  border-top: 1px solid var(--border);
+  text-align: center;
+  font-size: 0.9rem;
+  color: #aaa;
+}
+</style>
+
+<!-- ===================== -->
+<!-- JS INTEGRADO -->
+<!-- ===================== -->
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  console.log("Lab 23 cargado correctamente.");
+
+  // Preparado para futuras funciones
+  // Ej: colapsar secciones, checklist interactivo, etc.
+});
+</script>
 
 </head>
-
 <body>
 
-<!-- Navegación superior -->
-<p>
-  <a href="../../index.html">Inicio</a> |
-  <a href="../index.html">Laboratorios</a> |
-  <a href="../../glosario.html">Glosario</a> |
-  <a href="../../simulador.html">Simulador</a> |
+<!-- Navegación -->
+<div class="nav">
+  <a href="../../index.html">Inicio</a>
+  <a href="../index.html">Laboratorios</a>
+  <a href="../../glosario.html">Glosario</a>
+  <a href="../../simulador.html">Simulador</a>
   <a href="../../modulos.html">Módulos</a>
-</p>
+</div>
 
-<hr>
+<!-- Contenido -->
+<div class="container">
 
-<h1>Lab 23 – Análisis de evasión avanzada en sistemas defensivos</h1>
+<h1>Lab 23 – Análisis de evasión avanzada frente a IPS</h1>
 <p class="subtitulo">
-Evasión controlada de mecanismos de detección mediante manipulación de tráfico
+Detección de patrones defensivos y evaluación del comportamiento del IPS ante tráfico manipulado
 </p>
-
-<hr>
 
 <h2>Objetivo</h2>
 <p>
-Analizar cómo distintos mecanismos defensivos (firewalls, IDS e IPS) reaccionan ante
-técnicas avanzadas de evasión, permitiendo comprender los límites de la inspección
-tradicional y mejorar la detección basada en comportamiento.
+Analizar cómo un sistema de prevención de intrusos (IPS) responde ante técnicas de evasión
+avanzadas, identificando debilidades en la inspección profunda de paquetes y en la
+correlación de eventos.
 </p>
 
 <h2>Alcance y limitaciones</h2>
 <p>
-Este laboratorio se ejecuta exclusivamente en entornos virtuales controlados.
-No debe aplicarse en redes reales o productivas sin autorización explícita.
+Este laboratorio se ejecuta únicamente en entornos virtuales controlados. No debe
+aplicarse en redes reales sin autorización expresa.
 </p>
 
-<h2>Requisitos previos</h2>
-<ul>
-  <li>Conocimientos intermedios de redes TCP/IP</li>
-  <li>Linux (Kali)</li>
-  <li>Nmap, hping3, Wireshark</li>
-  <li>Entorno virtualizado</li>
-</ul>
-
-<h2>Arquitectura del entorno</h2>
-<ul>
-  <li>Atacante: Kali Linux</li>
-  <li>Defensa: Firewall / IDS / IPS</li>
-  <li>Objetivo: Servicio web o servidor de pruebas</li>
-</ul>
-
-<p><strong>Espacio para diagrama:</strong></p>
-<p>[Imagen aquí]</p>
-
-<h2>Herramientas y entorno técnico</h2>
+<h2>Herramientas utilizadas</h2>
 <ul>
   <li>Nmap</li>
   <li>hping3</li>
-  <li>fragroute</li>
   <li>Wireshark</li>
+  <li>Snort / Suricata</li>
 </ul>
 
 <h2>Procedimiento técnico</h2>
 
-<p><strong>1. Escaneo fragmentado</strong></p>
-<pre><code>nmap -f -p 80,443 192.168.1.50</code></pre>
+<pre><code>nmap -f --data-length 80 -T1 -p 80,443 192.168.56.20</code></pre>
 
-<p><strong>2. Manipulación de TTL</strong></p>
-<pre><code>nmap --ttl 3 -p 80 192.168.1.50</code></pre>
-
-<p><strong>3. Generación de tráfico manual</strong></p>
-<pre><code>hping3 -S -p 80 --flood 192.168.1.50</code></pre>
+<pre><code>hping3 -S -p 80 --rand-source 192.168.56.20</code></pre>
 
 <h2>Resultados esperados</h2>
 <ul>
-  <li>Diferencias entre detección estándar y evasiva</li>
-  <li>Alertas parciales o ausencia de respuesta</li>
-  <li>Comportamiento defensivo observable</li>
+  <li>Alertas generadas por el IPS</li>
+  <li>Tráfico fragmentado detectado</li>
+  <li>Diferencias entre escaneo estándar y evasivo</li>
 </ul>
 
 <h2>Análisis de resultados</h2>
 <p>
-Las técnicas de evasión explotan limitaciones en la inspección profunda de paquetes.
-El análisis permite identificar debilidades en reglas, firmas y correlación.
+Los IPS basados en firmas pueden fallar ante tráfico fragmentado o manipulado,
+especialmente si no existe correlación temporal adecuada.
 </p>
-
-<h2>Medidas</h2>
-<ul>
-  <li>Revisión de reglas defensivas</li>
-  <li>Ajuste de umbrales</li>
-  <li>Correlación de eventos</li>
-</ul>
-
-<h2>Contramedidas</h2>
-<ul>
-  <li>Inspección basada en comportamiento</li>
-  <li>Normalización de tráfico</li>
-  <li>Actualización de firmas</li>
-</ul>
-
-<h2>Riesgos y advertencias</h2>
-<p>
-La ejecución incorrecta de pruebas puede generar falsos positivos o bloqueos
-temporales. Ejecutar únicamente en entornos aislados.
-</p>
-
-<h2>Evidencias</h2>
-<p>
-Espacio reservado para capturas, logs y reportes técnicos.
-</p>
-
-<h2>Validación cruzada</h2>
-<ul>
-  <li>
-    <a href="https://attack.mitre.org/techniques/T1562/" target="_blank">
-      MITRE ATT&CK – Impair Defenses
-    </a>
-  </li>
-  <li>
-    <a href="https://csrc.nist.gov/publications/detail/sp/800-94/final" target="_blank">
-      NIST SP 800-94
-    </a>
-  </li>
-  <li>
-    <a href="https://www.cisecurity.org/controls" target="_blank">
-      CIS Controls
-    </a>
-  </li>
-</ul>
-
-<h2>Certificaciones asociadas</h2>
-<ul>
-  <li>CompTIA Security+</li>
-  <li>CEH</li>
-  <li>CySA+</li>
-</ul>
-
-<h2>Analogía técnica</h2>
-<p>
-Un atacante estudia las rondas de los centinelas para cruzar sin ser visto;
-el defensor debe variar patrones y mejorar vigilancia.
-</p>
-
-<h2>Nivel de dificultad</h2>
-<p>Intermedio</p>
-
-<h2>Checklist final</h2>
-<ul>
-  <li>Entorno configurado</li>
-  <li>Técnicas ejecutadas</li>
-  <li>Evidencias documentadas</li>
-</ul>
 
 <h2>Reflexión estratégica</h2>
 <p>
-La seguridad moderna no depende únicamente de firmas, sino de la capacidad
-de detectar comportamientos anómalos y responder de forma adaptativa.
+La evasión no busca romper la defensa, sino comprenderla. Un IPS efectivo no solo bloquea,
+sino que aprende del comportamiento anómalo. Este laboratorio refuerza la importancia de
+la visibilidad, el contexto y la correlación en la defensa moderna.
 </p>
 
 <h2>Disclaimer de advertencia</h2>
 <p>
-Este laboratorio es exclusivamente educativo. El uso indebido de estas técnicas
-en redes reales sin autorización puede constituir una infracción legal grave.
+Este laboratorio es exclusivamente educativo. El uso de estas técnicas fuera de entornos
+autorizados puede constituir una infracción legal. El proyecto <strong>El Pergamino Digital</strong>
+no asume responsabilidad por usos indebidos.
 </p>
 
-<hr>
+</div>
 
 <footer>
-  <p>
-    © El Pergamino Digital – Proyecto técnico, pedagógico y estructural
-    orientado a ciberseguridad profesional.
-  </p>
+© El Pergamino Digital – Proyecto formativo, técnico y estructural en ciberseguridad
 </footer>
 
 </body>
