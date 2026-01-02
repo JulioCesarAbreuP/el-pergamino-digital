@@ -1,1 +1,215 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lab 28 – Políticas de alta y baja de activos tecnológicos</title>
+  <link rel="icon" href="/el-pergamino-digital/assets/favicon.png" type="image/png" />
+  <style>
+    :root { color-scheme: dark; }
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #121212;
+      color: #e0e0e0;
+      margin: 0;
+      padding: 2em;
+      line-height: 1.6;
+    }
+    h1, h2 {
+      color: #90caf9;
+    }
+    code {
+      background-color: #1e1e1e;
+      padding: 0.2em 0.4em;
+      border-radius: 4px;
+      font-family: Consolas, monospace;
+    }
+    pre {
+      background-color: #1e1e1e;
+      padding: 1em;
+      border-radius: 6px;
+      overflow-x: auto;
+    }
+    a {
+      color: #90caf9;
+    }
+  </style>
+</head>
+<body>
 
+  <h1>Lab 28 – Políticas de alta y baja de activos tecnológicos</h1>
+  <h2>Simulación de procesos de incorporación y retiro de activos con trazabilidad y control documental</h2>
+
+  <section>
+    <h2>1. Objetivo</h2>
+    <p>Este laboratorio permite al analista diseñar y aplicar políticas de alta y baja de activos tecnológicos, asegurando trazabilidad, control documental y alineación con el ciclo de vida del activo. Se simulan flujos de incorporación, asignación, retiro y disposición segura.</p>
+  </section>
+
+  <section>
+    <h2>2. Nivel de dificultad</h2>
+    <p>Intermedio</p>
+  </section>
+
+  <section>
+    <h2>3. Herramientas utilizadas</h2>
+    <ul>
+      <li><code>GLPI</code> o <code>Snipe-IT</code> (para registrar altas y bajas)</li>
+      <li><code>Plantillas de acta de entrega y retiro</code></li>
+      <li><code>Excel / LibreOffice</code> (para trazabilidad)</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>4. Entorno de laboratorio</h2>
+    <p>Instancia local de CMDB con usuarios y activos registrados, plantillas de documentación, simulación de usuarios y responsables técnicos, entorno controlado para pruebas de disposición segura.</p>
+  </section>
+
+  <section>
+    <h2>5. Escenario</h2>
+    <p>Una organización necesita formalizar el proceso de incorporación y retiro de activos tecnológicos. El analista debe registrar altas con asignación de responsable, simular bajas por obsolescencia o daño, y documentar cada paso con trazabilidad y control de firmas.</p>
+  </section>
+
+  <section>
+    <h2>6. Pasos previos</h2>
+    <ul>
+      <li>Registrar al menos 5 activos nuevos en la CMDB</li>
+      <li>Asignar responsables y ubicaciones físicas</li>
+      <li>Preparar plantillas de acta de entrega y baja</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>7. Desarrollo</h2>
+    <ol>
+      <li>Simular el alta de un activo nuevo: registrar, etiquetar, asignar responsable</li>
+      <li>Generar acta de entrega con firma simulada</li>
+      <li>Simular baja por obsolescencia: marcar como fuera de servicio</li>
+      <li>Registrar motivo de baja y fecha de retiro</li>
+      <li>Generar acta de baja y disposición segura (borrado, reciclaje, destrucción)</li>
+      <li>Actualizar trazabilidad en hoja de cálculo</li>
+    </ol>
+  </section>
+
+    <section>
+    <h2>8. Resultados esperados</h2>
+    <ul>
+      <li>Registro completo de altas y bajas de activos con trazabilidad</li>
+      <li>Documentación generada para cada evento (entrega, baja, disposición)</li>
+      <li>Actualización automática del estado del activo en la CMDB</li>
+      <li>Asignación clara de responsables y fechas clave</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>9. Análisis de resultados</h2>
+    <p>El control del ciclo de vida de los activos permite reducir riesgos operativos, evitar pérdidas y garantizar cumplimiento normativo. La trazabilidad documental y la asignación de responsables fortalecen la rendición de cuentas y la planificación de reemplazos.</p>
+  </section>
+
+  <section>
+    <h2>10. Conclusiones</h2>
+    <p>Las políticas de alta y baja de activos son fundamentales para una gestión segura y eficiente. Este laboratorio demuestra cómo implementar procesos formales, documentados y auditables, alineados con estándares internacionales y buenas prácticas de ITAM (IT Asset Management).</p>
+  </section>
+
+  <section>
+    <h2>11. Medidas</h2>
+    <ul>
+      <li>Registrar cada alta con fecha, responsable y ubicación</li>
+      <li>Documentar cada baja con motivo, evidencia y firma</li>
+      <li>Actualizar el estado del activo en la CMDB</li>
+      <li>Mantener histórico de cambios y responsables</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>12. Contramedidas</h2>
+    <ul>
+      <li>Evitar altas sin documentación o sin asignación de responsable</li>
+      <li>Bloquear el uso de activos dados de baja</li>
+      <li>Auditar periódicamente el cumplimiento de las políticas</li>
+      <li>Aplicar control de acceso a la modificación de estados</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>13. Riesgos y advertencias</h2>
+    <p>La falta de control en el alta y baja de activos puede generar pérdidas, brechas de seguridad y errores contables. Es crítico evitar activos “huérfanos” o “fantasma” que no estén registrados o que sigan activos tras su retiro formal.</p>
+  </section>
+
+  <section>
+    <h2>14. Evidencias</h2>
+    <p><em>Espacio reservado para capturas de pantalla de altas y bajas en GLPI o Snipe-IT, actas de entrega y retiro, y trazabilidad en hoja de cálculo.</em></p>
+  </section>
+
+  <section>
+    <h2>15. Validación cruzada</h2>
+    <ul>
+      <li><a href="https://www.iso.org/standard/54534.html" target="_blank">ISO/IEC 27001 A.8.1.1 – Inventory of Assets</a></li>
+      <li><a href="https://www.cisecurity.org/controls" target="_blank">CIS Control 1.6 – Maintain Detailed Asset Inventory</a></li>
+      <li><a href="https://csrc.nist.gov/publications/detail/sp/800-53/rev-5/final" target="_blank">NIST SP 800-53 CM-8 – System Component Inventory</a></li>
+      <li><a href="https://www.itil.org/en/itil-4-practices/it-asset-management" target="_blank">ITIL 4 – IT Asset Lifecycle Management</a></li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>16. Glosario asociado</h2>
+    <ul>
+      <li><strong>Alta de activo:</strong> Proceso de incorporación formal de un activo al inventario</li>
+      <li><strong>Baja de activo:</strong> Retiro oficial de un activo por obsolescencia, daño o reemplazo</li>
+      <li><strong>Acta de entrega:</strong> Documento que formaliza la asignación de un activo a un responsable</li>
+      <li><strong>Disposición segura:</strong> Eliminación o reciclaje de un activo con control de datos y trazabilidad</li>
+      <li><strong>Trazabilidad:</strong> Capacidad de seguir el historial, ubicación y uso de un activo</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>17. Preguntas de refuerzo</h2>
+    <ol>
+      <li>¿Qué elementos debe contener un acta de entrega de activo?</li>
+      <li>¿Qué riesgos implica no registrar formalmente una baja?</li>
+      <li>¿Cómo se garantiza la disposición segura de un activo retirado?</li>
+      <li>¿Qué controles deben aplicarse al modificar el estado de un activo?</li>
+      <li>¿Qué estándares recomiendan mantener trazabilidad del ciclo de vida de los activos?</li>
+    </ol>
+  </section>
+
+    <section>
+    <h2>18. Rúbrica de evaluación</h2>
+    <ul>
+      <li>✔️ Registra correctamente altas y bajas con documentación asociada</li>
+      <li>✔️ Aplica trazabilidad completa del ciclo de vida del activo</li>
+      <li>✔️ Simula disposición segura con evidencia técnica</li>
+      <li>✔️ Relaciona el proceso con estándares y controles de seguridad</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>19. Recursos complementarios</h2>
+    <ul>
+      <li><a href="https://glpi-project.org/" target="_blank">GLPI – Gestión de activos y CMDB</a></li>
+      <li><a href="https://snipeitapp.com/" target="_blank">Snipe-IT – Asset Management System</a></li>
+      <li><a href="https://www.iso.org/standard/54534.html" target="_blank">ISO/IEC 27001 – A.8.1 Inventory of Assets</a></li>
+      <li><a href="https://www.cisecurity.org/controls" target="_blank">CIS Controls – Control 1: Inventory and Control of Assets</a></li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>20. Créditos y licencia</h2>
+    <p>Este laboratorio forma parte del proyecto <a href="https://pergamino-digital-ciberseguridad.blogspot.com/?m=1" target="_blank">El Pergamino Digital</a>. Su uso está autorizado únicamente con fines educativos, respetando la trazabilidad editorial y la licencia CC BY-NC-SA 4.0.</p>
+  </section>
+
+  <section>
+    <h2>21. Nivel de certificación</h2>
+    <p>Intermedio – Alineado con ISO/IEC 27001, CIS Controls v8, ITIL y NIST SP 800-53.</p>
+  </section>
+
+  <section>
+    <h2>22. Mapa de integración</h2>
+    <ul>
+      <li>🔗 Continúa el enfoque del <strong>Lab 27</strong> (Clasificación de activos)</li>
+      <li>🧪 Refuerza el dominio del ciclo de vida de activos y control documental</li>
+      <li>🎓 Integra conceptos clave del simulador certificador: <em>Asset Lifecycle Management</em>, <em>Secure Decommissioning</em>, <em>Responsibility Assignment</em></li>
+    </ul>
+  </section>
+
+</body>
+</html>
