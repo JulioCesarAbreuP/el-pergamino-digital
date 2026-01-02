@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lab 02 – Descubrimiento de red y fingerprinting</title>
+  <link rel="icon" href="/el-pergamino-digital/assets/favicon.png" type="image/png" />
+  <style>
+    :root { color-scheme: dark; }
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #121212;
+      color: #e0e0e0;
+      margin: 0;
+      padding: 0;
+    }
+    nav {
+      background-color: #1f1f1f;
+      padding: 1em;
+      text-align: center;
+    }
+    nav a {
+      color: #e0e0e0;
+      margin: 0 1em;
+      text-decoration: none;
+    }
+    nav a.activo {
+      font-weight: bold;
+      text-decoration: underline;
+    }
+    h1 {
+      text-align: center;
+      margin-top: 1.5em;
+      color: #ffffff;
+    }
+    .subtitulo {
+      text-align: center;
+      color: #bbbbbb;
+      margin-bottom: 2em;
+    }
+    main {
+      max-width: 900px;
+      margin: auto;
+      padding: 2em;
+    }
+    section {
+      margin-bottom: 2em;
+    }
+    h2 {
+      color: #90caf9;
+    }
+    code {
+      background-color: #1e1e1e;
+      padding: 0.2em 0.4em;
+      border-radius: 4px;
+      font-family: monospace;
+    }
+    footer {
+      text-align: center;
+      padding: 2em;
+      background-color: #1e1e1e;
+      font-size: 0.9em;
+      color: #aaaaaa;
+    }
+    @media (max-width: 600px) {
+      body { font-size: 1.1em; }
+      h1 { font-size: 1.8em; }
+      .subtitulo { font-size: 1.1em; }
+      nav a { display: block; margin: 0.5em 0; }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="/el-pergamino-digital/index.html">Inicio</a>
+    <a href="/el-pergamino-digital/labs/" class="activo">Laboratorios</a>
+    <a href="/el-pergamino-digital/glosario/">Glosario</a>
+    <a href="/el-pergamino-digital/simulador/">Simulador</a>
+    <a href="/el-pergamino-digital/modulos/">Módulos</a>
+  </nav>
+
+  <h1>Lab 02 – Descubrimiento de red y fingerprinting con Nmap</h1>
+  <p class="subtitulo">Identificación de hosts activos, puertos abiertos y sistemas operativos mediante escaneo estructurado</p>
+
+  <main>
+    <section>
+      <h2>Objetivo</h2>
+      <p>Aprender a identificar dispositivos activos en una red, descubrir servicios expuestos y realizar fingerprinting de sistemas operativos mediante el uso de Nmap, con el fin de evaluar la superficie de ataque y planificar acciones defensivas o de auditoría.</p>
+    </section>
+
+    <section>
+      <h2>Alcance y limitaciones</h2>
+      <p><strong>Alcance:</strong> Descubrimiento de hosts activos, detección de puertos abiertos y servicios, fingerprinting de sistemas operativos.</p>
+      <p><strong>Limitaciones:</strong> No se realiza explotación ni intrusión, no se incluyen técnicas de evasión avanzadas, solo se ejecuta en entornos de laboratorio controlado.</p>
+      <p><strong>Máquina vulnerable sugerida:</strong> <a href="https://sourceforge.net/projects/metasploitable/" target="_blank">Metasploitable 2 (descarga oficial)</a></p>
+    </section>
+
+    <section>
+      <h2>Requisitos previos</h2>
+      <ul>
+        <li>Conocimientos básicos de redes y TCP/IP</li>
+        <li>Familiaridad con la terminal de Linux</li>
+        <li>Herramientas instaladas: Nmap v7.94+</li>
+        <li>Entorno: Kali Linux o Parrot OS, 2 GB RAM, 2 CPU, red en modo puente o NAT</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Arquitectura del entorno</h2>
+      <pre>[ Kali ] ←→ [ Router ] ←→ [ Metasploitable2 ]</pre>
+      <p>Kali Linux (192.168.1.10) – atacante/analista<br>Metasploitable2 (192.168.1.20) – objetivo<br>Gateway: 192.168.1.1</p>
+    </section>
+
+    <section>
+      <h2>Herramientas y entorno técnico</h2>
+      <ul>
+        <li><strong>Nmap</strong>: escaneo de red, detección de puertos y fingerprinting</li>
+        <li><strong>netdiscover</strong>: descubrimiento ARP de hosts en red local</li>
+        <li><strong>Wireshark</strong> (opcional): validación de tráfico generado por Nmap</li>
+      </ul>
+    </section>
+
+        <section>
+      <h2>Procedimiento técnico paso a paso</h2>
+      <ol>
+        <li>Descubrir hosts activos con netdiscover:
+          <pre><code>sudo netdiscover -r 192.168.1.0/24</code></pre>
+        </li>
+        <li>Escaneo rápido de puertos comunes:
+          <pre><code>sudo nmap -T4 -F 192.168.1.20</code></pre>
+        </li>
+        <li>Escaneo completo de puertos TCP:
+          <pre><code>sudo nmap -p- 192.168.1.20</code></pre>
+        </li>
+        <li>Detección de servicios y versiones:
+          <pre><code>sudo nmap -sV 192.168.1.20</code></pre>
+        </li>
+        <li>Fingerprinting de sistema operativo:
+          <pre><code>sudo nmap -O 192.168.1.20</code></pre>
+        </li>
+        <li>Escaneo combinado con scripts:
+          <pre><code>sudo nmap -A 192.168.1.20</code></pre>
+        </li>
+        <li>Guardar resultados en archivo:
+          <pre><code>sudo nmap -A 192.168.1.20 -oN informe_lab02.txt</code></pre>
+        </li>
+      </ol>
+    </section>
+
+    <section>
+      <h2>Resultados esperados</h2>
+      <ul>
+        <li>Identificación de IPs activas</li>
+        <li>Listado de puertos abiertos y servicios</li>
+        <li>Detección tentativa del sistema operativo</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Análisis de resultados</h2>
+      <p>Se identifican servicios como FTP, SSH y HTTP. El fingerprinting indica un sistema Linux 2.6.X (coincidente con Metasploitable). Se detectan banners con versiones vulnerables, lo que permite inferir posibles vectores de ataque.</p>
+    </section>
+
+    <section>
+      <h2>Medidas</h2>
+      <ul>
+        <li>Documentar servicios expuestos y sus versiones</li>
+        <li>Clasificar puertos por criticidad</li>
+        <li>Preparar reglas de firewall o segmentación de red</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Contramedidas</h2>
+      <ul>
+        <li>Cerrar puertos innecesarios</li>
+        <li>Actualizar servicios con versiones vulnerables</li>
+        <li>Implementar detección de escaneos con herramientas IDS como Snort o Suricata</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Riesgos y advertencias</h2>
+      <p>Los escaneos agresivos pueden generar alertas en sistemas de detección. El fingerprinting puede arrojar falsos positivos. No ejecutar este laboratorio en redes de producción sin autorización expresa.</p>
+    </section>
+
+    <section>
+      <h2>Evidencias</h2>
+      <p><em>Espacio reservado para capturas de pantalla de terminal, resultados de Nmap y netdiscover.</em></p>
+    </section>
+
+    <section>
+      <h2>Validación cruzada</h2>
+      <ul>
+        <li><a href="https://www.cisecurity.org/controls/securely-manage-network-ports" target="_blank">CIS Control 12.1 – Ensure Only Necessary Ports Are Open</a></li>
+        <li><a href="https://csrc.nist.gov/publications/detail/sp/800-115/final" target="_blank">NIST SP 800-115 – Technical Guide to Information Security Testing</a></li>
+        <li><a href="https://attack.mitre.org/techniques/T1046/" target="_blank">MITRE ATT&CK T1046 – Network Service Scanning</a></li>
+      </ul>
+    </section>
+
+        <section>
+      <h2>Referencias normativas y técnicas</h2>
+      <ul>
+        <li><a href="https://nmap.org/book/man.html" target="_blank">Nmap Reference Guide</a></li>
+        <li><a href="https://nmap.org/book/osdetect.html" target="_blank">Nmap OS Detection</a></li>
+        <li><a href="https://github.com/alexxy/netdiscover" target="_blank">netdiscover GitHub</a></li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Certificaciones asociadas</h2>
+      <ul>
+        <li>ISC2 Certified in Cybersecurity (CC) – Network Security</li>
+        <li>CompTIA Security+ – Domain 2.2</li>
+        <li>CEH – Information Gathering</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Analogía técnica</h2>
+      <p style="font-family: 'Comic Sans MS'; font-size: 12pt;">
+        Nmap es como un vigía medieval que recorre los muros del castillo, anotando cada puerta abierta, cada torre encendida y cada debilidad visible desde fuera.
+      </p>
+    </section>
+
+    <section>
+      <h2>Nivel de dificultad</h2>
+      <p>Intermedio</p>
+    </section>
+
+    <section>
+      <h2>Checklist final</h2>
+      <ul>
+        <li>[ ] Red escaneada con netdiscover</li>
+        <li>[ ] Escaneo TCP completo realizado</li>
+        <li>[ ] Fingerprinting ejecutado</li>
+        <li>[ ] Servicios documentados</li>
+        <li>[ ] Evidencias guardadas</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Navegación transversal</h2>
+      <ul>
+        <li><a href="/el-pergamino-digital/index.html">Portada</a></li>
+        <li><a href="/el-pergamino-digital/glosario/">Glosario</a></li>
+        <li><a href="/el-pergamino-digital/simulador/">Simulador</a></li>
+        <li><a href="/el-pergamino-digital/modulos/">Módulos</a></li>
+        <li><a href="/el-pergamino-digital/labs/">Laboratorios</a></li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Reflexión estratégica</h2>
+      <p>Este laboratorio permite comprender cómo un atacante o auditor puede mapear una red en segundos. La visibilidad de servicios y sistemas es clave para anticipar riesgos y fortalecer la postura defensiva. La precisión de Nmap lo convierte en una herramienta esencial tanto para ofensiva como para defensa.</p>
+    </section>
+
+    <section>
+      <h2>Disclaimer de advertencia</h2>
+      <p><strong>Advertencia:</strong> Este laboratorio está diseñado exclusivamente para fines educativos y debe ejecutarse en entornos controlados. El uso de herramientas de escaneo en redes reales sin autorización puede constituir una violación legal y ética. El Pergamino Digital no se responsabiliza por el uso indebido de las técnicas aquí descritas.</p>
+    </section>
+  </main>
+
+  <footer>
+    <p>Este laboratorio forma parte del proyecto <a href="https://pergamino-digital-ciberseguridad.blogspot.com/?m=1" target="_blank">El Pergamino Digital</a>, alineado con estándares internacionales y diseñado para fortalecer competencias técnicas en ciberseguridad.</p>
+  </footer>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const links = document.querySelectorAll("nav a");
+      links.forEach(link => {
+        if (link.href === window.location.href) {
+          link.classList.add("activo");
+        }
+      });
+    });
+  </script>
+</body>
+</html>
