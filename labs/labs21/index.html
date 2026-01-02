@@ -1,22 +1,165 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Lab 21 – Fingerprinting de Firewalls y Técnicas Evasivas</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<title>Lab 21 – Fingerprinting de Firewalls y Técnicas Evasivas</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <!-- Hoja de estilos global del proyecto -->
-  <link rel="stylesheet" href="../../assets/css/style.css">
+<!-- ===================== -->
+<!-- CSS INTEGRADO -->
+<!-- ===================== -->
+<style>
+/* ===== Variables base ===== */
+:root {
+  --bg-color: #0b0f14;
+  --text-color: #e6e6e6;
+  --accent: #c9a44c;
+  --secondary: #1a1f27;
+  --border-color: #2f3540;
+  --font-main: "Segoe UI", Tahoma, sans-serif;
+}
 
-  <!-- Script base para futuras animaciones -->
-  <script src="../../assets/js/labs.js" defer></script>
+/* ===== Reset ===== */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ===== Base ===== */
+body {
+  font-family: var(--font-main);
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  line-height: 1.6;
+}
+
+/* ===== Navegación ===== */
+.top-nav {
+  background: var(--secondary);
+  border-bottom: 1px solid var(--border-color);
+  padding: 12px 20px;
+  display: flex;
+  gap: 20px;
+}
+
+.top-nav a {
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.top-nav a:hover {
+  text-decoration: underline;
+}
+
+/* ===== Contenedor ===== */
+.lab-container {
+  max-width: 1100px;
+  margin: 40px auto;
+  padding: 0 20px;
+}
+
+/* ===== Títulos ===== */
+h1 {
+  color: var(--accent);
+  margin-bottom: 20px;
+  font-size: 2rem;
+}
+
+h2 {
+  margin-top: 40px;
+  margin-bottom: 12px;
+  border-left: 4px solid var(--accent);
+  padding-left: 10px;
+  font-size: 1.4rem;
+}
+
+h3 {
+  margin-top: 25px;
+  margin-bottom: 10px;
+  color: #ffffff;
+}
+
+/* ===== Texto y listas ===== */
+p {
+  margin-bottom: 12px;
+}
+
+ul {
+  margin-left: 20px;
+  margin-bottom: 15px;
+}
+
+li {
+  margin-bottom: 6px;
+}
+
+/* ===== Código ===== */
+pre {
+  background: #000;
+  border: 1px solid var(--border-color);
+  padding: 12px;
+  margin: 12px 0;
+  overflow-x: auto;
+}
+
+code {
+  color: #7cdcff;
+}
+
+/* ===== Enlaces ===== */
+a {
+  color: var(--accent);
+}
+
+a:hover {
+  color: #ffd56b;
+}
+
+/* ===== Footer ===== */
+.footer {
+  margin-top: 60px;
+  padding: 20px;
+  background: var(--secondary);
+  border-top: 1px solid var(--border-color);
+  text-align: center;
+  font-size: 0.9rem;
+  color: #aaa;
+}
+</style>
+
+<!-- ===================== -->
+<!-- JS INTEGRADO -->
+<!-- ===================== -->
+<script>
+/*
+  Script base – El Pergamino Digital
+  Preparado para:
+  - Animaciones
+  - Toggle de secciones
+  - Validaciones futuras
+*/
+
+document.addEventListener("DOMContentLoaded", () => {
+  console.log("Lab 21 cargado correctamente.");
+
+  // Ejemplo: resaltar secciones al hacer scroll (placeholder)
+  const headers = document.querySelectorAll("h2");
+  headers.forEach(h => {
+    h.addEventListener("mouseenter", () => {
+      h.style.color = "#ffd56b";
+    });
+    h.addEventListener("mouseleave", () => {
+      h.style.color = "";
+    });
+  });
+});
+</script>
 </head>
 
 <body>
 
-<!-- ===================== -->
-<!-- Navegación principal -->
-<!-- ===================== -->
 <nav class="top-nav">
   <a href="../../index.html">Inicio</a>
   <a href="../index.html">Laboratorios</a>
@@ -27,234 +170,125 @@
 
 <main class="lab-container">
 
-<!-- ===================== -->
-<!-- Título -->
-<!-- ===================== -->
 <h1>Lab 21 – Fingerprinting de Firewalls y Técnicas Evasivas</h1>
 
-<!-- ===================== -->
-<!-- Objetivo -->
-<!-- ===================== -->
 <h2>Objetivo</h2>
 <p>
-Identificar y analizar mecanismos de filtrado de red (firewalls, IDS/IPS) mediante
-técnicas de fingerprinting activo y pasivo, evaluando su comportamiento frente a
-tráfico legítimo y evasivo.
+Identificar mecanismos de filtrado de red mediante técnicas de fingerprinting activo
+y pasivo, evaluando su comportamiento frente a tráfico legítimo y evasivo.
 </p>
 
-<!-- ===================== -->
-<!-- Alcance y limitaciones -->
-<!-- ===================== -->
 <h2>Alcance y limitaciones</h2>
 <ul>
-  <li>Laboratorio ejecutado exclusivamente en entornos controlados.</li>
-  <li>No se realizan pruebas contra infraestructuras productivas.</li>
-  <li>Las técnicas se emplean con fines formativos y de validación defensiva.</li>
+  <li>Entorno estrictamente controlado.</li>
+  <li>No se ejecuta sobre sistemas productivos.</li>
+  <li>Uso exclusivo con fines formativos.</li>
 </ul>
 
-<p>
-Máquinas explotables utilizadas:
-<ul>
-  <li>
-    OWASP Juice Shop –
-    <a href="https://owasp.org/www-project-juice-shop/" target="_blank">Sitio oficial</a>
-  </li>
-</ul>
-</p>
-
-<!-- ===================== -->
-<!-- Requisitos previos -->
-<!-- ===================== -->
 <h2>Requisitos previos</h2>
 <ul>
-  <li>Conocimientos básicos de redes TCP/IP.</li>
-  <li>Familiaridad con Linux.</li>
+  <li>Redes TCP/IP</li>
+  <li>Linux básico</li>
   <li>Nmap ≥ 7.94</li>
   <li>Wireshark ≥ 4.x</li>
-  <li>Entorno virtualizado (VirtualBox / VMware).</li>
 </ul>
 
-<!-- ===================== -->
-<!-- Arquitectura del entorno -->
-<!-- ===================== -->
 <h2>Arquitectura del entorno</h2>
-<p>
-Topología simple:
-</p>
-<ul>
-  <li>Atacante (Kali Linux)</li>
-  <li>Firewall simulado / reglas de filtrado</li>
-  <li>Servidor objetivo (Juice Shop)</li>
-</ul>
+<p>Kali Linux → Firewall → OWASP Juice Shop</p>
+<p><strong>Espacio para diagrama:</strong> [imagen aquí]</p>
 
-<p><strong>Espacio para diagrama de red:</strong></p>
-<!-- Espacio para imagen -->
-<p>[Imagen aquí]</p>
-
-<!-- ===================== -->
-<!-- Herramientas -->
-<!-- ===================== -->
 <h2>Herramientas y entorno técnico</h2>
 <ul>
   <li>Nmap</li>
   <li>Wireshark</li>
 </ul>
 
-<!-- ===================== -->
-<!-- Procedimiento -->
-<!-- ===================== -->
 <h2>Procedimiento técnico paso a paso</h2>
 
-<h3>1. Descubrimiento inicial</h3>
-<pre><code>nmap -sS -Pn -n -T4 192.168.56.10</code></pre>
+<h3>Escaneo evasivo</h3>
+<pre><code>nmap -sS --scanflags SYNFIN -p 80 192.168.56.10</code></pre>
 
-<h3>2. Fingerprinting de firewall</h3>
-<pre><code>nmap --scanflags SYNFIN -p 80 192.168.56.10</code></pre>
+<h3>Análisis de tráfico</h3>
+<p>Captura y análisis con Wireshark.</p>
 
-<h3>3. Análisis de tráfico</h3>
-<p>
-Capturar tráfico con Wireshark y analizar respuestas anómalas del sistema.
-</p>
-
-<!-- ===================== -->
-<!-- Resultados esperados -->
-<!-- ===================== -->
 <h2>Resultados esperados</h2>
 <ul>
-  <li>Puertos filtrados detectados.</li>
-  <li>Respuestas inconsistentes del firewall.</li>
-  <li>Patrones de evasión identificables en tráfico.</li>
+  <li>Puertos filtrados</li>
+  <li>Respuestas inconsistentes</li>
 </ul>
 
-<!-- ===================== -->
-<!-- Análisis -->
-<!-- ===================== -->
 <h2>Análisis de resultados</h2>
 <p>
-La variación en los flags TCP y la ausencia de respuestas permiten inferir
-la presencia de mecanismos de filtrado avanzados.
+El comportamiento del firewall permite inferir reglas y mecanismos de inspección.
 </p>
 
-<!-- ===================== -->
-<!-- Medidas -->
-<!-- ===================== -->
 <h2>Medidas</h2>
 <ul>
-  <li>Monitoreo continuo del tráfico.</li>
-  <li>Revisión de reglas de firewall.</li>
+  <li>Auditoría de reglas</li>
+  <li>Monitoreo continuo</li>
 </ul>
 
-<!-- ===================== -->
-<!-- Contramedidas -->
-<!-- ===================== -->
 <h2>Contramedidas</h2>
 <ul>
-  <li>Normalización de respuestas TCP.</li>
-  <li>Implementación de detección de escaneos evasivos.</li>
+  <li>Normalización TCP</li>
+  <li>Detección de evasión</li>
 </ul>
 
-<!-- ===================== -->
-<!-- Riesgos -->
-<!-- ===================== -->
 <h2>Riesgos y advertencias</h2>
 <p>
-El uso incorrecto de técnicas de evasión puede generar falsos positivos
-o interrupciones del servicio.
+Las técnicas evasivas pueden generar alertas o degradación de servicio.
 </p>
 
-<!-- ===================== -->
-<!-- Evidencias -->
-<!-- ===================== -->
 <h2>Evidencias</h2>
-<p>
-Espacio reservado para capturas de pantalla, logs y reportes.
-</p>
+<p>[Espacio para capturas, logs y reportes]</p>
 
-<!-- ===================== -->
-<!-- Validación cruzada -->
-<!-- ===================== -->
-<h2>Validación cruzada (CIS, NIST, MITRE)</h2>
+<h2>Validación cruzada</h2>
 <ul>
-  <li>
-    CIS Control 7 –
-    <a href="https://www.cisecurity.org/controls" target="_blank">Enlace</a>
-  </li>
-  <li>
-    NIST SP 800-115 –
-    <a href="https://csrc.nist.gov/publications/detail/sp/800-115/final" target="_blank">Enlace</a>
-  </li>
-  <li>
-    MITRE ATT&CK T1046 –
-    <a href="https://attack.mitre.org/techniques/T1046/" target="_blank">Enlace</a>
-  </li>
+  <li><a href="https://attack.mitre.org/techniques/T1046/" target="_blank">MITRE ATT&CK T1046</a></li>
+  <li><a href="https://csrc.nist.gov/publications/detail/sp/800-115/final" target="_blank">NIST SP 800-115</a></li>
+  <li><a href="https://www.cisecurity.org/controls" target="_blank">CIS Controls</a></li>
 </ul>
 
-<!-- ===================== -->
-<!-- Certificaciones -->
-<!-- ===================== -->
 <h2>Certificaciones asociadas</h2>
 <ul>
-  <li>CompTIA Security+</li>
+  <li>Security+</li>
   <li>CEH</li>
   <li>ISC2 CC</li>
 </ul>
 
-<!-- ===================== -->
-<!-- Analogía -->
-<!-- ===================== -->
 <h2>Analogía técnica</h2>
 <p>
-Así como un castillo evalúa la reacción de sus murallas ante distintos tipos
-de ataque, este laboratorio analiza cómo responde un firewall a estímulos
-no convencionales.
+Como un castillo probando la resistencia de sus murallas ante distintos proyectiles.
 </p>
 
-<!-- ===================== -->
-<!-- Nivel -->
-<!-- ===================== -->
 <h2>Nivel de dificultad</h2>
 <p>Intermedio</p>
 
-<!-- ===================== -->
-<!-- Checklist -->
-<!-- ===================== -->
 <h2>Checklist final</h2>
 <ul>
-  <li>Escaneo ejecutado correctamente</li>
-  <li>Tráfico capturado y analizado</li>
-  <li>Resultados documentados</li>
+  <li>Escaneo realizado</li>
+  <li>Tráfico analizado</li>
+  <li>Evidencias documentadas</li>
 </ul>
 
-<!-- ===================== -->
-<!-- Navegación transversal -->
-<!-- ===================== -->
 <h2>Navegación transversal</h2>
 <p>
 <a href="../labs20/">Lab anterior</a> |
-<a href="../index.html">Listado de laboratorios</a> |
+<a href="../index.html">Listado</a> |
 <a href="../labs22/">Lab siguiente</a>
 </p>
 
-<!-- ===================== -->
-<!-- Reflexión -->
-<!-- ===================== -->
 <h2>Reflexión estratégica</h2>
 <p>
-Este laboratorio refuerza la comprensión del comportamiento defensivo
-de infraestructuras modernas y su impacto en la detección temprana.
+Comprender el fingerprinting defensivo fortalece la detección temprana.
 </p>
 
 </main>
 
-<!-- ===================== -->
-<!-- Footer -->
-<!-- ===================== -->
 <footer class="footer">
-  <p>
-    © El Pergamino Digital – Proyecto formativo, técnico y estructural
-    orientado a ciberseguridad profesional.
-  </p>
+  © El Pergamino Digital – Proyecto técnico, formativo y estructural
 </footer>
 
 </body>
 </html>
+
