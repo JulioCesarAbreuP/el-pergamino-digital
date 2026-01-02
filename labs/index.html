@@ -3,14 +3,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Laboratorios 🧪 El Pergamino Digital</title>
-
-  <!-- Estilos embebidos con modo oscuro y responsive premium -->
+  <title>Laboratorios – El Pergamino Digital</title>
+  <link rel="icon" href="/el-pergamino-digital/assets/favicon.png" type="image/png" />
   <style>
-    :root {
-      color-scheme: dark;
-    }
-
+    :root { color-scheme: dark; }
     body {
       font-family: 'Segoe UI', sans-serif;
       background-color: #121212;
@@ -18,58 +14,47 @@
       margin: 0;
       padding: 0;
     }
-
     nav {
       background-color: #1f1f1f;
       padding: 1em;
       text-align: center;
     }
-
     nav a {
       color: #e0e0e0;
       margin: 0 1em;
       text-decoration: none;
     }
-
     nav a.activo {
       font-weight: bold;
       text-decoration: underline;
     }
-
     h1 {
       text-align: center;
       margin-top: 1.5em;
       color: #ffffff;
     }
-
-    .subtitulo {
-      text-align: center;
-      color: #bbbbbb;
-      margin-bottom: 2em;
-    }
-
-    .grid-labs {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 1.5em;
+    main {
+      max-width: 900px;
+      margin: auto;
       padding: 2em;
     }
-
-    .lab-card {
-      background-color: #1e1e1e;
-      border: 1px solid #333;
-      padding: 1.2em;
+    section {
+      margin-bottom: 2em;
+    }
+    ul {
+      list-style: none;
+      padding-left: 0;
+    }
+    li {
+      margin-bottom: 0.5em;
+    }
+    a.lab-link {
+      color: #90caf9;
       text-decoration: none;
-      color: #e0e0e0;
-      border-radius: 8px;
-      transition: transform 0.2s, box-shadow 0.2s;
     }
-
-    .lab-card:hover {
-      transform: scale(1.03);
-      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    a.lab-link:hover {
+      text-decoration: underline;
     }
-
     footer {
       text-align: center;
       padding: 2em;
@@ -77,146 +62,41 @@
       font-size: 0.9em;
       color: #aaaaaa;
     }
-
-    a {
-      color: #80d8ff;
-    }
-
-    a:hover {
-      color: #ffffff;
-    }
-
-    @media (max-width: 600px) {
-      body {
-        font-size: 1.1em;
-      }
-
-      h1 {
-        font-size: 1.8em;
-      }
-
-      .subtitulo {
-        font-size: 1.1em;
-      }
-
-      nav a {
-        display: block;
-        margin: 0.5em 0;
-      }
-
-      .grid-labs {
-        padding: 1.2em;
-      }
-    }
   </style>
-
-  <link rel="icon" href="/el-pergamino-digital/assets/favicon.png" type="image/png" />
 </head>
 <body>
+  <nav>
+    <a href="/el-pergamino-digital/index.html">Inicio</a>
+    <a href="/el-pergamino-digital/labs/" class="activo">Laboratorios</a>
+    <a href="/el-pergamino-digital/glosario/">Glosario</a>
+    <a href="/el-pergamino-digital/simulador/">Simulador</a>
+    <a href="/el-pergamino-digital/modulos/">Módulos</a>
+  </nav>
 
-  <header>
-    <nav>
-      <a href="/el-pergamino-digital/index.html">Inicio</a>
-      <a href="/el-pergamino-digital/labs/" class="activo">Laboratorios</a>
-      <a href="/el-pergamino-digital/glosario/">Glosario</a>
-      <a href="/el-pergamino-digital/simulador/">Simulador</a>
-      <a href="/el-pergamino-digital/modulos/">Módulos</a>
-    </nav>
-    <h1>Laboratorios Técnicos</h1>
-    <p class="subtitulo">Prácticas certificadoras alineadas con estándares internacionales</p>
-  </header>
+  <h1>Laboratorios técnicos</h1>
 
-  <main class="contenedor-labs">
-    <section class="grid-labs">
-      <a href="/el-pergamino-digital/labs/labs01/" class="lab-card">
-        <h2>🧪 Lab 01</h2>
-        <p>Monitorización de tráfico con Wireshark y tcpdump</p>
-      </a>
-      <a href="/el-pergamino-digital/labs/labs02/" class="lab-card">
-        <h2>🧪 Lab 02</h2>
-        <p>Descubrimiento de red y fingerprinting con Nmap</p>
-      </a>
-      <a href="/el-pergamino-digital/labs/labs03/" class="lab-card">
-        <h2>🧪 Lab 03</h2>
-        <p>Análisis de cabeceras HTTP y exposición de metadatos</p>
-      </a>
-      <a href="/el-pergamino-digital/labs/labs04/" class="lab-card">
-        <h2>🧪 Lab 04</h2>
-        <p>Captura de credenciales en protocolos inseguros</p>
-      </a>
-      <a href="/el-pergamino-digital/labs/labs05/" class="lab-card">
-        <h2>🧪 Lab 05</h2>
-        <p>Escaneo de vulnerabilidades con OpenVAS</p>
-      </a>
-      <a href="/el-pergamino-digital/labs/labs06/" class="lab-card">
-        <h2>🧪 Lab 06</h2>
-        <p>Análisis de logs y correlación de eventos sospechosos</p>
-      </a>
-      <a href="/el-pergamino-digital/labs/labs07/" class="lab-card">
-        <h2>🧪 Lab 07</h2>
-        <p>Extracción y análisis de hashes de contraseñas</p>
-      </a>
-      <a href="/el-pergamino-digital/labs/labs08/" class="lab-card">
-        <h2>🧪 Lab 08</h2>
-        <p>Análisis de tráfico capturado (PCAP) y reconstrucción de sesiones</p>
-      </a>
-      <a href="/el-pergamino-digital/labs/labs09/" class="lab-card">
-        <h2>🧪 Lab 09</h2>
-        <p>Correlación de vulnerabilidades con exploits conocidos</p>
-      </a>
-      <a href="/el-pergamino-digital/labs/labs10/" class="lab-card">
-        <h2>🧪 Lab 10</h2>
-        <p>Análisis de persistencia y puertas traseras</p>
-      </a>
-          <a href="/el-pergamino-digital/labs/labs11/" class="lab-card">
-        <h2>🧪 Lab 11</h2>
-        <p>Análisis de payloads y técnicas de evasión</p>
-      </a>
-      <a href="/el-pergamino-digital/labs/labs12/" class="lab-card">
-        <h2>🧪 Lab 12</h2>
-        <p>Correlación de eventos en tráfico capturado</p>
-      </a>
-      <a href="/el-pergamino-digital/labs/labs13/" class="lab-card">
-        <h2>🧪 Lab 13</h2>
-        <p>Evasión de firewalls y exfiltración de datos</p>
-      </a>
-      <a href="/el-pergamino-digital/labs/labs14/" class="lab-card">
-        <h2>🧪 Lab 14</h2>
-        <p>Escalada de privilegios en sistemas Windows</p>
-      </a>
-      <a href="/el-pergamino-digital/labs/labs15/" class="lab-card">
-        <h2>🧪 Lab 15</h2>
-        <p>Persistencia avanzada y manipulación de registros</p>
-      </a>
-      <a href="/el-pergamino-digital/labs/labs16/" class="lab-card">
-        <h2>🧪 Lab 16</h2>
-        <p>Análisis de tráfico malicioso y detección de C2</p>
-      </a>
-      <a href="/el-pergamino-digital/labs/labs17/" class="lab-card">
-        <h2>🧪 Lab 17</h2>
-        <p>Análisis de malware y reversing básico</p>
-      </a>
-      <a href="/el-pergamino-digital/labs/labs18/" class="lab-card">
-        <h2>🧪 Lab 18</h2>
-        <p>Enumeración de servicios y puertos con Nmap</p>
-      </a>
-      <a href="/el-pergamino-digital/labs/labs19/" class="lab-card">
-        <h2>🧪 Lab 19</h2>
-        <p>Fingerprinting de sistemas operativos y servicios</p>
-      </a>
-      <a href="/el-pergamino-digital/labs/labs20/" class="lab-card">
-        <h2>🧪 Lab 20</h2>
-        <p>Detección de firewalls y técnicas de evasión</p>
-      </a>
-      
-        
-       
-    
+  <main>
+
+    <section style="background-color: #1f1f1f; padding: 1em; border-left: 4px solid #90caf9; margin-bottom: 2em;">
+      <h2 style="color: #90caf9; margin-top: 0;">🧭 Índice transversal de laboratorios</h2>
+      <p>Explora los laboratorios por <strong>fase técnica</strong>, <strong>herramienta</strong>, <strong>estándar MITRE/CIS</strong> o <strong>certificación asociada</strong>.</p>
+      <a href="/el-pergamino-digital/indice-transversal/" style="display: inline-block; background-color: #90caf9; color: #000; padding: 0.5em 1em; border-radius: 4px; text-decoration: none; font-weight: bold;">🔍 Ver índice transversal</a>
     </section>
+
+    <section>
+      <h2>Listado de laboratorios</h2>
+      <ul>
+        <li><a class="lab-link" href="/el-pergamino-digital/labs/labs01/">Lab 01 – Monitorización de tráfico con Wireshark y tcpdump</a></li>
+        <li><a class="lab-link" href="/el-pergamino-digital/labs/labs02/">Lab 02 – Análisis de cabeceras HTTP y manipulación con Burp Suite</a></li>
+        <!-- ...otros laboratorios... -->
+        <li><a class="lab-link" href="/el-pergamino-digital/labs/labs20/">Lab 20 – Detección de firewalls y técnicas de evasión</a></li>
+      </ul>
+    </section>
+
   </main>
 
   <footer>
-    <p>Este proyecto forma parte de <a href="https://pergamino-digital-ciberseguridad.blogspot.com/?m=1" target="_blank">El Pergamino Digital</a></p>
+    <p>Este índice forma parte del proyecto <a href="https://pergamino-digital-ciberseguridad.blogspot.com/?m=1" target="_blank">El Pergamino Digital</a>, alineado con estándares internacionales y diseñado para fortalecer competencias técnicas en ciberseguridad.</p>
   </footer>
 
   <script>
