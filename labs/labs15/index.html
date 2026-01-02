@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lab 15 – Persistencia avanzada y manipulación de registros</title>
+  <link rel="icon" href="/el-pergamino-digital/assets/favicon.png" type="image/png" />
+  <style>
+    :root { color-scheme: dark; }
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #121212;
+      color: #e0e0e0;
+      margin: 0;
+      padding: 0;
+    }
+    nav {
+      background-color: #1f1f1f;
+      padding: 1em;
+      text-align: center;
+    }
+    nav a {
+      color: #e0e0e0;
+      margin: 0 1em;
+      text-decoration: none;
+    }
+    nav a.activo {
+      font-weight: bold;
+      text-decoration: underline;
+    }
+    h1 {
+      text-align: center;
+      margin-top: 1.5em;
+      color: #ffffff;
+    }
+    .subtitulo {
+      text-align: center;
+      color: #bbbbbb;
+      margin-bottom: 2em;
+    }
+    main {
+      max-width: 900px;
+      margin: auto;
+      padding: 2em;
+    }
+    section {
+      margin-bottom: 2em;
+    }
+    h2 {
+      color: #90caf9;
+    }
+    code {
+      background-color: #1e1e1e;
+      padding: 0.2em 0.4em;
+      border-radius: 4px;
+      font-family: monospace;
+    }
+    footer {
+      text-align: center;
+      padding: 2em;
+      background-color: #1e1e1e;
+      font-size: 0.9em;
+      color: #aaaaaa;
+    }
+    @media (max-width: 600px) {
+      body { font-size: 1.1em; }
+      h1 { font-size: 1.8em; }
+      .subtitulo { font-size: 1.1em; }
+      nav a { display: block; margin: 0.5em 0; }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="/el-pergamino-digital/index.html">Inicio</a>
+    <a href="/el-pergamino-digital/labs/" class="activo">Laboratorios</a>
+    <a href="/el-pergamino-digital/glosario/">Glosario</a>
+    <a href="/el-pergamino-digital/simulador/">Simulador</a>
+    <a href="/el-pergamino-digital/modulos/">Módulos</a>
+  </nav>
+
+  <h1>Lab 15 – Persistencia avanzada y manipulación de registros</h1>
+  <p class="subtitulo">Simulación de técnicas para mantener acceso persistente y alterar evidencias en sistemas comprometidos</p>
+
+  <main>
+    <section>
+      <h2>Objetivo</h2>
+      <p>Explorar técnicas ofensivas para establecer persistencia en sistemas Windows y Linux, y simular la manipulación de registros y artefactos forenses para evadir la detección.</p>
+    </section>
+
+    <section>
+      <h2>Alcance y limitaciones</h2>
+      <p><strong>Alcance:</strong> Creación de backdoors, modificación de claves de registro, uso de tareas programadas, servicios persistentes y técnicas de limpieza de logs.</p>
+      <p><strong>Limitaciones:</strong> No se aplican técnicas destructivas ni se eliminan logs reales. El laboratorio se ejecuta en entornos virtuales controlados.</p>
+      <p><strong>Escenario sugerido:</strong> Sistema Windows 10 con acceso de atacante, herramientas de post-explotación y privilegios elevados.</p>
+    </section>
+
+    <section>
+      <h2>Requisitos previos</h2>
+      <ul>
+        <li>Conocimientos de persistencia en sistemas operativos</li>
+        <li>Familiaridad con PowerShell, tareas programadas, servicios y registros de eventos</li>
+        <li>Entorno: Kali Linux, Windows 10 vulnerable, red interna</li>
+        <li>Herramientas instaladas: <code>schtasks</code>, <code>reg</code>, <code>wevtutil</code>, <code>PowerShell Empire</code>, <code>Metasploit</code>, <code>Sysinternals</code></li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Arquitectura del entorno</h2>
+      <pre>
+[ Kali (192.168.1.10) ]
+        ↓
+[ Windows 10 (192.168.1.20) – Acceso con privilegios ]
+      </pre>
+      <p>El atacante ya tiene acceso privilegiado y busca establecer persistencia y alterar rastros forenses.</p>
+    </section>
+
+    <section>
+      <h2>Herramientas y entorno técnico</h2>
+      <ul>
+        <li><strong>schtasks</strong>: creación de tareas persistentes</li>
+        <li><strong>reg</strong>: modificación de claves de inicio automático</li>
+        <li><strong>wevtutil</strong>: manipulación de registros de eventos</li>
+        <li><strong>PowerShell Empire</strong>: módulos de persistencia y evasión</li>
+        <li><strong>Sysinternals</strong>: verificación de persistencia (Autoruns, PsExec, etc.)</li>
+      </ul>
+    </section>
+
+
+        <section>
+      <h2>Procedimiento técnico paso a paso</h2>
+      <ol>
+        <li>Crear tarea persistente con <code>schtasks</code>:
+          <pre><code>schtasks /create /tn "Persistencia" /tr "C:\backdoor.exe" /sc onlogon /ru SYSTEM</code></pre>
+        </li>
+        <li>Agregar clave de inicio automático en el registro:
+          <pre><code>reg add HKLM\Software\Microsoft\Windows\CurrentVersion\Run /v backdoor /t REG_SZ /d "C:\backdoor.exe"</code></pre>
+        </li>
+        <li>Usar <code>Empire</code> o <code>Metasploit</code> para establecer módulo de persistencia</li>
+        <li>Simular manipulación de logs con <code>wevtutil</code>:
+          <pre><code>wevtutil cl Security</code> <em>(solo en entorno de laboratorio)</em></pre>
+        </li>
+        <li>Verificar persistencia con <code>Autoruns</code> o <code>tasklist</code></li>
+        <li>Documentar cada técnica aplicada y su visibilidad</li>
+      </ol>
+    </section>
+
+    <section>
+      <h2>Resultados esperados</h2>
+      <ul>
+        <li>Persistencia establecida mediante tareas, claves de registro o servicios</li>
+        <li>Simulación de manipulación de registros de eventos</li>
+        <li>Confirmación de ejecución automática tras reinicio o cierre de sesión</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Análisis de resultados</h2>
+      <p>Las técnicas de persistencia permiten al atacante mantener el acceso incluso tras reinicios o cierres de sesión. La manipulación de registros busca ocultar rastros de actividad maliciosa. Ambas técnicas son comunes en APTs y malware avanzado, y requieren monitoreo continuo para su detección.</p>
+    </section>
+
+    <section>
+      <h2>Medidas</h2>
+      <ul>
+        <li>Clasificar técnicas aplicadas: tareas, claves, servicios, módulos</li>
+        <li>Evaluar persistencia tras reinicio y visibilidad en herramientas de monitoreo</li>
+        <li>Registrar comandos y resultados obtenidos</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Contramedidas</h2>
+      <ul>
+        <li>Monitorear cambios en claves de registro y tareas programadas</li>
+        <li>Restringir privilegios de escritura en rutas críticas</li>
+        <li>Aplicar listas blancas de ejecución (AppLocker, WDAC)</li>
+        <li>Auditar el uso de herramientas como wevtutil y PowerShell</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Riesgos y advertencias</h2>
+      <p>La manipulación de registros puede afectar la capacidad de respuesta ante incidentes. Este laboratorio debe realizarse exclusivamente en entornos de laboratorio. El uso de estas técnicas en sistemas reales sin autorización es ilegal y antiético.</p>
+    </section>
+
+    <section>
+      <h2>Evidencias</h2>
+      <p><em>Espacio reservado para capturas de pantalla de tareas creadas, claves de registro modificadas, ejecución post-reinicio y análisis de logs.</em></p>
+    </section>
+
+    <section>
+      <h2>Validación cruzada</h2>
+      <ul>
+        <li><a href="https://attack.mitre.org/techniques/T1053/" target="_blank">MITRE ATT&CK T1053 – Scheduled Task/Job</a></li>
+        <li><a href="https://attack.mitre.org/techniques/T1547/" target="_blank">MITRE ATT&CK T1547 – Boot or Logon Autostart Execution</a></li>
+        <li><a href="https://cas.docs.cisecurity.org/en/latest/source/Controls13/" target="_blank">CIS Control 13 – Network Monitoring and Defense</a></li>
+      </ul>
+    </section>
+
+        <section>
+      <h2>Referencias normativas y técnicas</h2>
+      <ul>
+        <li><a href="https://attack.mitre.org/techniques/T1053/" target="_blank">MITRE ATT&CK T1053 – Scheduled Task/Job</a></li>
+        <li><a href="https://attack.mitre.org/techniques/T1547/" target="_blank">MITRE ATT&CK T1547 – Boot or Logon Autostart Execution</a></li>
+        <li><a href="https://cas.docs.cisecurity.org/en/latest/source/Controls13/" target="_blank">CIS Control 13 – Network Monitoring and Defense</a></li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Certificaciones asociadas</h2>
+      <ul>
+        <li>OSCP – Post-Exploitation and Persistence</li>
+        <li>eCPTX – Advanced Persistence and Evasion</li>
+        <li>CompTIA PenTest+ – Domain 4.0: Post-Engagement Activities</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Analogía técnica</h2>
+      <p style="font-family: 'Comic Sans MS'; font-size: 12pt;">
+        La persistencia es como esconder una llave maestra en el marco de la puerta: invisible para el dueño, pero siempre accesible para quien la colocó.
+      </p>
+    </section>
+
+    <section>
+      <h2>Nivel de dificultad</h2>
+      <p>Avanzado</p>
+    </section>
+
+    <section>
+      <h2>Checklist final</h2>
+      <ul>
+        <li>[ ] Tareas persistentes creadas y verificadas</li>
+        <li>[ ] Claves de registro modificadas</li>
+        <li>[ ] Simulación de manipulación de logs realizada</li>
+        <li>[ ] Persistencia comprobada tras reinicio</li>
+        <li>[ ] Validación cruzada registrada</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Navegación transversal</h2>
+      <ul>
+        <li><a href="/el-pergamino-digital/index.html">Portada</a></li>
+        <li><a href="/el-pergamino-digital/glosario/">Glosario</a></li>
+        <li><a href="/el-pergamino-digital/simulador/">Simulador</a></li>
+        <li><a href="/el-pergamino-digital/modulos/">Módulos</a></li>
+        <li><a href="/el-pergamino-digital/labs/">Laboratorios</a></li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Reflexión estratégica</h2>
+      <p>La persistencia es el arte de permanecer. Comprender cómo los atacantes aseguran su presencia en un sistema permite anticipar sus movimientos, detectar anomalías y fortalecer la resiliencia. Este laboratorio cierra el bloque ofensivo con una mirada profunda a las técnicas que separan un ataque superficial de una intrusión sostenida.</p>
+    </section>
+
+    <section>
+      <h2>Disclaimer de advertencia</h2>
+      <p><strong>Advertencia:</strong> Este laboratorio está diseñado exclusivamente para fines educativos y debe ejecutarse en entornos controlados. La manipulación de registros y la persistencia no autorizada en sistemas reales constituye una violación legal y ética. El Pergamino Digital no se responsabiliza por el uso indebido de las técnicas aquí descritas.</p>
+    </section>
+  </main>
+
+  <footer>
+    <p>Este laboratorio forma parte del proyecto <a href="https://pergamino-digital-ciberseguridad.blogspot.com/?m=1" target="_blank">El Pergamino Digital</a>, alineado con estándares internacionales y diseñado para fortalecer competencias técnicas en ciberseguridad.</p>
+  </footer>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const links = document.querySelectorAll("nav a");
+      links.forEach(link => {
+        if (link.href === window.location.href) {
+          link.classList.add("activo");
+        }
+      });
+    });
+  </script>
+</body>
+</html>
