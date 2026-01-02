@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lab 17 – Análisis de malware y reversing básico</title>
+  <link rel="icon" href="/el-pergamino-digital/assets/favicon.png" type="image/png" />
+  <style>
+    :root { color-scheme: dark; }
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #121212;
+      color: #e0e0e0;
+      margin: 0;
+      padding: 0;
+    }
+    nav {
+      background-color: #1f1f1f;
+      padding: 1em;
+      text-align: center;
+    }
+    nav a {
+      color: #e0e0e0;
+      margin: 0 1em;
+      text-decoration: none;
+    }
+    nav a.activo {
+      font-weight: bold;
+      text-decoration: underline;
+    }
+    h1 {
+      text-align: center;
+      margin-top: 1.5em;
+      color: #ffffff;
+    }
+    .subtitulo {
+      text-align: center;
+      color: #bbbbbb;
+      margin-bottom: 2em;
+    }
+    main {
+      max-width: 900px;
+      margin: auto;
+      padding: 2em;
+    }
+    section {
+      margin-bottom: 2em;
+    }
+    h2 {
+      color: #90caf9;
+    }
+    code {
+      background-color: #1e1e1e;
+      padding: 0.2em 0.4em;
+      border-radius: 4px;
+      font-family: monospace;
+    }
+    footer {
+      text-align: center;
+      padding: 2em;
+      background-color: #1e1e1e;
+      font-size: 0.9em;
+      color: #aaaaaa;
+    }
+    @media (max-width: 600px) {
+      body { font-size: 1.1em; }
+      h1 { font-size: 1.8em; }
+      .subtitulo { font-size: 1.1em; }
+      nav a { display: block; margin: 0.5em 0; }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="/el-pergamino-digital/index.html">Inicio</a>
+    <a href="/el-pergamino-digital/labs/" class="activo">Laboratorios</a>
+    <a href="/el-pergamino-digital/glosario/">Glosario</a>
+    <a href="/el-pergamino-digital/simulador/">Simulador</a>
+    <a href="/el-pergamino-digital/modulos/">Módulos</a>
+  </nav>
+
+  <h1>Lab 17 – Análisis de malware y reversing básico</h1>
+  <p class="subtitulo">Desempaquetado, análisis estático y dinámico de muestras maliciosas en entorno controlado</p>
+
+  <main>
+    <section>
+      <h2>Objetivo</h2>
+      <p>Realizar un análisis básico de malware mediante técnicas de reversing, incluyendo inspección estática, dinámica y extracción de indicadores de compromiso (IoCs).</p>
+    </section>
+
+    <section>
+      <h2>Alcance y limitaciones</h2>
+      <p><strong>Alcance:</strong> Análisis de binarios maliciosos en entorno aislado, identificación de comportamiento, cadenas, APIs, persistencia y comunicación externa.</p>
+      <p><strong>Limitaciones:</strong> No se ejecutan muestras reales fuera del entorno de laboratorio. No se analiza malware avanzado con técnicas anti-VM o cifrado complejo.</p>
+      <p><strong>Escenario sugerido:</strong> Máquina virtual Windows 10 con snapshot, muestra de malware básica (keylogger, downloader, etc.), herramientas de análisis instaladas.</p>
+    </section>
+
+    <section>
+      <h2>Requisitos previos</h2>
+      <ul>
+        <li>Conocimientos de arquitectura Windows, procesos, DLLs y llamadas a API</li>
+        <li>Familiaridad con herramientas de análisis estático y dinámico</li>
+        <li>Entorno: Windows 10 en VM, Kali Linux opcional, red aislada</li>
+        <li>Herramientas: <code>PEStudio</code>, <code>Procmon</code>, <code>Regshot</code>, <code>Wireshark</code>, <code>x64dbg</code>, <code>IDA Free</code></li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Arquitectura del entorno</h2>
+      <pre>
+[ Windows 10 VM (aislada) ]
+        ↓
+[ Muestra maliciosa ]
+        ↓
+[ Herramientas de análisis estático y dinámico ]
+      </pre>
+      <p>El análisis se realiza en una máquina virtual sin conexión a internet, con snapshot previo y posterior.</p>
+    </section>
+
+    <section>
+      <h2>Herramientas y entorno técnico</h2>
+      <ul>
+        <li><strong>PEStudio</strong>: análisis estático de binarios PE</li>
+        <li><strong>Procmon</strong>: monitoreo de procesos, archivos y registro</li>
+        <li><strong>Regshot</strong>: comparación de claves de registro antes y después</li>
+        <li><strong>Wireshark</strong>: captura de tráfico generado por el malware</li>
+        <li><strong>x64dbg / IDA Free</strong>: reversing básico y análisis de ensamblado</li>
+      </ul>
+    </section>
+
+        <section>
+      <h2>Procedimiento técnico paso a paso</h2>
+      <ol>
+        <li>Analizar el binario con <code>PEStudio</code> para detectar indicadores estáticos:
+          <ul>
+            <li>Importaciones sospechosas (WinExec, VirtualAlloc, etc.)</li>
+            <li>Strings codificadas, rutas, URLs, claves de registro</li>
+          </ul>
+        </li>
+        <li>Tomar snapshot de la VM antes de ejecutar la muestra</li>
+        <li>Ejecutar <code>Procmon</code> y <code>Regshot</code> para monitorear cambios en tiempo real</li>
+        <li>Ejecutar la muestra y observar comportamiento:
+          <ul>
+            <li>Archivos creados/modificados</li>
+            <li>Claves de registro añadidas</li>
+            <li>Procesos hijos o inyecciones</li>
+          </ul>
+        </li>
+        <li>Capturar tráfico con <code>Wireshark</code> para detectar conexiones salientes</li>
+        <li>Usar <code>x64dbg</code> o <code>IDA Free</code> para identificar funciones clave y flujos de ejecución</li>
+        <li>Extraer IoCs: hashes, dominios, rutas, comportamiento</li>
+      </ol>
+    </section>
+
+    <section>
+      <h2>Resultados esperados</h2>
+      <ul>
+        <li>Identificación de comportamiento malicioso (persistencia, conexión externa, modificación del sistema)</li>
+        <li>Extracción de indicadores de compromiso (IoCs)</li>
+        <li>Documentación de cambios en el sistema y tráfico generado</li>
+        <li>Reconocimiento de técnicas evasivas o de ofuscación básicas</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Análisis de resultados</h2>
+      <p>El análisis de malware combina observación estática y dinámica para comprender cómo opera una muestra. Aunque muchas amenazas modernas usan técnicas avanzadas de evasión, incluso un análisis básico permite detectar patrones comunes: persistencia, exfiltración, cifrado, y manipulación del sistema. El reversing permite entender la lógica interna del código malicioso.</p>
+    </section>
+
+    <section>
+      <h2>Medidas</h2>
+      <ul>
+        <li>Registrar cada hallazgo con timestamp, herramienta y contexto</li>
+        <li>Comparar resultados entre análisis estático y dinámico</li>
+        <li>Clasificar IoCs por tipo: red, sistema, binario</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Contramedidas</h2>
+      <ul>
+        <li>Implementar listas blancas de ejecución (AppLocker, WDAC)</li>
+        <li>Monitorear cambios en claves de registro y archivos críticos</li>
+        <li>Bloquear dominios e IPs maliciosas detectadas</li>
+        <li>Aplicar sandboxing y análisis automatizado en entornos de producción</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Riesgos y advertencias</h2>
+      <p>El análisis de malware puede comprometer el sistema si no se realiza en entornos aislados. Nunca ejecutar muestras en sistemas reales o conectados a internet. Este laboratorio debe realizarse exclusivamente en máquinas virtuales con snapshots y sin conexión externa.</p>
+    </section>
+
+    <section>
+      <h2>Evidencias</h2>
+      <p><em>Espacio reservado para capturas de PEStudio, Procmon, Regshot, Wireshark y x64dbg.</em></p>
+    </section>
+
+    <section>
+      <h2>Validación cruzada</h2>
+      <ul>
+        <li><a href="https://attack.mitre.org/techniques/T1055/" target="_blank">MITRE ATT&CK T1055 – Process Injection</a></li>
+        <li><a href="https://attack.mitre.org/techniques/T1027/" target="_blank">MITRE ATT&CK T1027 – Obfuscated Files or Information</a></li>
+        <li><a href="https://cas.docs.cisecurity.org/en/latest/source/Controls10/" target="_blank">CIS Control 10 – Malware Defenses</a></li>
+      </ul>
+    </section>
+
+        <section>
+      <h2>Referencias normativas y técnicas</h2>
+      <ul>
+        <li><a href="https://attack.mitre.org/techniques/T1055/" target="_blank">MITRE ATT&CK T1055 – Process Injection</a></li>
+        <li><a href="https://attack.mitre.org/techniques/T1027/" target="_blank">MITRE ATT&CK T1027 – Obfuscated Files or Information</a></li>
+        <li><a href="https://cas.docs.cisecurity.org/en/latest/source/Controls10/" target="_blank">CIS Control 10 – Malware Defenses</a></li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Certificaciones asociadas</h2>
+      <ul>
+        <li>GREM – Reverse Engineering Malware</li>
+        <li>eCRE – Certified Reverse Engineer</li>
+        <li>CompTIA CySA+ – Domain 3.0: Threat Detection and Analysis</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Analogía técnica</h2>
+      <p style="font-family: 'Comic Sans MS'; font-size: 12pt;">
+        Analizar malware es como desmontar un reloj robado para entender cómo funciona y qué hora quería marcar su creador.
+      </p>
+    </section>
+
+    <section>
+      <h2>Nivel de dificultad</h2>
+      <p>Avanzado</p>
+    </section>
+
+    <section>
+      <h2>Checklist final</h2>
+      <ul>
+        <li>[ ] Análisis estático realizado con PEStudio</li>
+        <li>[ ] Análisis dinámico con Procmon, Regshot y Wireshark</li>
+        <li>[ ] Reversing básico con x64dbg o IDA</li>
+        <li>[ ] IoCs extraídos y clasificados</li>
+        <li>[ ] Validación cruzada registrada</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Navegación transversal</h2>
+      <ul>
+        <li><a href="/el-pergamino-digital/index.html">Portada</a></li>
+        <li><a href="/el-pergamino-digital/glosario/">Glosario</a></li>
+        <li><a href="/el-pergamino-digital/simulador/">Simulador</a></li>
+        <li><a href="/el-pergamino-digital/modulos/">Módulos</a></li>
+        <li><a href="/el-pergamino-digital/labs/">Laboratorios</a></li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Reflexión estratégica</h2>
+      <p>El reversing no es solo una técnica, es una forma de pensar. Permite desentrañar la lógica oculta de un binario, comprender su intención y anticipar su impacto. Este laboratorio cierra el módulo avanzado con una mirada introspectiva al código malicioso, transformando la amenaza en conocimiento.</p>
+    </section>
+
+    <section>
+      <h2>Disclaimer de advertencia</h2>
+      <p><strong>Advertencia:</strong> Este laboratorio está diseñado exclusivamente para fines educativos y debe ejecutarse en entornos virtuales controlados. La ejecución de malware en sistemas reales o conectados a internet puede comprometer la seguridad de la infraestructura. El Pergamino Digital no se responsabiliza por el uso indebido de las técnicas aquí descritas.</p>
+    </section>
+  </main>
+
+  <footer>
+    <p>Este laboratorio forma parte del proyecto <a href="https://pergamino-digital-ciberseguridad.blogspot.com/?m=1" target="_blank">El Pergamino Digital</a>, alineado con estándares internacionales y diseñado para fortalecer competencias técnicas en ciberseguridad.</p>
+  </footer>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const links = document.querySelectorAll("nav a");
+      links.forEach(link => {
+        if (link.href === window.location.href) {
+          link.classList.add("activo");
+        }
+      });
+    });
+  </script>
+</body>
+</html>
