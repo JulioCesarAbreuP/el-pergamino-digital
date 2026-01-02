@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lab 08 – Análisis de tráfico capturado (PCAP)</title>
+  <link rel="icon" href="/el-pergamino-digital/assets/favicon.png" type="image/png" />
+  <style>
+    :root { color-scheme: dark; }
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #121212;
+      color: #e0e0e0;
+      margin: 0;
+      padding: 0;
+    }
+    nav {
+      background-color: #1f1f1f;
+      padding: 1em;
+      text-align: center;
+    }
+    nav a {
+      color: #e0e0e0;
+      margin: 0 1em;
+      text-decoration: none;
+    }
+    nav a.activo {
+      font-weight: bold;
+      text-decoration: underline;
+    }
+    h1 {
+      text-align: center;
+      margin-top: 1.5em;
+      color: #ffffff;
+    }
+    .subtitulo {
+      text-align: center;
+      color: #bbbbbb;
+      margin-bottom: 2em;
+    }
+    main {
+      max-width: 900px;
+      margin: auto;
+      padding: 2em;
+    }
+    section {
+      margin-bottom: 2em;
+    }
+    h2 {
+      color: #90caf9;
+    }
+    code {
+      background-color: #1e1e1e;
+      padding: 0.2em 0.4em;
+      border-radius: 4px;
+      font-family: monospace;
+    }
+    footer {
+      text-align: center;
+      padding: 2em;
+      background-color: #1e1e1e;
+      font-size: 0.9em;
+      color: #aaaaaa;
+    }
+    @media (max-width: 600px) {
+      body { font-size: 1.1em; }
+      h1 { font-size: 1.8em; }
+      .subtitulo { font-size: 1.1em; }
+      nav a { display: block; margin: 0.5em 0; }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="/el-pergamino-digital/index.html">Inicio</a>
+    <a href="/el-pergamino-digital/labs/" class="activo">Laboratorios</a>
+    <a href="/el-pergamino-digital/glosario/">Glosario</a>
+    <a href="/el-pergamino-digital/simulador/">Simulador</a>
+    <a href="/el-pergamino-digital/modulos/">Módulos</a>
+  </nav>
+
+  <h1>Lab 08 – Análisis de tráfico capturado (PCAP)</h1>
+  <p class="subtitulo">Reconstrucción de sesiones y detección de patrones sospechosos a partir de capturas de red</p>
+
+  <main>
+    <section>
+      <h2>Objetivo</h2>
+      <p>Analizar archivos PCAP para identificar credenciales expuestas, sesiones HTTP, comandos remotos y patrones de exfiltración, utilizando herramientas de análisis de tráfico en entornos controlados.</p>
+    </section>
+
+    <section>
+      <h2>Alcance y limitaciones</h2>
+      <p><strong>Alcance:</strong> Captura y análisis de tráfico en red local, reconstrucción de sesiones, extracción de credenciales, detección de anomalías.</p>
+      <p><strong>Limitaciones:</strong> No se realiza sniffing en redes reales ni se intercepta tráfico cifrado sin autorización. El análisis se limita a entornos de laboratorio.</p>
+      <p><strong>Captura sugerida:</strong> Simulación de tráfico HTTP, FTP, Telnet, DNS y escaneos con Nmap.</p>
+    </section>
+
+    <section>
+      <h2>Requisitos previos</h2>
+      <ul>
+        <li>Conocimientos básicos de protocolos de red (TCP/IP, HTTP, DNS, FTP)</li>
+        <li>Familiaridad con herramientas de análisis como Wireshark o tcpdump</li>
+        <li>Entorno: Kali Linux, Metasploitable2, red virtual compartida</li>
+        <li>Herramientas instaladas: `tcpdump`, `Wireshark`, `tshark`, `tcpflow`, `NetworkMiner`</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Arquitectura del entorno</h2>
+      <pre>[ Kali (192.168.1.10) ] ←→ [ Metasploitable2 (192.168.1.20) ]</pre>
+      <p>Se genera tráfico entre ambas máquinas para capturarlo y analizarlo posteriormente.</p>
+    </section>
+
+    <section>
+      <h2>Herramientas y entorno técnico</h2>
+      <ul>
+        <li><strong>tcpdump</strong>: captura de paquetes en CLI</li>
+        <li><strong>Wireshark</strong>: análisis gráfico de tráfico</li>
+        <li><strong>tshark</strong>: análisis de paquetes en terminal</li>
+        <li><strong>tcpflow</strong>: reconstrucción de sesiones</li>
+        <li><strong>NetworkMiner</strong>: extracción de archivos, credenciales y metadatos</li>
+      </ul>
+    </section>
+
+        <section>
+      <h2>Procedimiento técnico paso a paso</h2>
+      <ol>
+        <li>Capturar tráfico con <code>tcpdump</code>:
+          <pre><code>sudo tcpdump -i eth0 -w captura.pcap</code></pre>
+        </li>
+        <li>Generar tráfico desde Kali hacia Metasploitable2 (HTTP, FTP, ping, etc.)</li>
+        <li>Detener captura y abrir archivo en Wireshark:
+          <pre><code>wireshark captura.pcap</code></pre>
+        </li>
+        <li>Filtrar por protocolo:
+          <pre><code>http || ftp || telnet</code></pre>
+        </li>
+        <li>Seguir flujo TCP y reconstruir sesiones:
+          <pre><code>Follow → TCP Stream</code></pre>
+        </li>
+        <li>Extraer credenciales o comandos visibles</li>
+        <li>Analizar DNS, puertos abiertos, patrones de escaneo</li>
+        <li>Opcional: abrir en NetworkMiner para extracción automática</li>
+      </ol>
+    </section>
+
+    <section>
+      <h2>Resultados esperados</h2>
+      <ul>
+        <li>Captura de tráfico con protocolos en texto claro</li>
+        <li>Reconstrucción de sesiones HTTP, FTP o Telnet</li>
+        <li>Extracción de credenciales o comandos transmitidos</li>
+        <li>Detección de escaneos o conexiones sospechosas</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Análisis de resultados</h2>
+      <p>El análisis revela credenciales transmitidas en texto claro mediante FTP y Telnet. Se identifican escaneos de puertos desde la IP atacante y consultas DNS a dominios sospechosos. La reconstrucción de sesiones permite visualizar comandos ejecutados y archivos transferidos.</p>
+    </section>
+
+    <section>
+      <h2>Medidas</h2>
+      <ul>
+        <li>Documentar sesiones reconstruidas y credenciales expuestas</li>
+        <li>Clasificar tráfico por tipo de riesgo (exfiltración, C2, escaneo)</li>
+        <li>Evaluar impacto de cada hallazgo</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Contramedidas</h2>
+      <ul>
+        <li>Eliminar protocolos en texto claro (FTP, Telnet)</li>
+        <li>Implementar cifrado (HTTPS, SFTP, SSH)</li>
+        <li>Monitorear tráfico con IDS/IPS y alertas de comportamiento</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Riesgos y advertencias</h2>
+      <p>El análisis de tráfico puede revelar información sensible. Toda captura debe realizarse en entornos controlados. El uso de herramientas como Wireshark o tcpdump en redes reales sin autorización puede constituir una violación legal.</p>
+    </section>
+
+    <section>
+      <h2>Evidencias</h2>
+      <p><em>Espacio reservado para capturas de pantalla de Wireshark, sesiones reconstruidas, credenciales extraídas y flujos TCP.</em></p>
+    </section>
+
+    <section>
+      <h2>Validación cruzada</h2>
+      <ul>
+        <li><a href="https://attack.mitre.org/techniques/T1040/" target="_blank">MITRE ATT&CK T1040 – Network Sniffing</a></li>
+        <li><a href="https://attack.mitre.org/techniques/T1071/" target="_blank">MITRE ATT&CK T1071 – Application Layer Protocol</a></li>
+        <li><a href="https://www.cisecurity.org/controls/13" target="_blank">CIS Control 13 – Network Monitoring and Defense</a></li>
+      </ul>
+    </section>
+
+        <section>
+      <h2>Referencias normativas y técnicas</h2>
+      <ul>
+        <li><a href="https://www.wireshark.org/docs/" target="_blank">Wireshark – Documentación oficial</a></li>
+        <li><a href="https://www.tcpdump.org/manpages/tcpdump.1.html" target="_blank">tcpdump – Manual oficial</a></li>
+        <li><a href="https://www.cisecurity.org/controls/13" target="_blank">CIS Control 13 – Network Monitoring and Defense</a></li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Certificaciones asociadas</h2>
+      <ul>
+        <li>ISC2 Certified in Cybersecurity (CC) – Network Security</li>
+        <li>CompTIA Security+ – Domain 3.3</li>
+        <li>CHFI – Network Forensics</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Analogía técnica</h2>
+      <p style="font-family: 'Comic Sans MS'; font-size: 12pt;">
+        Analizar un PCAP es como revisar las cartas de un espía interceptadas en tránsito: cada paquete revela una pista, cada sesión reconstruida cuenta una historia.
+      </p>
+    </section>
+
+    <section>
+      <h2>Nivel de dificultad</h2>
+      <p>Intermedio</p>
+    </section>
+
+    <section>
+      <h2>Checklist final</h2>
+      <ul>
+        <li>[ ] Tráfico capturado con tcpdump o Wireshark</li>
+        <li>[ ] Sesiones reconstruidas (HTTP, FTP, Telnet)</li>
+        <li>[ ] Credenciales o comandos identificados</li>
+        <li>[ ] Evidencias documentadas</li>
+        <li>[ ] Validación cruzada registrada</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Navegación transversal</h2>
+      <ul>
+        <li><a href="/el-pergamino-digital/index.html">Portada</a></li>
+        <li><a href="/el-pergamino-digital/glosario/">Glosario</a></li>
+        <li><a href="/el-pergamino-digital/simulador/">Simulador</a></li>
+        <li><a href="/el-pergamino-digital/modulos/">Módulos</a></li>
+        <li><a href="/el-pergamino-digital/labs/">Laboratorios</a></li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Reflexión estratégica</h2>
+      <p>El análisis de tráfico capturado permite ver lo que ocurre entre bastidores en una red. Es una herramienta poderosa para detectar fugas de información, movimientos laterales y errores de configuración. En manos de un analista ético, un PCAP es una ventana al alma de la red.</p>
+    </section>
+
+    <section>
+      <h2>Disclaimer de advertencia</h2>
+      <p><strong>Advertencia:</strong> Este laboratorio está diseñado exclusivamente para fines educativos y debe ejecutarse en entornos controlados. La captura y análisis de tráfico en redes reales sin autorización puede constituir una violación legal y ética. El Pergamino Digital no se responsabiliza por el uso indebido de las técnicas aquí descritas.</p>
+    </section>
+  </main>
+
+  <footer>
+    <p>Este laboratorio forma parte del proyecto <a href="https://pergamino-digital-ciberseguridad.blogspot.com/?m=1" target="_blank">El Pergamino Digital</a>, alineado con estándares internacionales y diseñado para fortalecer competencias técnicas en ciberseguridad.</p>
+  </footer>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const links = document.querySelectorAll("nav a");
+      links.forEach(link => {
+        if (link.href === window.location.href) {
+          link.classList.add("activo");
+        }
+      });
+    });
+  </script>
+</body>
+</html>
+
