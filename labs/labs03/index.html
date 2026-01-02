@@ -265,3 +265,83 @@ ServerSignature Off</code></pre>
         <li><a href="https://attack.mitre.org/techniques/T1592/002/" target="_blank">MITRE ATT&CK T1592.002 – Gather Victim Host Information: Software</a></li>
       </ul>
     </section>
+
+        <section>
+      <h2>Referencias normativas y técnicas</h2>
+      <ul>
+        <li><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers" target="_blank">MDN – HTTP Headers Reference</a></li>
+        <li><a href="https://nmap.org/nsedoc/scripts/http-headers.html" target="_blank">Nmap NSE – http-headers</a></li>
+        <li><a href="https://owasp.org/www-project-secure-headers/" target="_blank">OWASP Secure Headers Project</a></li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Certificaciones asociadas</h2>
+      <ul>
+        <li>ISC2 Certified in Cybersecurity (CC) – Web Security</li>
+        <li>CompTIA Security+ – Domain 2.3</li>
+        <li>CEH – Information Gathering & Web Application Attacks</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Analogía técnica</h2>
+      <p style="font-family: 'Comic Sans MS'; font-size: 12pt;">
+        Las cabeceras HTTP son como los estandartes de un castillo: revelan quién gobierna, qué armas usa y qué tan preparado está para defenderse. Un castillo que muestra demasiado puede ser blanco fácil para el enemigo.
+      </p>
+    </section>
+
+    <section>
+      <h2>Nivel de dificultad</h2>
+      <p>Intermedio</p>
+    </section>
+
+    <section>
+      <h2>Checklist final</h2>
+      <ul>
+        <li>[ ] Cabeceras inspeccionadas con curl</li>
+        <li>[ ] Tecnologías detectadas con whatweb</li>
+        <li>[ ] Scripts NSE ejecutados</li>
+        <li>[ ] Evidencias guardadas</li>
+        <li>[ ] Validación cruzada documentada</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Navegación transversal</h2>
+      <ul>
+        <li><a href="/el-pergamino-digital/index.html">Portada</a></li>
+        <li><a href="/el-pergamino-digital/glosario/">Glosario</a></li>
+        <li><a href="/el-pergamino-digital/simulador/">Simulador</a></li>
+        <li><a href="/el-pergamino-digital/modulos/">Módulos</a></li>
+        <li><a href="/el-pergamino-digital/labs/">Laboratorios</a></li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Reflexión estratégica</h2>
+      <p>Este laboratorio demuestra cómo pequeños detalles técnicos pueden tener grandes implicaciones de seguridad. Las cabeceras HTTP, aunque invisibles al usuario común, son una fuente rica de metadatos que pueden ser aprovechados por atacantes. La inspección y endurecimiento de estas cabeceras es una práctica esencial en cualquier auditoría web.</p>
+    </section>
+
+    <section>
+      <h2>Disclaimer de advertencia</h2>
+      <p><strong>Advertencia:</strong> Este laboratorio está diseñado exclusivamente para fines educativos y debe ejecutarse en entornos controlados. El análisis de cabeceras HTTP en servidores ajenos sin autorización puede constituir una violación legal y ética. El Pergamino Digital no se responsabiliza por el uso indebido de las técnicas aquí descritas.</p>
+    </section>
+  </main>
+
+  <footer>
+    <p>Este laboratorio forma parte del proyecto <a href="https://pergamino-digital-ciberseguridad.blogspot.com/?m=1" target="_blank">El Pergamino Digital</a>, alineado con estándares internacionales y diseñado para fortalecer competencias técnicas en ciberseguridad.</p>
+  </footer>
+
+  <script>
+    document.addEventListener(\"DOMContentLoaded\", () => {
+      const links = document.querySelectorAll(\"nav a\");
+      links.forEach(link => {
+        if (link.href === window.location.href) {
+          link.classList.add(\"activo\");
+        }
+      });
+    });
+  </script>
+</body>
+</html>
