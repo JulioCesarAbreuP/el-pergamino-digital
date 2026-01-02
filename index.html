@@ -1,99 +1,118 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>El Pergamino Digital – Portada</title>
+  <link rel="icon" href="/el-pergamino-digital/assets/favicon.png" type="image/png" />
+  <style>
+    :root {
+      --color-fondo: #f4f4f4;
+      --color-principal: #222;
+      --color-secundario: #0066cc;
+      --color-texto: #333;
+      --color-blanco: #fff;
+    }
 
-    <title>El Pergamino Digital — Archivo doctrinal y pedagógico de ciberseguridad</title>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: var(--color-fondo);
+      color: var(--color-texto);
+    }
 
-    <!-- SEO -->
-    <meta name="description" content="El Pergamino Digital — Archivo doctrinal y pedagógico de ciberseguridad. Controles CIS, glosario aforístico, simulador técnico y laboratorios.">
+    header {
+      background-color: var(--color-principal);
+      color: var(--color-blanco);
+      padding: 2rem 1rem;
+      text-align: center;
+    }
 
-    <!-- PWA -->
-    <link rel="manifest" href="/el-pergamino-digital/manifest.json">
-    <meta name="theme-color" content="#0d0d0d">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-capable" content="yes">
+    header h1 {
+      margin: 0;
+      font-size: 2.8rem;
+    }
 
-    <!-- Seguridad -->
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    header p {
+      margin-top: 0.5rem;
+      font-size: 1.2rem;
+      font-weight: 300;
+    }
 
-    <!-- Tipografía (opcional si no existe la fuente aún) -->
-    <!-- <link rel="preload" href="/el-pergamino-digital/assets/fonts/inter.woff2" as="font" type="font/woff2" crossorigin> -->
+    main {
+      max-width: 960px;
+      margin: auto;
+      padding: 2rem 1rem;
+    }
 
-    <!-- CSS global -->
-    <link rel="stylesheet" href="/el-pergamino-digital/assets/css/style.css">
+    section {
+      background-color: var(--color-blanco);
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      border-left: 5px solid var(--color-principal);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+    }
+
+    section h2 {
+      margin-top: 0;
+      color: var(--color-principal);
+    }
+
+    a {
+      color: var(--color-secundario);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    footer {
+      background-color: var(--color-principal);
+      color: #ccc;
+      text-align: center;
+      padding: 1rem;
+      font-size: 0.9rem;
+    }
+
+    footer a {
+      color: #fff;
+      text-decoration: underline;
+    }
+  </style>
 </head>
-
 <body>
-
-<header class="site-header">
+  <header>
     <h1>El Pergamino Digital</h1>
-    <p class="subtitle">Archivo doctrinal y pedagógico de ciberseguridad</p>
+    <p>Legado técnico, editorial y certificador en ciberseguridad</p>
+  </header>
 
-    <nav aria-label="Navegación principal" class="main-nav">
-        <a href="/el-pergamino-digital/">Inicio</a>
-        <a href="/el-pergamino-digital/controles/">Controles CIS</a>
-        <a href="/el-pergamino-digital/glosario/">Glosario</a>
-        <a href="/el-pergamino-digital/labs/">Laboratorios</a>
-        <a href="/el-pergamino-digital/sobre/">Sobre el proyecto</a>
-    </nav>
-</header>
-
-<main class="site-main">
-
-    <section class="intro">
-        <h2>Bienvenido al Pergamino Digital</h2>
-        <p>
-            Este archivo doctrinal reúne controles CIS, glosario aforístico, preguntas certificadoras,
-            laboratorios prácticos y contenido pedagógico diseñado para formación modular en ciberseguridad.
-        </p>
+  <main>
+    <section>
+      <h2>📘 Acceso a los laboratorios</h2>
+      <p>Explora la serie completa de laboratorios técnicos, organizados por módulos y alineados con estándares internacionales.</p>
+      <p><a href="/el-pergamino-digital/labs/index.html">Ir al índice de laboratorios</a></p>
     </section>
 
-    <section class="controls-index">
-        <h2>Índice de Controles CIS v8</h2>
-
-        <div class="controls-grid">
-            <a href="/el-pergamino-digital/controles/01/">Control 01 — Inventario de Activos</a>
-            <a href="/el-pergamino-digital/controles/02/">Control 02 — Inventario de Software</a>
-            <a href="/el-pergamino-digital/controles/03/">Control 03 — Gestión de Datos</a>
-            <a href="/el-pergamino-digital/controles/04/">Control 04 — Configuración Segura</a>
-            <a href="/el-pergamino-digital/controles/05/">Control 05 — Gestión de Cuentas</a>
-            <a href="/el-pergamino-digital/controles/06/">Control 06 — Control de Acceso</a>
-            <a href="/el-pergamino-digital/controles/07/">Control 07 — Protección de Email</a>
-            <a href="/el-pergamino-digital/controles/08/">Control 08 — Gestión de Malware</a>
-            <a href="/el-pergamino-digital/controles/09/">Control 09 — Navegadores y Email</a>
-            <a href="/el-pergamino-digital/controles/10/">Control 10 — Recuperación de Datos</a>
-            <a href="/el-pergamino-digital/controles/11/">Control 11 — Configuración de Red</a>
-            <a href="/el-pergamino-digital/controles/12/">Control 12 — Infraestructura de Red</a>
-            <a href="/el-pergamino-digital/controles/13/">Control 13 — Monitoreo de Red</a>
-            <a href="/el-pergamino-digital/controles/14/">Control 14 — Capacitación</a>
-            <a href="/el-pergamino-digital/controles/15/">Control 15 — Proveedores</a>
-            <a href="/el-pergamino-digital/controles/16/">Control 16 — Seguridad de Software</a>
-            <a href="/el-pergamino-digital/controles/17/">Control 17 — Respuesta a Incidentes</a>
-            <a href="/el-pergamino-digital/controles/18/">Control 18 — Pruebas de Penetración</a>
-        </div>
+    <section>
+      <h2>🧭 Filosofía del proyecto</h2>
+      <p><strong>El Pergamino Digital</strong> es un ecosistema formativo modular, técnico y certificador. Cada entrega integra criterios de dominio, validación cruzada, evidencias visuales y trazabilidad editorial.</p>
     </section>
 
-</main>
+    <section>
+      <h2>🔗 Repositorio en GitHub</h2>
+      <p>Consulta el código fuente, estructura de carpetas y evolución del proyecto:</p>
+      <p><a href="https://github.com/JulioCesarAbreuP/el-pergamino-digital" target="_blank">Ver repositorio oficial</a></p>
+    </section>
+  </main>
 
-<footer class="site-footer">
-    <p class="footer-text">
-        Esto forma parte de <strong>El Pergamino Digital — Archivo doctrinal y pedagógico de ciberseguridad.</strong>
-    </p>
+  <footer>
+    Este proyecto forma parte de <a href="https://pergamino-digital-ciberseguridad.blogspot.com/?m=1" target="_blank">El Pergamino Digital</a>
+  </footer>
 
-    <nav aria-label="Navegación inferior" class="footer-nav">
-        <a href="/el-pergamino-digital/accesibilidad/">Accesibilidad</a>
-        <a href="/el-pergamino-digital/privacidad/">Privacidad</a>
-        <a href="/el-pergamino-digital/licencia/">Licencia</a>
-        <a href="https://github.com/JulioCesarAbreuP/el-pergamino-digital" target="_blank" rel="noopener noreferrer">Repositorio</a>
-    </nav>
-
-    <button id="back-to-top" aria-label="Volver arriba">↑</button>
-</footer>
-
-<script src="/el-pergamino-digital/assets/js/main.js" defer></script>
-
+  <script>
+    // Placeholder para futuras funciones JS
+    console.log("Portada cargada correctamente – El Pergamino Digital");
+  </script>
 </body>
 </html>
-
