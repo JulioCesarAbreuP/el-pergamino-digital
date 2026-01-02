@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lab 21 – Fingerprinting de firewalls y detección de reglas activas</title>
+  <link rel="icon" href="/el-pergamino-digital/assets/favicon.png" type="image/png" />
+  <style>
+    :root { color-scheme: dark; }
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #121212;
+      color: #e0e0e0;
+      margin: 0;
+      padding: 2em;
+      line-height: 1.6;
+    }
+    h1, h2 {
+      color: #90caf9;
+    }
+    h3 {
+      color: #64b5f6;
+      margin-top: 2em;
+    }
+    code {
+      background-color: #1e1e1e;
+      padding: 0.2em 0.4em;
+      border-radius: 4px;
+      font-family: Consolas, monospace;
+    }
+    pre {
+      background-color: #1e1e1e;
+      padding: 1em;
+      border-radius: 6px;
+      overflow-x: auto;
+    }
+    a {
+      color: #90caf9;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Lab 21 – Fingerprinting de firewalls y detección de reglas activas</h1>
+  <h2>Exploración de filtrado de paquetes, análisis de respuestas anómalas y evasión básica de políticas de red</h2>
+
+  <section>
+    <h2>Procedimiento técnico paso a paso</h2>
+    <ol>
+      <li>Escaneo ACK para detectar filtrado por estado:
+        <pre><code>nmap -sA -p 22,80,443 192.168.1.20</code></pre>
+        <p>Observar si los puertos aparecen como <code>filtered</code> o <code>unfiltered</code></p>
+      </li>
+      <li>Enviar paquetes TCP con flags personalizados:
+        <pre><code>hping3 -S -p 80 -c 1 192.168.1.20</code></pre>
+        <p>Probar también con flags <code>FIN</code>, <code>NULL</code> y <code>XMAS</code></p>
+      </li>
+      <li>Manipular TTL para detectar saltos intermedios:
+        <pre><code>hping3 -S -p 80 --ttl 1 192.168.1.20</code></pre>
+      </li>
+      <li>Escaneo con <code>firewalk</code> para inferir reglas de filtrado:
+        <pre><code>firewalk -S -i eth0 -n -p 80 192.168.1.1 192.168.1.20</code></pre>
+      </li>
+      <li>Fragmentar paquetes para evadir inspección:
+        <pre><code>nmap -f -p 80,443 192.168.1.20</code></pre>
+      </li>
+      <li>Capturar tráfico con Wireshark y analizar respuestas ICMP o silencios</li>
+    </ol>
+  </section>
+
+  <section>
+    <h2>Resultados esperados</h2>
+    <ul>
+      <li>Identificación de puertos filtrados por estado o reglas específicas</li>
+      <li>Detección de firewalls stateful vs stateless</li>
+      <li>Respuestas ICMP tipo 3 (Destination Unreachable) ante TTL o puertos bloqueados</li>
+      <li>Confirmación de técnicas de evasión que logran respuesta</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Análisis de resultados</h2>
+    <p>Comparar el comportamiento del sistema objetivo ante distintos tipos de escaneo y manipulación de paquetes permite inferir la existencia, tipo y configuración del firewall. Las respuestas (o su ausencia) revelan si el filtrado es por estado, por puerto, por protocolo o por comportamiento anómalo.</p>
+  </section>
+
+    <section>
+    <h2>Conclusiones</h2>
+    <p>El fingerprinting de firewalls permite anticipar obstáculos en fases posteriores del pentesting. Comprender cómo responden los sistemas de filtrado ante distintos tipos de paquetes y escaneos es clave para diseñar estrategias de evasión y reconocimiento más efectivas.</p>
+  </section>
+
+  <section>
+    <h2>Medidas</h2>
+    <ul>
+      <li>Registrar puertos filtrados y técnicas que lograron respuesta</li>
+      <li>Comparar resultados entre escaneos normales y evasivos</li>
+      <li>Documentar comportamiento del firewall ante cada técnica</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Contramedidas</h2>
+    <ul>
+      <li>Configurar firewalls para detectar y bloquear escaneos fragmentados o lentos</li>
+      <li>Implementar IDS/IPS que analicen patrones de evasión</li>
+      <li>Limitar respuestas ICMP y aplicar reglas de filtrado por TTL y tamaño de paquete</li>
+      <li>Monitorear logs de firewall para detectar intentos de evasión</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Riesgos y advertencias</h2>
+    <p>El uso de técnicas de evasión puede activar alertas en sistemas de defensa. Este laboratorio debe realizarse únicamente en entornos controlados y con fines educativos. No aplicar estas técnicas en redes reales sin autorización expresa.</p>
+  </section>
+
+  <section>
+    <h2>Evidencias</h2>
+    <p><em>Espacio reservado para capturas de pantalla de Nmap, hping3, firewalk, Wireshark y resultados comparativos.</em></p>
+  </section>
+
+  <section>
+    <h2>Validación cruzada</h2>
+    <ul>
+      <li><a href="https://attack.mitre.org/techniques/T1595/" target="_blank">MITRE ATT&CK T1595 – Active Scanning</a></li>
+      <li><a href="https://attack.mitre.org/techniques/T1046/" target="_blank">MITRE ATT&CK T1046 – Network Service Discovery</a></li>
+      <li><a href="https://www.cisecurity.org/controls/network-monitoring-and-defense" target="_blank">CIS Control 13 – Network Monitoring and Defense</a></li>
+      <li><a href="https://csrc.nist.gov/publications/detail/sp/800-115/final" target="_blank">NIST SP 800-115 – Security Testing Guide</a></li>
+    </ul>
+  </section>
+
+    <section>
+    <h2>Glosario asociado</h2>
+    <ul>
+      <li><strong>Fingerprinting:</strong> Técnica para identificar características de un sistema o red sin interactuar directamente con sus servicios.</li>
+      <li><strong>Firewall:</strong> Sistema de filtrado de tráfico que controla el acceso entre redes según reglas definidas.</li>
+      <li><strong>TTL (Time To Live):</strong> Valor que limita la vida útil de un paquete en la red, útil para detectar saltos intermedios.</li>
+      <li><strong>ICMP Type 3:</strong> Mensaje de red que indica que un destino es inalcanzable, clave para inferir filtrado.</li>
+      <li><strong>Stateless vs Stateful:</strong> Diferencia entre firewalls que filtran sin contexto (stateless) y los que mantienen estado de conexión (stateful).</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Preguntas de refuerzo</h2>
+    <ol>
+      <li>¿Qué diferencia hay entre un puerto filtrado y uno cerrado en un escaneo ACK?</li>
+      <li>¿Qué tipo de respuesta ICMP indica una regla de denegación activa?</li>
+      <li>¿Cómo se comporta un firewall stateful ante un paquete TCP sin handshake?</li>
+      <li>¿Qué técnica permite inferir reglas de filtrado a través de saltos intermedios?</li>
+      <li>¿Qué riesgos implica el uso de escaneos fragmentados en entornos reales?</li>
+    </ol>
+  </section>
+
+  <section>
+    <h2>Rúbrica de evaluación</h2>
+    <ul>
+      <li>✔️ Ejecuta correctamente los escaneos y captura evidencias</li>
+      <li>✔️ Interpreta las respuestas del firewall con precisión</li>
+      <li>✔️ Relaciona técnicas con estándares y certificaciones</li>
+      <li>✔️ Aplica medidas y contramedidas con criterio técnico</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Recursos complementarios</h2>
+    <ul>
+      <li><a href="https://nmap.org/book/man-port-scanning-techniques.html" target="_blank">Nmap Port Scanning Techniques</a></li>
+      <li><a href="https://linux.die.net/man/8/hping3" target="_blank">hping3 man page</a></li>
+      <li><a href="https://packetlife.net/media/library/23/Firewall_Identification.pdf" target="_blank">Firewall Identification Techniques (PDF)</a></li>
+      <li><a href="https://censys.io/" target="_blank">Censys – Internet-wide scan data</a></li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Créditos y licencia</h2>
+    <p>Este laboratorio forma parte del proyecto <a href="https://pergamino-digital-ciberseguridad.blogspot.com/?m=1" target="_blank">El Pergamino Digital</a>. Su uso está autorizado únicamente con fines educativos, respetando la trazabilidad editorial y la licencia CC BY-NC-SA 4.0.</p>
+  </section>
+
+</body>
+</html>
+
+  
