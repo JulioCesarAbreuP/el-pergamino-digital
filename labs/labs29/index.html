@@ -1,1 +1,219 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lab 29 – Monitoreo continuo de nuevos dispositivos en red</title>
+  <link rel="icon" href="/el-pergamino-digital/assets/favicon.png" type="image/png" />
+  <style>
+    :root { color-scheme: dark; }
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #121212;
+      color: #e0e0e0;
+      margin: 0;
+      padding: 2em;
+      line-height: 1.6;
+    }
+    h1, h2 {
+      color: #90caf9;
+    }
+    code {
+      background-color: #1e1e1e;
+      padding: 0.2em 0.4em;
+      border-radius: 4px;
+      font-family: Consolas, monospace;
+    }
+    pre {
+      background-color: #1e1e1e;
+      padding: 1em;
+      border-radius: 6px;
+      overflow-x: auto;
+    }
+    a {
+      color: #90caf9;
+    }
+  </style>
+</head>
+<body>
 
+  <h1>Lab 29 – Monitoreo continuo de nuevos dispositivos en red</h1>
+  <h2>Detección temprana de activos no registrados mediante escaneo pasivo y correlación con la CMDB</h2>
+
+  <section>
+    <h2>1. Objetivo</h2>
+    <p>Este laboratorio permite al analista implementar mecanismos de detección continua de nuevos dispositivos en la red, utilizando herramientas de escaneo pasivo y comparación con el inventario existente. El objetivo es identificar activos no autorizados o no registrados, reforzando el control de activos y la visibilidad operativa.</p>
+  </section>
+
+  <section>
+    <h2>2. Nivel de dificultad</h2>
+    <p>Intermedio</p>
+  </section>
+
+  <section>
+    <h2>3. Herramientas utilizadas</h2>
+    <ul>
+      <li><code>Nmap</code> – Escaneo de red</li>
+      <li><code>ARPwatch</code> – Monitoreo de direcciones MAC nuevas</li>
+      <li><code>GLPI</code> o <code>Snipe-IT</code> – Inventario de activos</li>
+      <li><code>Wireshark</code> (opcional) – Captura de tráfico para validación</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>4. Entorno de laboratorio</h2>
+    <p>Red virtual simulada con al menos 5 dispositivos conocidos, uno de ellos configurado para simular un nuevo ingreso. Máquina de monitoreo con Linux, herramientas instaladas y acceso a la CMDB.</p>
+  </section>
+
+  <section>
+    <h2>5. Escenario</h2>
+    <p>Una organización necesita detectar automáticamente la aparición de nuevos dispositivos en su red. El analista debe configurar herramientas de escaneo pasivo y correlacionar los hallazgos con el inventario existente para identificar activos no registrados o sospechosos.</p>
+  </section>
+
+  <section>
+    <h2>6. Pasos previos</h2>
+    <ul>
+      <li>Instalar <code>nmap</code> y <code>arpwatch</code> en la máquina de monitoreo</li>
+      <li>Exportar el inventario actual desde la CMDB en formato CSV</li>
+      <li>Configurar una red virtual con dispositivos conocidos y uno nuevo no registrado</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>7. Desarrollo</h2>
+    <ol>
+      <li>Ejecutar escaneo de red con <code>nmap</code>:
+        <pre><code>nmap -sn 192.168.1.0/24</code></pre>
+      </li>
+      <li>Activar <code>arpwatch</code> para detectar nuevas direcciones MAC:
+        <pre><code>sudo arpwatch -i eth0</code></pre>
+      </li>
+      <li>Registrar alertas generadas por <code>arpwatch</code> al detectar nuevos dispositivos</li>
+      <li>Comparar resultados con el inventario exportado desde GLPI o Snipe-IT</li>
+      <li>Identificar dispositivos no registrados y documentar su aparición</li>
+      <li>Opcional: validar tráfico con <code>Wireshark</code> para confirmar actividad</li>
+    </ol>
+  </section>
+
+    <section>
+    <h2>8. Resultados esperados</h2>
+    <ul>
+      <li>Detección automática de nuevos dispositivos conectados a la red</li>
+      <li>Alertas generadas por ARPwatch ante cambios en la tabla ARP</li>
+      <li>Comparación entre dispositivos detectados y activos registrados en la CMDB</li>
+      <li>Identificación de activos no autorizados o no inventariados</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>9. Análisis de resultados</h2>
+    <p>El monitoreo pasivo permite detectar dispositivos que se conectan a la red sin necesidad de escaneos activos. Al comparar los resultados con el inventario oficial, se pueden identificar brechas de visibilidad, dispositivos no autorizados o errores en la CMDB. Esta técnica refuerza la postura de seguridad sin generar ruido en la red.</p>
+  </section>
+
+  <section>
+    <h2>10. Conclusiones</h2>
+    <p>La detección temprana de nuevos dispositivos es esencial para mantener el control de activos y prevenir accesos no autorizados. Este laboratorio demuestra cómo implementar un sistema de monitoreo continuo con herramientas ligeras y efectivas, alineado con buenas prácticas de ciberseguridad y gestión operativa.</p>
+  </section>
+
+  <section>
+    <h2>11. Medidas</h2>
+    <ul>
+      <li>Registrar cada nuevo dispositivo detectado con fecha, IP y MAC</li>
+      <li>Comparar con el inventario exportado desde la CMDB</li>
+      <li>Documentar hallazgos y actualizar el inventario si corresponde</li>
+      <li>Etiquetar dispositivos no reconocidos como sospechosos</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>12. Contramedidas</h2>
+    <ul>
+      <li>Aplicar control de acceso a la red (NAC) para bloquear dispositivos no autorizados</li>
+      <li>Configurar alertas automáticas ante detección de nuevas MAC</li>
+      <li>Auditar periódicamente la tabla ARP y los registros de ARPwatch</li>
+      <li>Integrar los hallazgos con el SIEM para correlación de eventos</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>13. Riesgos y advertencias</h2>
+    <p>El monitoreo pasivo no garantiza la detección de todos los dispositivos si no generan tráfico. Además, una red sin segmentación o sin políticas de acceso puede facilitar la conexión de dispositivos no autorizados. Este laboratorio debe realizarse en entornos controlados y con autorización.</p>
+  </section>
+
+  <section>
+    <h2>14. Evidencias</h2>
+    <p><em>Espacio reservado para capturas de pantalla de ARPwatch, resultados de Nmap, comparación con el inventario, y registros de dispositivos detectados.</em></p>
+  </section>
+
+  <section>
+    <h2>15. Validación cruzada</h2>
+    <ul>
+      <li><a href="https://www.cisecurity.org/controls/inventory-and-control-of-enterprise-assets" target="_blank">CIS Control 1 – Inventory and Control of Enterprise Assets</a></li>
+      <li><a href="https://www.iso.org/standard/54534.html" target="_blank">ISO/IEC 27001 A.8.1.1 – Inventory of Assets</a></li>
+      <li><a href="https://csrc.nist.gov/publications/detail/sp/800-115/final" target="_blank">NIST SP 800-115 – Technical Guide to Information Security Testing and Assessment</a></li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>16. Glosario asociado</h2>
+    <ul>
+      <li><strong>ARPwatch:</strong> Herramienta que monitorea cambios en la tabla ARP y detecta nuevas direcciones MAC</li>
+      <li><strong>CMDB:</strong> Base de datos de gestión de configuración que almacena información sobre activos</li>
+      <li><strong>Escaneo pasivo:</strong> Técnica de detección que no genera tráfico activo en la red</li>
+      <li><strong>MAC address:</strong> Identificador único de hardware de una interfaz de red</li>
+      <li><strong>Dispositivo no autorizado:</strong> Activo conectado a la red sin registro o aprobación previa</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>17. Preguntas de refuerzo</h2>
+    <ol>
+      <li>¿Qué ventajas ofrece el monitoreo pasivo frente al escaneo activo?</li>
+      <li>¿Qué tipo de alertas puede generar ARPwatch?</li>
+      <li>¿Cómo se valida si un dispositivo detectado está registrado en la CMDB?</li>
+      <li>¿Qué riesgos implica permitir dispositivos no inventariados en la red?</li>
+      <li>¿Qué controles pueden prevenir la conexión de dispositivos no autorizados?</li>
+    </ol>
+  </section>
+
+    <section>
+    <h2>18. Rúbrica de evaluación</h2>
+    <ul>
+      <li>✔️ Configura correctamente herramientas de escaneo pasivo (Nmap, ARPwatch)</li>
+      <li>✔️ Detecta y documenta nuevos dispositivos en la red</li>
+      <li>✔️ Compara hallazgos con el inventario oficial</li>
+      <li>✔️ Aplica medidas de control y propone contramedidas</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>19. Recursos complementarios</h2>
+    <ul>
+      <li><a href="https://nmap.org/book/man.html" target="_blank">Nmap – Manual oficial</a></li>
+      <li><a href="https://linux.die.net/man/8/arpwatch" target="_blank">ARPwatch – Documentación técnica</a></li>
+      <li><a href="https://glpi-project.org/" target="_blank">GLPI – Gestión de activos</a></li>
+      <li><a href="https://www.cisecurity.org/controls" target="_blank">CIS Controls – Control 1</a></li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>20. Créditos y licencia</h2>
+    <p>Este laboratorio forma parte del proyecto <a href="https://pergamino-digital-ciberseguridad.blogspot.com/?m=1" target="_blank">El Pergamino Digital</a>. Su uso está autorizado únicamente con fines educativos, respetando la trazabilidad editorial y la licencia CC BY-NC-SA 4.0.</p>
+  </section>
+
+  <section>
+    <h2>21. Nivel de certificación</h2>
+    <p>Intermedio – Alineado con CIS Controls v8, ISO/IEC 27001 y NIST SP 800-115.</p>
+  </section>
+
+  <section>
+    <h2>22. Mapa de integración</h2>
+    <ul>
+      <li>🔗 Continúa el enfoque del <strong>Lab 28</strong> (Altas y bajas de activos)</li>
+      <li>🧪 Refuerza el dominio de detección temprana y visibilidad de red</li>
+      <li>🎓 Integra conceptos clave del simulador certificador: <em>Asset Discovery</em>, <em>Passive Monitoring</em>, <em>Unauthorized Device Detection</em></li>
+    </ul>
+  </section>
+
+</body>
+</html>
